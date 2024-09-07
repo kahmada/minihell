@@ -1,0 +1,20 @@
+export a="ls -la" //good
+$a
+
+export a="ls " //???????????? at the first time doesn't work but second time it does ??
+export b="-la"
+$a$b
+
+
+debug :
+//put here all errors that you should handle later when you test from the doc
+//[env -i ./minishell --noprofile --norc] : enter to my minishell without env
+//[env -i bash --noprofile --norc] : enter to bash without env
+
+
+
+
+//<<p cat >p | <<l cat >l | <<m cat >m done
+
+
+//<<$USER

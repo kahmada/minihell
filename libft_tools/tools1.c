@@ -1,0 +1,158 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   tools1.c                                           :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: chourri <chourri@student.42.fr>            +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2024/06/12 16:20:13 by chourri           #+#    #+#             */
+/*   Updated: 2024/09/07 11:23:39 by chourri          ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
+#include "../minishell.h"
+
+char *ft_strcat(char *dest, const char *src)
+{
+    int dest_len = 0;
+    int i = 0;
+
+    while (dest[dest_len] != '\0')
+        dest_len++;
+    while (src[i] != '\0')
+    {
+        dest[dest_len + i] = src[i];
+        i++;
+    }
+    dest[dest_len + i] = '\0';
+    return dest;
+}
+
+char *ft_strcpy(char *dest, const char *src)
+{
+    int i = 0;
+
+    while (src[i] != '\0')
+    {
+        dest[i] = src[i];
+        i++;
+    }
+    dest[i] = '\0';
+    return dest;
+}
+
+t_token	*last_token(t_token *head)
+{
+	t_token
+	*current;
+
+	if (!head)
+		return (NULL);
+	current = head;
+	while (current->next)
+		current = current->next;
+	return (current);
+}
+
+void ft_lstadd_back(t_token **lst, t_type type, char *data)
+{
+	t_token *new_token;
+	t_token *last;
+	// (void)data;
+	new_token = malloc(sizeof(t_token));
+	// printf("data = %p\n", data);
+	if (new_token == NULL)
+		return;
+	new_token->data = data;
+	new_token->type = type;
+	new_token->next = NULL;
+	if (*lst == NULL)
+	{
+		*lst = new_token;
+		return;
+	}
+	last = *lst;
+	while (last->next != NULL)
+	last = last->next;
+	last->next = new_token;
+}
+
+
+const char*	get_token_type_name(t_type type)
+{
+	switch (type)
+	{
+		case COMMAND:
+			return "COMMAND";
+		case ARGUMENT:
+			return "ARGUMENT";
+		case PIPE:
+			return "PIPE";
+		case REDIRECT_IN:
+			return "REDIRECT_IN";
+		case REDIRECT_OUT:
+			return "REDIRECT_OUT";
+		case REDIRECT_APPEND:
+			return "REDIRECT_APPEND";
+		case HEREDOC:
+			return "HEREDOC";
+		case ENV_VAR:
+			return "ENV_VAR";
+		case EXIT_STATUS:
+			return "EXIT_STATUS";
+		case INSIDE_SINGLE_QUOTE:
+			return "INSIDE_SINGLE_QUOTE";
+		case INSIDE_DOUBLE_QUOTE:
+			return "INSIDE_DOUBLE_QUOTE";
+		case WORD:
+			return "WORD";
+		// case END:
+		// 	return "END";
+		// case ERROR:
+		// 	return "ERROR";
+		case DS:
+			return "DS";
+		case SPAACE :
+			return "SPACE";
+		case TAAB :
+			return "TAB";
+		default:
+			return "UNKNOWN";
+	}
+}
+
+void	print_list(t_token *lst)
+{
+	t_token *current = lst;
+	while (current && current->data && current->type)
+	{
+		printf("Type: %s, Data: {%s}\n", get_token_type_name(current->type), current->data);
+		current = current->next;
+	}
+}
+void free_token_list(t_token *lst)
+{
+	t_token *current = lst;
+	while (current != NULL)
+	{
+	t_token *next = current->next;
+	// printf("data = %p\n", current->data);
+	free(current->data); //should be
+	free(current);
+	current = next;
+	}
+}
+
+
+// void free_token_newlist(t_token *lst)
+// {
+// 	t_token *current = lst;
+// 	while (current != NULL)
+// 	{
+// 	t_token *next = current->next;
+// 	// printf("data = %p\n", current->data);
+// 	free(current->data); //should be
+// 	free(current);
+// 	current = next;
+// 	}
+// }

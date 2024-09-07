@@ -1,0 +1,5 @@
+parse_quotes good
+add_spaces_to_cmd
+
+
+ls | wc -l | << l | gdfhdfhg | grhhd | dfhthdfgh << g
