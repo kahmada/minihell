@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   export.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: kahmada <kahmada@student.42.fr>            +#+  +:+       +#+        */
+/*   By: chourri <chourri@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/20 17:29:48 by kahmada           #+#    #+#             */
-/*   Updated: 2024/09/03 10:38:42 by kahmada          ###   ########.fr       */
+/*   Updated: 2024/09/09 11:57:10 by chourri          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -82,6 +82,7 @@ void	bult_export(t_command *cmd, t_env **env)
 	char	*key;
 	char	*value;
 	int		append_mode;
+	char	*ex;
 
 	i = 1;
 	if (!cmd->args[i])
@@ -94,7 +95,8 @@ void	bult_export(t_command *cmd, t_env **env)
 		validate_and_parse_export(cmd->args[i], &key, &value, &append_mode);
 		if (!key || !value)
 		{
-			manage_exit_status(1, 1);
+			ex = manage_exit_status(1, 1);
+			free(ex);
 			i++;
 			continue ;
 		}
@@ -102,5 +104,6 @@ void	bult_export(t_command *cmd, t_env **env)
 		free(key);
 		i++;
 	}
-	manage_exit_status(0, 1);
+	ex = manage_exit_status(0, 1);
+	free(ex);
 }

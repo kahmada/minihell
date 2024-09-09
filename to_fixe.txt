@@ -18,3 +18,22 @@ debug :
 
 
 //<<$USER
+		//test this "$""USER"
+
+
+ LEAKS IN HEREDOC + SIGNAL !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+ signals are fixed
+
+
+test !!!!!!!!!!!!!!!
+{
+	// export a="ls"
+	//export b=" -l" it works but try again after execution leaks
+	//$a$b
+}
+
+envp LEAKS
+
+//test
+export a="'"
+$a

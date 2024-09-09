@@ -6,7 +6,7 @@
 /*   By: chourri <chourri@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/12 15:51:23 by chourri           #+#    #+#             */
-/*   Updated: 2024/09/07 12:19:24 by chourri          ###   ########.fr       */
+/*   Updated: 2024/09/09 12:52:05 by chourri          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,6 +53,7 @@ typedef struct s_token
 	char	*data;
 	t_type	type;
 	int		in_quotes;
+	char	*exit_status;
 	struct s_token	*next;
 	struct s_token	*previous;
 	// int fd_her;
@@ -116,7 +117,11 @@ void	free_word_array(char **array);
 t_token* build_token_list(char *output);
 void print_list(t_token *lst);
 void free_token_list(t_token *lst);
-void ft_lstadd_back(t_token **lst, t_type type, char *data);
+//old
+// void ft_lstadd_back(t_token **lst, t_type type, char *data);
+void	ft_lstadd_back(t_token **lst, t_token *new);
+t_token	*ft_lstnew(char *data, t_type type);
+
 // int	ft_strcmp(char *s1, char *s2);
 // t_token	*ft_lstlast(t_token *lst);
 t_token	*last_token(t_token *head);
@@ -187,7 +192,7 @@ int her(t_command *cmd, char **envp);
 void handle_child(const char *limiter, int tmp_fd, char **envp);
 //signals
 void	SIGINT_handler(int s);
-void	SIGQUIT_handler(int signal);
+// void	SIGQUIT_handler(int signal);
 
 //try
 // void	handle_signal(int sig);
@@ -197,11 +202,12 @@ void	SIGQUIT_handler(int signal);
 // void	SIGINT_HEREDOC_handler(int signal);
 
 //expanding
-void handle_dollar(t_token *token, char **envp);
+void ft_expand(t_token *token, char **envp);
 int	is_alnum(char c);
 char *expand_variable(char *data, char **envp);
 void remove_quotes_END(t_command *cmd);
 void free_token_newlist(t_token *lst);
+char	*manage_exit_status(int status, int set_flag);
 
 
 #endif

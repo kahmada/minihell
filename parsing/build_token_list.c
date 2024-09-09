@@ -6,7 +6,7 @@
 /*   By: chourri <chourri@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/12 16:16:06 by chourri           #+#    #+#             */
-/*   Updated: 2024/09/06 15:35:53 by chourri          ###   ########.fr       */
+/*   Updated: 2024/09/09 14:26:00 by chourri          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -103,6 +103,180 @@
 
 
 //correct one
+// t_token* build_token_list(char *output)
+// {
+// 	int i = 0;
+// 	t_token *lst = NULL;
+// 	char **tokens;
+
+// 	if (!output || !*output)
+// 		return NULL;
+
+// 	tokens = ft_split_tokens(output, NON_PRINTABLE_CHAR);
+// 	if (!tokens)
+// 		return NULL;
+// 	while (tokens[i])
+// 	{
+// 		t_type type;
+// 		int in_quotes = 0;
+// 		if (ft_strcmp(tokens[i], "<") == 0)
+// 			type = REDIRECT_IN;
+// 		else if (ft_strcmp(tokens[i], ">") == 0)
+// 			type = REDIRECT_OUT;
+// 		else if (ft_strcmp(tokens[i], "|") == 0)
+// 			type = PIPE;
+// 		else if (ft_strcmp(tokens[i], ">>") == 0)
+// 			type = REDIRECT_APPEND;
+// 		else if (ft_strcmp(tokens[i], "<<") == 0)
+// 			type = HEREDOC;
+// 		else if (ft_strcmp(tokens[i], "$") == 0)
+// 			type = DS;
+// 		else if (tokens[i][0] == '\'')
+// 		{
+// 			type = INSIDE_SINGLE_QUOTE;
+// 			in_quotes = 1;
+// 		}
+// 		else if (tokens[i][0] == '\"')
+// 		{
+// 			type = INSIDE_DOUBLE_QUOTE;
+// 			in_quotes = 1;
+// 		}
+// 		else if (ft_strcmp(tokens[i], "$?") == 0)
+// 			type = EXIT_STATUS;
+// 		else if (ft_strcmp(tokens[i], " ") == 0)
+// 			type = SPAACE;
+// 		else if (ft_strcmp(tokens[i], "\t") == 0)
+// 			type = TAAB;
+// 		else if (tokens[i][0] == '$' && is_alphabet(tokens[i][1]))
+// 		{
+// 			char *combined = NULL;
+// 			while (tokens[i] && tokens[i][0] == '$' && is_alphabet(tokens[i][1]))
+// 			{
+// 				char *temp = combined;
+// 				if (!combined)
+// 					combined = ft_strjoin("", tokens[i]);
+// 				else
+// 					combined = ft_strjoin(combined, tokens[i]);
+// 				free(temp);
+// 				i++;
+// 			}
+// 			ft_lstadd_back(&lst, WORD, strdup(combined));
+// 			free(combined);
+// 			continue;
+// 		}
+// 		else
+// 			type = WORD;
+// 		ft_lstadd_back(&lst, type, strdup(tokens[i]));
+// 		if (lst)
+// 		{
+// 			t_token *last = lst;
+// 			while (last->next)
+// 				last = last->next;
+// 			last->in_quotes = in_quotes;
+// 		}
+// 		i++;
+// 	}
+// 	free_word_array(tokens);
+// 	return lst;
+// }
+
+
+int is_combined(char **tokens, int i)
+{
+	return (tokens[i][0] == '$' && is_alphabet(tokens[i][1]));
+}
+
+void update_last_token_quotes(t_token *lst, int in_quotes)
+{
+	if (lst)
+	{
+		t_token *last = lst;
+		while (last->next)
+			last = last->next;
+		last->in_quotes = in_quotes;
+	}
+}
+
+void handle_combined_tokens(t_token **lst, char **tokens, int *i)
+{
+	char *combined = NULL;
+
+	while (tokens[*i] && tokens[*i][0] == '$' && is_alphabet(tokens[*i][1]))
+	{
+		char *temp = combined;
+		if (!combined)
+			combined = ft_strjoin("", tokens[*i]);
+		else
+			combined = ft_strjoin(combined, tokens[*i]);
+		free(temp);
+		(*i)++;
+	}
+	ft_lstadd_back(lst, ft_lstnew(strdup(combined), WORD));
+	free(combined);
+	(*i)--;
+}
+
+t_type determine_redirect_or_special(char *token)
+{
+	if (ft_strcmp(token, "<") == 0)
+		return REDIRECT_IN;
+	else if (ft_strcmp(token, ">") == 0)
+		return REDIRECT_OUT;
+	else if (ft_strcmp(token, "|") == 0)
+		return PIPE;
+	else if (ft_strcmp(token, ">>") == 0)
+		return REDIRECT_APPEND;
+	else if (ft_strcmp(token, "<<") == 0)
+		return HEREDOC;
+	else if (ft_strcmp(token, "$") == 0)
+		return DS;
+	else if (ft_strcmp(token, "$?") == 0)
+		return EXIT_STATUS;
+	else if (ft_strcmp(token, " ") == 0)
+		return SPAACE;
+	else if (ft_strcmp(token, "\t") == 0)
+		return TAAB;
+	return WORD;
+}
+t_type determine_quote_type(char *token, int *in_quotes)
+{
+	if (token[0] == '\'')
+	{
+		*in_quotes = 1;
+		return INSIDE_SINGLE_QUOTE;
+	}
+	else if (token[0] == '\"')
+	{
+		*in_quotes = 1;
+		return INSIDE_DOUBLE_QUOTE;
+	}
+	return WORD;
+}
+
+t_type determine_token_type(char *token, int *in_quotes)
+{
+	t_type type = determine_redirect_or_special(token);
+	if (type != WORD)
+		return type;
+	return (determine_quote_type(token, in_quotes));
+}
+
+void process_token(t_token **lst, char **tokens, int *i)
+{
+	t_type type;
+	int in_quotes = 0;
+
+	type = determine_token_type(tokens[*i], &in_quotes);
+	if (is_combined(tokens, *i))
+	{
+		handle_combined_tokens(lst, tokens, i);
+		return;
+	}
+	ft_lstadd_back(lst, ft_lstnew(strdup(tokens[*i]), type));
+	update_last_token_quotes(*lst, in_quotes);
+}
+
+
 t_token* build_token_list(char *output)
 {
 	int i = 0;
@@ -111,75 +285,17 @@ t_token* build_token_list(char *output)
 
 	if (!output || !*output)
 		return NULL;
-
 	tokens = ft_split_tokens(output, NON_PRINTABLE_CHAR);
 	if (!tokens)
 		return NULL;
 	while (tokens[i])
 	{
-		t_type type;
-		int in_quotes = 0;
-		if (ft_strcmp(tokens[i], "<") == 0)
-			type = REDIRECT_IN;
-		else if (ft_strcmp(tokens[i], ">") == 0)
-			type = REDIRECT_OUT;
-		else if (ft_strcmp(tokens[i], "|") == 0)
-			type = PIPE;
-		else if (ft_strcmp(tokens[i], ">>") == 0)
-			type = REDIRECT_APPEND;
-		else if (ft_strcmp(tokens[i], "<<") == 0)
-			type = HEREDOC;
-		else if (ft_strcmp(tokens[i], "$") == 0)
-			type = DS;
-		else if (tokens[i][0] == '\'')
-		{
-			type = INSIDE_SINGLE_QUOTE;
-			in_quotes = 1;
-		}
-		else if (tokens[i][0] == '\"')
-		{
-			type = INSIDE_DOUBLE_QUOTE;
-			in_quotes = 1;
-		}
-		else if (ft_strcmp(tokens[i], "$?") == 0)
-			type = EXIT_STATUS;
-		else if (ft_strcmp(tokens[i], " ") == 0)
-			type = SPAACE;
-		else if (ft_strcmp(tokens[i], "\t") == 0)
-			type = TAAB;
-		else if (tokens[i][0] == '$' && is_alphabet(tokens[i][1]))
-		{
-			char *combined = NULL;
-			while (tokens[i] && tokens[i][0] == '$' && is_alphabet(tokens[i][1]))
-			{
-				char *temp = combined;
-				if (!combined)
-					combined = ft_strjoin("", tokens[i]);
-				else
-					combined = ft_strjoin(combined, tokens[i]);
-				free(temp);
-				i++;
-			}
-			ft_lstadd_back(&lst, WORD, strdup(combined));
-			free(combined);
-			continue;
-		}
-		else
-			type = WORD;
-		ft_lstadd_back(&lst, type, strdup(tokens[i]));
-		if (lst)
-		{
-			t_token *last = lst;
-			while (last->next)
-				last = last->next;
-			last->in_quotes = in_quotes;
-		}
+		process_token(&lst, tokens, &i);
 		i++;
 	}
 	free_word_array(tokens);
 	return lst;
 }
-
 
 
 // t_token* build_token_list(char *output)

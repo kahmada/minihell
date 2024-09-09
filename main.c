@@ -6,7 +6,7 @@
 /*   By: chourri <chourri@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/12 16:02:24 by chourri           #+#    #+#             */
-/*   Updated: 2024/09/07 13:42:57 by chourri          ###   ########.fr       */
+/*   Updated: 2024/09/09 19:31:14 by chourri          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,69 +51,6 @@ int	is_word(int type)
 {
 	return (type == WORD || type == INSIDE_DOUBLE_QUOTE || type == INSIDE_SINGLE_QUOTE);
 }
-//OLD
-// t_token	*build_new_tokens_pipe(t_token *token)
-// {
-// 	t_token	*new = NULL;
-// 	char	*combined_data = NULL;
-// 	// char	*temp;
-
-// 	while (token)
-// 	{
-// 		if (token->type != PIPE)
-// 		{
-// 			if (is_redirection_symbol(token->type))
-// 			{
-// 				if (combined_data && *combined_data)
-// 				{
-// 					// temp = combined_data;
-// 					combined_data = ft_strjoin_space(combined_data, " ");
-// 					// free(temp);
-// 					if (!combined_data)
-// 						return (NULL);
-// 				}
-// 				// temp = combined_data;
-// 				combined_data = ft_strjoin(combined_data, token->data);
-// 				// free(temp);
-// 				if (!combined_data)
-// 					return (NULL);
-// 				// temp = combined_data;
-// 				combined_data = ft_strjoin_space(combined_data, " ");
-// 				// free(temp);
-// 				if (!combined_data)
-// 					return (NULL);
-// 			}
-// 			else
-// 			{
-// 				// temp = combined_data;
-// 				combined_data = ft_strjoin(combined_data, token->data);
-// 				// free(temp);
-// 				if (!combined_data)
-// 					return (NULL);
-// 			}
-// 		}
-// 		else
-// 		{
-// 			if (combined_data)
-// 			{
-// 				ft_lstadd_back(&new, WORD, combined_data);
-// 				combined_data = NULL;
-// 			}
-// 		}
-// 		token = token->next;
-// 	}
-// 	if (combined_data)
-// 		ft_lstadd_back(&new, WORD, combined_data);
-// 	return (new);
-// }
-
-
-					// printf("temp1 => %p\n", temp);
-					// printf("combined_data1 => %p\n", combined_data);
-	// printf(" combined data====%p\n",combined_data);
-	// printf("new ====%p\n",new);
-	// printf(" token====%p\n",token);
-
 
 void ft_lstadd_back_new(t_token **lst, t_type type, const char *data)
 {
@@ -158,23 +95,29 @@ t_token *free_list(t_token *list)
 	return (NULL);
 }
 
-char *join_token_data(char *combined_data, t_token *token)
+char *join_token_data(char *combined_data, char *data, int flag)
 {
 	char *temp;
 
 	if (combined_data)
 	{
-		if (is_redirection_symbol(token->type))
-			temp = ft_strjoin_space(combined_data, token->data);
+		if (flag)
+			temp = ft_strjoin_space(combined_data, data);
 		else
-			temp = ft_strjoin(combined_data, token->data);
+			temp = ft_strjoin(combined_data, data);
 		free(combined_data);
 	}
 	else
-		temp = ft_strdup(token->data);
+		temp = ft_strdup(data);
 	return (temp);
 }
 
+void	ft_join(char **combined_data, char *data)
+{
+	(*combined_data) = join_token_data((*combined_data), " ", 1);
+	(*combined_data) = join_token_data((*combined_data), data, 1);
+	(*combined_data) = join_token_data((*combined_data), " ", 1);
+}
 t_token *build_new_tokens_pipe(t_token *token)
 {
 	t_token *new = NULL;
@@ -183,8 +126,15 @@ t_token *build_new_tokens_pipe(t_token *token)
 	{
 		while (token && token->type != PIPE)
 		{
-			combined_data = join_token_data(combined_data, token);
-			printf("combined_data : %p\n", combined_data);
+			if (is_redirection_symbol(token->type))
+			{
+				ft_join(&combined_data, token->data);
+				// combined_data = join_token_data(combined_data, " ", 1);
+				// combined_data = join_token_data(combined_data, token->data, 1);
+				// combined_data = join_token_data(combined_data, " ", 1);
+			}
+			else
+				combined_data = join_token_data(combined_data, token->data, 0);
 			if (!combined_data)
 				return (free_list(new));
 			token = token->next;
@@ -201,18 +151,15 @@ t_token *build_new_tokens_pipe(t_token *token)
 	return (new);
 }
 
-
 t_command	*build_cmd(t_token *new_token)
 {
 	t_command	*cmd = NULL;
 	t_command	*head = NULL;
 	t_command	*prev = NULL;
-	// int			quote = 0;
-	// printf("new_token ==========================> %p\n",new_token); // no prob here
+
 	while (new_token)
 	{
 		cmd = (t_command *)malloc(sizeof(t_command));
-		printf("cmdd -> %p\n", cmd);
 		if (!cmd)
 			return (NULL);
 		if (strchr(new_token->data, '"') || strchr(new_token->data, '\''))
@@ -331,57 +278,60 @@ char **process_command(char *input, char **envp)
 	char *output = NULL;
 	t_token *new_lst = NULL;
 	t_token *lst;
-	// sig_flag = 0; //added
+
 	if (parse_quotes(input))
 		return (NULL);
 	(void)lst;
-	if (ft_strlen(input) > 0)
-	{
+
 		//test this :  $USER>>DGDFG<< FDGDF
 		add_npc_to_cmd(input, &output); //no leaks
 		// printf("%s", output);
 		if (output)
 		{
 			lst = build_token_list(output); //no leaks
-			print_list(lst);
-			printf("\n---------------------------------------------------------------\n");
+			// print_list(lst);
+			// printf("\n---------------------------------------------------------------\n");
 			if (lst)
 			{
 				// parse_quotes(input);
 				//parse syntax error no leaks
 				if(parsing(lst))
-					return (free_token_list(lst), free(output), NULL);
+				{
+					// printf("EXIT STATUS : %p\n", manage_exit_status(0, 0));
+					// printf("lst : %p\n", lst);
+					// printf("output : %p\n", output);
+					return (free_token_list(lst),free(manage_exit_status(0,0)),free(output), NULL);
+				}
 				// printf("\n\n-------------------------------------BEFORE-----------------------------------------\n\n");
-				handle_dollar(lst, envp); //no leaks
-				new_lst = 	build_new_tokens_pipe(lst); //leaks here
-				printf(" new_lst ==> %p\n", new_lst);
-				printf(" lst ==> %p\n", lst);
-
-				printf("\n\n-------------------------------------AFTER_SPLITING WITH PIPE AND EXPANDING-----------------------------------------\n\n");
-				print_list(new_lst);
+				ft_expand(lst, envp); //no leaks
+				// print_list(lst);
+				// printf("\n\n-------------------------------------AFTER-----------------------------------------\n\n");
+				new_lst = build_new_tokens_pipe(lst); //leaks here
+				// printf(" new_lst ==> %p\n", new_lst);
+				// printf(" lst ==> %p\n", lst);
+				// print_list(new_lst);
 				// print_list(new_lst);
 				// print_list(new_lst);
 				t_command *cmd = build_cmd(new_lst);
-
 				if(her(cmd, envp))
 					return(envp);
-				// signal(SIGINT, SIGINT_handler);
 				remove_quotes_END(cmd);
-				printf("-----COMMAND LINKED LIST-----\n\n");
-				print_command(cmd); //no leaks until here
-				// printf("command = \"%s\"\n", cmd->args[0]);
-				// envp = execute_cmd(cmd, envp);
+				// print_command(cmd); //no leaks until here
+				// printf("-----COMMAND LINKED LIST-----\n\n");
+				envp = execute_cmd(cmd, envp);
 				free_token_list(lst);
 				free_token_list(new_lst);
 				free_command_list(cmd);
-
 				lst = NULL;
 			}
+			free(manage_exit_status(0,0));
 			free(output);
 		}
-	}
 	return envp;
 }
+
+
+
 
 
 char **process_input(char *input, char **envp)
@@ -396,6 +346,7 @@ char **process_input(char *input, char **envp)
 		stdin_in = dup(0);
 		stdout_out = dup(1);
 		envp = process_command(input, envp);
+		signal(SIGINT, SIGINT_handler); //added
 		dup2(stdout_out,1);
 		dup2(stdin_in,0);
 		close(stdin_in);
@@ -427,27 +378,60 @@ int main(int ac, char **av, char **envp)
 {
 	char *input;
 	char **envp_copy;
-
 	rl_catch_signals = 0; //to not print ^C in the prompt
 	signal(SIGQUIT, SIG_IGN);
 	signal(SIGINT, SIGINT_handler);
 	envp_copy = ft_envp_copy(envp);
 	(void)ac;
 	(void)av;
-	input = readline("minihell$ ");
+		input = readline("minihell$ ");
 	while (input)
 	{
 		if (!input)
+		{
+			char *ex = manage_exit_status(0,1);
+			free(ex);
 			break;
-		process_input(input, envp_copy);
+		}
+		envp_copy = process_input(input, envp_copy); // when I remove it : no leaks but no changes to the env when I export sth
 		free(input);
 		input = readline("minihell$ ");
-		// signal(SIGINT, SIGINT_handler);
 	}
+	free(envp_copy);
 	return (write(2, "exit\n", 5), 0);
 }
 
 
+// int main(int ac, char **av, char **envp)
+// {
+// 	char *input;
+// 	char **envp_copy;
+
+// 	rl_catch_signals = 0; //to not print ^C in the prompt
+// 	signal(SIGQUIT, SIG_IGN);
+// 	envp_copy = ft_envp_copy(envp);
+// 	(void)ac;
+// 	(void)av;
+// 	while (1)
+// 	{
+// 		signal(SIGINT, SIGINT_handler);
+// 		input = readline("minihell$ ");
+// 		// if (sig_received == SIGINT)
+// 		// {
+// 		// 	sig_received = 0;
+// 		// 	free(input);
+// 		// 	continue;
+// 		// }
+// 		//here we handle EOF "Ctrl+"
+// 		if (!input)
+// 		{
+// 			printf("exit\n");
+// 			break;
+// 		}
+// 		envp_copy = process_input(input, envp_copy);
+// 	}
+// 	return (0);
+// }
 
 
 

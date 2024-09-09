@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   env.c                                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: kahmada <kahmada@student.42.fr>            +#+  +:+       +#+        */
+/*   By: chourri <chourri@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/28 18:28:47 by kahmada           #+#    #+#             */
-/*   Updated: 2024/09/03 09:59:22 by kahmada          ###   ########.fr       */
+/*   Updated: 2024/09/09 11:55:20 by chourri          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,10 +15,12 @@
 void	bult_env(t_env *env)
 {
 	t_env	*tmp;
+	char	*ex;
 
 	if (env == NULL)
 	{
-		manage_exit_status(1, 1);
+		ex = manage_exit_status(1, 1);
+		free(ex);
 		return ;
 	}
 	tmp = env;
@@ -27,7 +29,8 @@ void	bult_env(t_env *env)
 		printf("%s=%s\n", tmp->key, tmp->value);
 		tmp = tmp->next;
 	}
-	manage_exit_status(0, 1);
+	ex = manage_exit_status(0, 1);
+	free(ex);
 }
 
 char	*create_env_string(t_env *env)

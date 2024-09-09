@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   echo.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: kahmada <kahmada@student.42.fr>            +#+  +:+       +#+        */
+/*   By: chourri <chourri@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/28 18:28:35 by kahmada           #+#    #+#             */
-/*   Updated: 2024/08/26 14:01:12 by kahmada          ###   ########.fr       */
+/*   Updated: 2024/09/09 11:54:49 by chourri          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,6 +30,7 @@ void	bult_echo(t_command *cmd)
 {
 	int	i;
 	int	flag;
+	char	*ex;
 
 	i = 1;
 	flag = 0;
@@ -39,7 +40,7 @@ void	bult_echo(t_command *cmd)
 		i++;
 	}
 	while (cmd->args[i])
-	{        
+	{
 		printf("%s", cmd->args[i]);
 		if (cmd->args[i + 1])
 			printf(" ");
@@ -47,5 +48,6 @@ void	bult_echo(t_command *cmd)
 	}
 	if (flag == 0)
 		printf("\n");
-	manage_exit_status(0, 1);
+	ex = manage_exit_status(0, 1);
+	free(ex);
 }

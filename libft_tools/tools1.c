@@ -6,7 +6,7 @@
 /*   By: chourri <chourri@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/12 16:20:13 by chourri           #+#    #+#             */
-/*   Updated: 2024/09/07 11:23:39 by chourri          ###   ########.fr       */
+/*   Updated: 2024/09/09 16:56:33 by chourri          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,7 +54,21 @@ t_token	*last_token(t_token *head)
 	return (current);
 }
 
-void ft_lstadd_back(t_token **lst, t_type type, char *data)
+
+t_token	*ft_lstnew(char *data, t_type type)
+{
+	t_token	*element;
+
+	element = (t_token *)malloc(sizeof(t_token));
+	if (!element)
+		return (NULL);
+	element->data = data;
+	element->type = type;
+	element->next = NULL;
+	element->previous = NULL;
+	return (element);
+}
+void ffft_lstadd_back(t_token **lst, t_type type, char *data)
 {
 	t_token *new_token;
 	t_token *last;
@@ -73,8 +87,26 @@ void ft_lstadd_back(t_token **lst, t_type type, char *data)
 	}
 	last = *lst;
 	while (last->next != NULL)
-	last = last->next;
+		last = last->next;
 	last->next = new_token;
+}
+
+void	ft_lstadd_back(t_token **lst, t_token *new)
+{
+	t_token	*p;
+	if (!lst || !new)
+		return ;
+	if (!*lst)
+	{
+		*lst = new;
+		// printf("HEYYYY\n");
+		return ;
+	}
+	p = *lst;
+	while (p->next != NULL)
+		p = p->next;
+	p->next = new;
+	new->previous = p;
 }
 
 
@@ -132,14 +164,15 @@ void	print_list(t_token *lst)
 }
 void free_token_list(t_token *lst)
 {
-	t_token *current = lst;
+	t_token *current;
+
+	current = lst;
 	while (current != NULL)
 	{
-	t_token *next = current->next;
-	// printf("data = %p\n", current->data);
-	free(current->data); //should be
-	free(current);
-	current = next;
+		t_token *next = current->next;
+		free(current->data);
+		free(current);
+		current = next;
 	}
 }
 

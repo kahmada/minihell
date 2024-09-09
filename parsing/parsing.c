@@ -6,7 +6,7 @@
 /*   By: chourri <chourri@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/31 15:34:41 by chourri           #+#    #+#             */
-/*   Updated: 2024/09/07 13:50:12 by chourri          ###   ########.fr       */
+/*   Updated: 2024/09/09 12:00:59 by chourri          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,20 +19,26 @@ int	symbols(int type_symbol)
 
 void	parse_error(char *msg)
 {
+	char	*ex;
 	printf("%s\n", msg);
+	ex = manage_exit_status(258, 1);
+	free(ex);
 	return ;
 }
-
+int	ft_protection(t_token *lst)
+{
+	if (!lst)
+		return (0);
+	return (0);
+}
 int	pipe_parsing(t_token *lst)
 {
 	t_token	*current;
 	t_token	*fin;
 
-	if (!lst)
-		return (0);
+	ft_protection(lst);
 	current = lst;
 	fin = last_token(lst);
-
 	if (lst->type == PIPE)
 		return (parse_error("syntax error near unexpected token `|'\n"), 1);
 	else if (fin->type == PIPE)
@@ -47,37 +53,12 @@ int	pipe_parsing(t_token *lst)
 			while (current && (current->type == TAAB || current->type == SPAACE))
 				current = current->next;
 			if (current == NULL || !symbols(current->type))
-			{
-				// printf("first : %s, second : %s\n", current->data, current->next->data);
 				return (parse_error("syntax error: multiple pipes with no command in between\n"), 1);
-			}
 		}
 		current = current->next;
 	}
 	return (0);
 }
-
-// int redirect_in_parsing(t_token *lst)
-// {
-// 	t_token	*current;
-
-// 	current = lst;
-// 	while (current)
-// 	{
-// 		if (current->type == REDIRECT_IN)
-// 		{
-// 			if (!current->next)
-// 				return (parse_error("syntax error near unexpected token `newline'\n"), 1);
-// 			else if (current->next->type != WORD)
-// 				return (parse_error("syntax error near unexpected token '<'\n"), 1);
-// 			else if (current->next->type == REDIRECT_IN)
-// 				return (parse_error("syntax error near unexpected token `<'\n"), 1);
-// 		}
-// 		current = current->next;
-// 	}
-// 	return (0);
-// }
-
 
 int redirect_in_parsing(t_token *lst)
 {
@@ -177,6 +158,37 @@ int	redirect_append(t_token *lst)
 	return (0);
 }
 
+
+int	parse_quotes(char *s)
+{
+	int is_quotes = 0;
+	while (*s)
+	{
+		if (is_quotes == 0 && *s == '\'')
+				is_quotes = 1;
+		else if (is_quotes == 0 && *s == '\"')
+			is_quotes = -1;
+		else if (is_quotes == 1 && *s == '\'')
+			is_quotes = 0;
+		else if (is_quotes == -1 && *s == '\"')
+			is_quotes = 0;
+		s++;
+	}
+	if (is_quotes)
+		return (parse_error("quote not closed\n"), is_quotes);
+	return(is_quotes);
+}
+
+
+int parsing(t_token *lst)
+{
+	if (pipe_parsing(lst)  || heredoc_parsing(lst)
+	|| redirect_append(lst) || redirect_in_parsing(lst)
+	|| redirect_out_parsing(lst))
+		return (1);
+	return (0);
+}
+
 // int	double_single_quotes_parsing(t_token *lst)
 // {
 // 	t_token	*current = lst;
@@ -224,36 +236,57 @@ int	redirect_append(t_token *lst)
 // 	return (0);
 // }
 
+//                          "'"'"
+//1 : is_quote = ";
+// input[i] = ";
+// is_quote = 0;
+
+// int	parse_quotes(char *input)
+// {
+// 	int i = 0;
+// 	char	is_quote = 0;
+// 	while (input[i])
+// 	{
+// 		if (input[i] == '"' || input[i] == '\'')
+// 		{
+// 			is_quote = input[i];
+// 			while (input[i] && input[i] != is_quote)
+// 				i++;
+// 			printf("is_quote = %c\n", is_quote);
+// 			if (input[i] != is_quote)
+// 				return (1);
+// 			is_quote = 0;
+// 		}
+// 		i++;
+// 	}
+// 	return (0);
+// }
 
 
+// int parse_quotes(char *input)
+// {
+// 	int	is_opened = 0;
+// 	int	is_closed = 0;
+// 	int	i = 0;
 
-int	double_single_quotes_parsing(char *input)
-{
-	int count_sq;
-	int	count_dq;
+// 	while (input)
+// }
+// int	double_single_quotes_parsing(char *input)
+// {
+// 	int count_sq;
+// 	int	count_dq;
 
-	count_dq = 0;
-	count_sq = 0;
-	while (*input)
-	{
-		if (*input == '"')
-			count_dq++;
-		else if (*input == '\'')
-			count_sq++;
-		input++;
-	}
-	if ((count_dq % 2 != 0) || (count_sq % 2 != 0))
-		return (parse_error("Error: Quotes are not closed\n"), 1);
-	return (0);
-}
-
-int parsing(t_token *lst)
-{
-	// printf("lst : %p", lst);
-	if (pipe_parsing(lst)  || heredoc_parsing(lst)
-	|| redirect_append(lst) || redirect_in_parsing(lst)
-	|| redirect_out_parsing(lst))
-		return (1);
-	return (0);
-}
-
+// 	count_dq = 0;
+// 	count_sq = 0;
+// 	while (*input)
+// 	{
+// 		if (*input == '"')
+// 			count_dq++;
+// 		else if (*input == '\'')
+// 			count_sq++;
+// 		input++;
+// 	}
+// 	if ((count_dq % 2 != 0) || (count_sq % 2 != 0))
+// 		return (parse_error("Error: Quotes are not closed\n"), 1);
+// 	return (0);
+// }

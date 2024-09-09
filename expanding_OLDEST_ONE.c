@@ -6,11 +6,40 @@
 /*   By: chourri <chourri@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/30 10:23:50 by chourri           #+#    #+#             */
-/*   Updated: 2024/09/09 18:48:37 by chourri          ###   ########.fr       */
+/*   Updated: 2024/09/06 16:13:55 by chourri          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../minishell.h"
+
+
+// char	*ft_strjoin(char const *s1, char const *s2)
+// {
+// 	char	*new_s;
+// 	size_t	i;
+// 	size_t	j;
+
+// 	i = 0;
+// 	if (!s1 && !s2)
+// 		return (NULL);
+// 	if (!s1 && s2)
+// 		return (ft_strdup(s2));
+// 	if (!s2 && s1)
+// 		return (ft_strdup(s1));
+// 	new_s = (char *)malloc(sizeof(char) * (ft_strlen(s1) + ft_strlen(s2) + 1));
+// 	if (!new_s)
+// 		return (NULL);
+// 	while (s1[i])
+// 	{
+// 		new_s[i] = s1[i];
+// 		i++ ;
+// 	}
+// 	j = 0;
+// 	while (s2[j])
+// 		new_s[i++] = s2[j++];
+// 	new_s[i] = '\0';
+// 	return (new_s);
+// }
 
 int	is_alnum(char c)
 {
@@ -20,7 +49,14 @@ int	is_digit(char c)
 {
 	return (c >= '1' && c <= '9');
 }
+void	print_env(char **envp)
+{
+	int	i;
 
+	i = 0;
+	while (envp[i])
+		printf("%s\n", envp[i++]);
+}
 
 //libft_tools
 char	*ft_strndup(const char *s1, size_t n)
@@ -40,6 +76,16 @@ char	*ft_strndup(const char *s1, size_t n)
 	dup[i] = '\0';
 	return (dup);
 }
+// static char	*ft_strchr(char *s, int c)
+// {
+// 	while (*s)
+// 	{
+// 		if (*s == (char)c)
+// 			return ((char *)s);
+// 		s++;
+// 	}
+// 	return (NULL);
+// }
 
 int	ft_strncmp(const char *s1, const char *s2, size_t n)
 {
@@ -58,58 +104,33 @@ int	ft_strncmp(const char *s1, const char *s2, size_t n)
 	return (0);
 }
 
-
-// char *handle_digit_after_dollar_sign(char *data)
+// static char *remove_quotes(char *data)
 // {
+// 	int len = ft_strlen(data);
+// 	int start = 0;
+// 	int end = len - 1;
 // 	char *new;
-// 	char *temp_data;
 
-// 	if (!data)
-// 		return NULL;
-// 	temp_data = ft_strchr(data, '$');
-// 	if (temp_data && *(temp_data + 1) == '0' )
+// 	if (data[0] == '"' || data[0] == '\'')
 // 	{
-// 		new = malloc(strlen(data) + 4);
-// 		if (!new)
-// 			return NULL;
-// 	}
-// 	else if (temp_data && is_digit(*(temp_data + 1)))
-// 	{
-// 		new = malloc(strlen(data));
-// 		if (!new)
-// 			return NULL;
-// 	}
-// 	else if (temp_data && *(temp_data + 1) == '-')
-// 	{
-// 		new = malloc(strlen(data) + 5);
-// 		if (!new)
-// 			return (NULL);
-// 	}
-// 	else
-// 	{
-// 		return (data);
-// 	}
-// 	char *new_ptr = new;
-// 	while (*data)
-// 	{
-// 		if (*data == '$' && *(data + 1) == '0')
+// 		char opening_quote = data[0];
+// 		if (data[end] == opening_quote)
 // 		{
-// 			strcpy(new_ptr, "bash");
-// 			new_ptr += 4;
-// 			data += 2;
+// 			start++;
+// 			end--;
 // 		}
-// 		else if (*data == '$' && *(data + 1) == '-')
-// 		{
-// 			strcpy(new_ptr, "himBH");
-// 			new_ptr += 5;
-// 			data += 2;
-// 		}
-// 		else if (*data == '$' && is_digit(*(data + 1)))
-// 			data += 2;
-// 		else
-// 			*new_ptr++ = *data++;
 // 	}
-// 	*new_ptr = '\0';
+// 	len = end - start + 1;
+// 	new = malloc(len + 1);
+// 	if (!new)
+// 		return (NULL);
+// 	int i = 0;
+// 	while (i < len)
+// 	{
+// 		new[i] = data[start + i];
+// 		i++;
+// 	}
+// 	new[len] = '\0';
 // 	return (new);
 // }
 
@@ -137,7 +158,7 @@ int	ft_strncmp(const char *s1, const char *s2, size_t n)
 // 			{
 // 				if (ft_strncmp(envp[i], var, var_len) == 0 && envp[i][var_len] == '=')
 // 				{
-// 					exp_len += ft_strlen(envp[i] + var_len + 1);
+// 					exp_len += ft_strlen(envp[i] + var_len + 1); // to skip the name of the variable in the environment cus it is that way written in the environment VAR_NAME = VALUE We want the value
 // 					break ;
 // 				}
 // 				i++;
@@ -152,50 +173,33 @@ int	ft_strncmp(const char *s1, const char *s2, size_t n)
 // 	}
 // 	return (exp_len);
 // }
-// char *expand_variable(char *data, char **envp)
+// static char *expand_variable(t_token *token, char **envp)
 // {
 // 	size_t exp_len;
 // 	char *exp;
+// 	char *data = token->data;
 // 	char *ptr;
 // 	const char *start;
 // 	int var_len;
 // 	char *var;
 // 	char *value;
-// 	char *name = NULL;
 // 	int i;
-// 	int	is_home = 0;
 
-// 	if (data[0] == '~')
-// 	{
-// 		char *name = getenv("HOME");
-// 		exp_len = ft_strlen(name) + ft_strlen(data + 1);
-// 		exp = malloc(exp_len + 1);
-// 	}
-// 	else
-// 	{
-// 		exp_len = expanded_len(data, envp);
-// 		exp = malloc(exp_len + 1);
-// 	}
+// 	exp_len = expanded_len(data, envp);
+// 	exp = malloc(exp_len + 1);
 // 	ptr = exp;
 // 	while (*data)
 // 	{
-// 		if (*data == '$' || *data == '~')
+// 		if (*data == '$')
 // 		{
-// 			if (*data == '~')
-// 			{
-// 				is_home = 1;
-// 				name = getenv("HOME");
-// 			}
 // 			data++;
 // 			start = data;
-// 			while (*data && *data != ' ' && *data != '$' && *data != '~' && is_alnum(*data))
+// 			while (*data && *data != ' ' && *data != '$' && is_alnum(*data))
 // 				data++;
 // 			var_len = data - start;
 // 			var = ft_strndup(start, var_len);
 // 			i = 0;
 // 			value = "";
-// 			if (is_home)
-// 				value = name;
 // 			while (envp[i])
 // 			{
 // 				if (ft_strncmp(envp[i], var, var_len) == 0 && envp[i][var_len] == '=')
@@ -216,183 +220,282 @@ int	ft_strncmp(const char *s1, const char *s2, size_t n)
 // 	return exp;
 // }
 
-
-static size_t expanded_len(char *data, char **envp)
+char *handle_digit_after_dollar_sign(char *data)
 {
-    size_t exp_len = 0;
-    char *start;
-    int var_len;
-    char *var;
-    int i;
+	char *new;
+	char *temp_data;
 
-    while (*data) {
-        if (*data == '$') {
-            data++;
-            if (*data == '0' || *data == '-') {
-                if (*data == '0')
-                    exp_len += 4; // "bash"
-                else if (*data == '-')
-                    exp_len += 5; // "himBH"
-                data++;
-            } else if (isdigit(*data)) {
-                data++;
-            } else {
-                start = data;
-                while (*data && *data != ' ' && *data != '$' && is_alnum(*data))
-                    data++;
-                var_len = data - start;
-                var = strndup(start, var_len);
-                i = 0;
-                while (envp[i]) {
-                    if (strncmp(envp[i], var, var_len) == 0 && envp[i][var_len] == '=') {
-                        exp_len += strlen(envp[i] + var_len + 1);
-                        break;
-                    }
-                    i++;
-                }
-                free(var);
-            }
-        } else {
-            exp_len++;
-            data++;
-        }
-    }
-    return exp_len;
+	if (!data)
+		return NULL;
+	temp_data = strchr(data, '$');
+	if (temp_data && *(temp_data + 1) == '0' )
+	{
+		new = malloc(strlen(data) + 4); // Extra space for "bash"
+		if (!new)
+			return NULL;
+	}
+	else if (temp_data && isdigit(*(temp_data + 1)))
+	{
+		new = malloc(strlen(data)); // Skip one character for the digit
+		if (!new)
+			return NULL;
+	}
+	else if (temp_data && *(temp_data + 1) == '-')
+	{
+		new = malloc(strlen(data) + 5);
+		if (!new)
+			return (NULL);
+	}
+	else
+	{
+		new = ft_strdup(data);
+		return (new);
+	}
+	char *new_ptr = new;
+	while (*data)
+	{
+		if (*data == '$' && *(data + 1) == '0')
+		{
+			strcpy(new_ptr, "bash");
+			new_ptr += 4;
+			data += 2;
+		}
+		else if (*data == '$' && *(data + 1) == '-')
+		{
+			strcpy(new_ptr, "himBH");
+			new_ptr += 5;
+			data += 2;
+		}
+		else if (*data == '$' && is_digit(*(data + 1)))
+			data += 2;
+		else
+			*new_ptr++ = *data++;
+	}
+	*new_ptr = '\0';
+	free(new_ptr);
+	// free(data);
+	printf("\nnew_ptr : %p\n", new_ptr);
+	printf("\nDATA : %p\n", new_ptr);
+	return (new);
 }
 
+// void	handle_dollar(t_token *token, char **envp)
+// {
+// 	char	*var_name;
+// 	char	*expanded;
+
+// 	while (token && token->data)
+// 	{
+// 		if (token->data[0] != '\'')
+// 			token->data = handle_digit_after_dollar_sign(token->data);
+// 		if (token->type == EXIT_STATUS || token->type == DS || ft_strcmp(token->data, "$^") == 0 || ft_strcmp(token->data, "\"$^\"") == 0)
+// 		{
+// 			printf("%s", token->data);
+// 			token = token->next;
+// 		}
+// 		else if ((ft_strcmp(token->data,"$*") == 0 || ft_strcmp(token->data, "\"$*\"") == 0 || ft_strcmp(token->data, "$!") == 0 || ft_strcmp(token->data, "\"$!\"") == 0) && token->data[0] != '\'')
+// 		{
+// 			free(token->data);
+// 			token->data = strdup("\n");
+// 		}
+// 		// else if (token->type == EXIT_STATUS || token->type == DS || ft_strcmp(token->data, "$^") == 0 || ft_strcmp(token->data, "\"$^\"") == 0)
+// 		// {
+// 		// 	printf("%s", token->data);
+// 		// 	token = token->next;
+// 		// }
+// 		else if (token->data[0] != '"' && ft_strchr(token->data, '$') && token->data[0] != '\'')
+// 		{
+// 			expanded = expand_variable(token, envp);
+// 			free(token->data);
+// 			token->data = expanded;
+// 		}
+// 		else if (token->data[0] == '"' && ft_strchr(token->data, '$'))
+// 		{
+// 			var_name = ft_strdup(token->data);
+// 			free(token->data);
+// 			token->data = var_name;
+// 			expanded = expand_variable(token, envp);
+// 			free(token->data);
+// 			token->data = expanded;
+// 		}
+// 		else if (token->data[0] == '\'' && ft_strchr(token->data, '$'))
+// 		{
+// 			var_name = ft_strdup(token->data);
+// 			free(token->data);
+// 			token->data = var_name;
+// 		}
+// 		if (token && token->data)
+// 			printf("%s", token->data);
+// 		if (token)
+// 			token = token->next;
+// 	}
+// 	printf("\n");
+// }
+
+//handle this :
+//// $*
+//$^
+//$$USER ASK ABOUT THIS
+//$USER"'"
+//$-HHH
+//$? Should stay the same 'exit status'
+
+static size_t	expanded_len(char *data, char **envp)
+{
+	size_t	exp_len;
+	char	*start;
+	int		var_len;
+	char	*var;
+	int		i;
+
+	exp_len = 0;
+	while (*data)
+	{
+		if (*data == '$')
+		{
+			data++;
+			start = data;
+			while (*data && *data != ' ' && *data != '$' && is_alnum(*data))
+				data++;
+			var_len = data - start;
+			var = ft_strndup(start, var_len);
+			i = 0;
+			while (envp[i])
+			{
+				if (ft_strncmp(envp[i], var, var_len) == 0 && envp[i][var_len] == '=')
+				{
+					exp_len += ft_strlen(envp[i] + var_len + 1); // to skip the name of the variable in the environment cus it is that way written in the environment VAR_NAME = VALUE We want the value
+					break ;
+				}
+				i++;
+			}
+			free(var);
+		}
+		else
+		{
+			exp_len++;
+			data++;
+		}
+	}
+	return (exp_len);
+}
 char *expand_variable(char *data, char **envp)
 {
 	size_t exp_len;
 	char *exp;
+	// char *data = token->data;
 	char *ptr;
 	const char *start;
 	int var_len;
 	char *var;
 	char *value;
+	char *name = NULL;
 	int i;
+	int	is_home = 0;
 
-	exp_len = expanded_len(data, envp);
-	exp = malloc(exp_len + 1);
-	if (!exp)
-		return NULL;
-
+	if (data[0] == '~')
+	{
+		char *name = getenv("HOME");
+		exp_len = ft_strlen(name) + ft_strlen(data + 1);
+		exp = malloc(exp_len + 1);
+	}
+	else
+	{
+		exp_len = expanded_len(data, envp);
+		exp = malloc(exp_len + 1);
+	}
 	ptr = exp;
-	while (*data) {
-		if (*data == '$') {
-			data++;
-			if (*data == '0') {
-				strcpy(ptr, "bash");
-				ptr += 4;
-				data++;
-			} else if (*data == '-') {
-				strcpy(ptr, "himBH");
-				ptr += 5;
-				data++;
-			} else if (isdigit(*data)) {
-				data++;
-			} else {
-				start = data;
-				while (*data && *data != ' ' && *data != '$' && is_alnum(*data))
-					data++;
-				var_len = data - start;
-				var = strndup(start, var_len);
-				i = 0;
-				value = "";
-				while (envp[i]) {
-					if (strncmp(envp[i], var, var_len) == 0 && envp[i][var_len] == '=') {
-						value = envp[i] + var_len + 1;
-						break;
-					}
-					i++;
-				}
-				strcpy(ptr, value);
-				ptr += strlen(value);
-				free(var);
+	while (*data)
+	{
+		if (*data == '$' || *data == '~')
+		{
+			if (*data == '~')
+			{
+				is_home = 1;
+				name = getenv("HOME");
 			}
-		} else {
-			*ptr++ = *data++;
+			data++;
+			start = data;
+			while (*data && *data != ' ' && *data != '$' && *data != '~' && is_alnum(*data))
+				data++;
+			var_len = data - start;
+			var = ft_strndup(start, var_len);
+			i = 0;
+			value = "";
+			if (is_home)
+				value = name;
+			while (envp[i])
+			{
+				if (ft_strncmp(envp[i], var, var_len) == 0 && envp[i][var_len] == '=')
+				{
+					value = envp[i] + var_len + 1;
+					break;
+				}
+				i++;
+			}
+			strcpy(ptr, value);
+			ptr += ft_strlen(value);
+			free(var);
 		}
+		else
+			*ptr++ = *data++;
 	}
 	*ptr = '\0';
 	return exp;
 }
-
-int	check_heredoc_presence(t_token *token)
-{
-	int is_heredoc = 0;
-			if (token)
-		{
-			token = token->previous;
-			while (token && token->type != HEREDOC)
-			{
-				token = token->previous;
-			}
-			if (token && token->type == HEREDOC)
-				is_heredoc = 1;
-			else
-				is_heredoc = 0;
-		}
-	return (is_heredoc);
-}
-void	ft_expand(t_token *token, char **envp)
+void	handle_dollar(t_token *token, char **envp)
 {
 	char	*var_name;
 	char	*expanded;
-	(void)envp;
+
 	while (token && token->data)
 	{
-		// if (token)
-		// {
-		// 	token = token->previous;
-		// 		printf("hellllllo\n");
-		// 	while (token && token->type != HEREDOC)
-		// 	{
-		// 		token = token->previous;
-		// 	}
-		// 	if (token && token->type == HEREDOC)
-		// 		is_heredoc = 1;
-		// 	else
-		// 		is_heredoc = 0;
-		// }
-		// if (token && token->data && token->data[0] != '\'' && token->type != EXIT_STATUS && !check_heredoc_presence(token))
-		// 		token->data = handle_digit_after_dollar_sign(token->data);
-		if (token && token->data && token->data[0] != '\'' && !check_heredoc_presence(token))
+		if (token->data[0] != '\'')
+			token->data = handle_digit_after_dollar_sign(token->data);
+		if ((token->data[0] == '~' && token->data[1] == '/') || (token->data[0] == '~' && token->data[1] == '\0'))
 		{
-			if (token->data && token->type == EXIT_STATUS)
-			{
-				expanded = manage_exit_status(0, 0);
-				free(token->data);
-				token->data = expanded;
-			}
-			else if (((token->data[0] == '~' && token->data[1] == '/') || (token->data[0] == '~' && token->data[1] == '\0')) && token->type != EXIT_STATUS)
-			{
-				expanded = expand_variable(token->data, envp); //no leaks inside
-				free(token->data);
-				token->data = expanded;
-			}
-			else if ((ft_strcmp(token->data,"$*") == 0 || ft_strcmp(token->data, "\"$*\"") == 0 || ft_strcmp(token->data, "$!") == 0 || ft_strcmp(token->data, "\"$!\"") == 0) && token->data[0] != '\'' && token->type != EXIT_STATUS)
-			{
-				free(token->data);
-				token->data = strdup("\n"); //no leaks inside
-			}
-			else if (token->data[0] != '"' && ft_strchr(token->data, '$') && token->type != EXIT_STATUS && token->data[0] != '\'')
-			{
-				expanded = expand_variable(token->data, envp);
-				free(token->data);
-				token->data = expanded; //NO leaks
-			}
-			else if (token->data[0] == '"' && ft_strchr(token->data, '$') && token->type != EXIT_STATUS)
-			{
-				var_name = ft_strdup(token->data); //no leaks
-				free(token->data);
-				token->data = var_name;
-				expanded = expand_variable(token->data, envp);
-				free(token->data);
-				token->data = expanded;
-			}
+			expanded = expand_variable(token->data, envp);
+			free(token->data);
+			token->data = expanded;
 		}
-			if (token)
-				token = token->next;
+		else if (token->type == EXIT_STATUS || token->type == DS || ft_strcmp(token->data, "$^") == 0 || ft_strcmp(token->data, "\"$^\"") == 0)
+		{
+			printf("%s", token->data);
+			token = token->next;
+		}
+		else if ((ft_strcmp(token->data,"$*") == 0 || ft_strcmp(token->data, "\"$*\"") == 0 || ft_strcmp(token->data, "$!") == 0 || ft_strcmp(token->data, "\"$!\"") == 0) && token->data[0] != '\'')
+		{
+			free(token->data);
+			token->data = strdup("\n");
+		}
+		// else if (token->type == EXIT_STATUS || token->type == DS || ft_strcmp(token->data, "$^") == 0 || ft_strcmp(token->data, "\"$^\"") == 0)
+		// {
+		// 	printf("%s", token->data);
+		// 	token = token->next;
+		// }
+		else if (token->data[0] != '"' && ft_strchr(token->data, '$') && token->data[0] != '\'')
+		{
+			expanded = expand_variable(token->data, envp);
+			free(token->data);
+			token->data = expanded;
+		}
+		else if (token->data[0] == '"' && ft_strchr(token->data, '$'))
+		{
+			var_name = ft_strdup(token->data);
+			free(token->data);
+			token->data = var_name;
+			expanded = expand_variable(token->data, envp);
+			free(token->data);
+			token->data = expanded;
+		}
+		// else if (token->data[0] == '\'' && ft_strchr(token->data, '$'))
+		// {
+		// 	var_name = ft_strdup(token->data);
+		// 	free(token->data);
+		// 	token->data = var_name;
+		// }
+		if (token)
+			token = token->next;
 	}
 }
 
@@ -402,7 +505,9 @@ void	ft_expand(t_token *token, char **envp)
 
 
 
-// norminette
+
+
+//norminette
 // int	is_alnum(char c)
 // {
 // 	return ((c >= 'a' && c <= 'z') || (c >= 'A' && c <= 'Z') || (c >= '0' && c <= '9') || c == '_');
@@ -469,7 +574,10 @@ void	ft_expand(t_token *token, char **envp)
 // 	else if (temp_data && *(temp_data + 1) == '-')
 // 		new = malloc(strlen(data) + 5); // Extra space for "himBH"
 // 	else
+// 	{
 // 		new = ft_strdup(data);
+// 		free(data); //added
+// 	}
 // 	if (!new)
 // 		return (NULL);
 // 	return new;
@@ -492,7 +600,11 @@ void	ft_expand(t_token *token, char **envp)
 
 // 	new = allocate_for_special_exp(data);
 // 	if (!new || !data)
+// 	{
+// 		free(new);
+// 		free(data);
 // 		return NULL;
+// 	}
 // 	new_ptr = new;
 // 	while (*data)
 // 	{
@@ -510,8 +622,7 @@ void	ft_expand(t_token *token, char **envp)
 // 			*new_ptr++ = *data++;
 // 	}
 // 	*new_ptr = '\0';
-
-// 	return (new);
+// 	return new;
 // }
 
 // //handle this :
@@ -616,6 +727,7 @@ void	ft_expand(t_token *token, char **envp)
 // 		mydata->value = get_variable_value(mydata, envp);
 // 		strcpy(mydata->ptr, mydata->value);
 // 		mydata->ptr += ft_strlen(mydata->value);
+// 		free(mydata->value); //added
 // 	}
 // 	else if (**data == '$')
 // 	{
@@ -644,6 +756,7 @@ void	ft_expand(t_token *token, char **envp)
 // 	t_data	*mydata;
 
 // 	mydata= (t_data *)malloc(sizeof(t_data));
+// 	printf("Makefile =  %p\n", mydata->data);
 // 	protect_malloc(mydata);
 // 	mydata->is_home = 0;
 // 	if (*data == '~')
@@ -665,8 +778,11 @@ void	ft_expand(t_token *token, char **envp)
 // 			*mydata->ptr++ = *data++;
 // 	}
 // 	*mydata->ptr = '\0';
+// 	char *r = ft_strdup(mydata->exp);
+// 	// free(mydata->exp);
 // 	free(mydata);
-// 	return (mydata->exp);
+
+// 	return (r);
 // }
 
 
@@ -694,13 +810,14 @@ void	ft_expand(t_token *token, char **envp)
 // 		expanded = expand_variable((*token)->data, envp);
 // 		free((*token)->data);
 // 		(*token)->data = expanded;
+// 		// printf("var_name: %p\n", (*token)->data);
 // 	}
 // }
 // void	handle_dollar(t_token *token, char **envp)
 // {
-// 	// char	*var_name;
-// 	// char	*expanded;
-// 	(void)envp;
+// 	char	*var_name;
+// 	char	*expanded;
+
 // 	// if (!(token->next) && ft_strcmp(token->data, "*") == 0)
 // 	// {
 // 	// 	token->data = ft_strdup("Makefile");
@@ -709,8 +826,9 @@ void	ft_expand(t_token *token, char **envp)
 // 	while (token && token->data)
 // 	{
 // 		if (token->data[0] != '\'')
+// 		{
 // 			token->data = handle_digit_after_dollar_sign(token->data);
-// 			printf("dataaaa : %p\n", token->data);
+// 		}
 // 		if ((token->data[0] == '~' && token->data[1] == '/') || (token->data[0] == '~' && token->data[1] == '\0'))
 // 		{
 // 			expanded = expand_variable(token->data, envp);
@@ -731,13 +849,15 @@ void	ft_expand(t_token *token, char **envp)
 // 		else if (token->data[0] != '"' && ft_strchr(token->data, '$') && token->data[0] != '\'')
 // 		{
 // 			expanded = expand_variable(token->data, envp);
+// 			// printf("EXPANDED : %p\n", expanded);
 // 			free(token->data);
 // 			token->data = expanded;
+
 // 		}
 // 		// handle_ds(&token, envp); //good
 // 		else if (token->data[0] == '"' && ft_strchr(token->data, '$'))
 // 		{
-// 			printf("hey\n");
+// 			// printf("hey\n");
 // 			var_name = ft_strdup(token->data);
 // 			free(token->data);
 // 			token->data = var_name;
@@ -751,21 +871,12 @@ void	ft_expand(t_token *token, char **envp)
 // 			free(token->data);
 // 			token->data = var_name;
 // 		}
-// 		printf("token = %p\n", token->data);
+// 		// printf("data : %s\n", token->data);
 // 		if (token)
 // 			token = token->next;
+
 // 	}
 // }
-
-
-
-
-
-
-
-
-
-
 
 
 

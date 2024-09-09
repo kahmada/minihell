@@ -6,7 +6,7 @@
 /*   By: chourri <chourri@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/28 18:28:18 by kahmada           #+#    #+#             */
-/*   Updated: 2024/09/04 11:28:53 by chourri          ###   ########.fr       */
+/*   Updated: 2024/09/09 10:58:25 by chourri          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,13 +15,8 @@
 char	*manage_exit_status(int status, int set_flag)
 {
 	static int	current_status;
-
-	current_status = 0;
 	if (set_flag)
-	{
 		current_status = status;
-		return (NULL);
-	}
 	return (ft_itoa(current_status));
 }
 

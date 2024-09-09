@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   cd.c                                               :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: kahmada <kahmada@student.42.fr>            +#+  +:+       +#+        */
+/*   By: chourri <chourri@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/25 14:27:16 by kahmada           #+#    #+#             */
-/*   Updated: 2024/09/03 09:58:42 by kahmada          ###   ########.fr       */
+/*   Updated: 2024/09/09 11:54:25 by chourri          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,6 +34,7 @@ void	bult_cd(t_command *cmd, t_env **envp)
 	char	*path;
 	int		ret;
 	char	*oldpath;
+	char *ex;
 
 	oldpath = getenv("PWD");
 	if (cmd->args[1] == NULL)
@@ -44,10 +45,12 @@ void	bult_cd(t_command *cmd, t_env **envp)
 	if (ret == -1)
 	{
 		perror("minishell");
-		manage_exit_status(1, 1);
+		ex = manage_exit_status(1, 1);
+		free(ex);
 		return ;
 	}
-	manage_exit_status(0, 1);
+	ex = manage_exit_status(0, 1);
+	free(ex);
 	update_envp(envp, "OLDPWD", oldpath);
 	update_envp(envp, "PWD", getcwd(NULL, 0));
 }

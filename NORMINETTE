@@ -1,5 +1,7 @@
 parse_quotes good
-add_spaces_to_cmd
+add_spaces_to_cmd good
+parsing good
+free_token_list good
 
 
 ls | wc -l | << l | gdfhdfhg | grhhd | dfhthdfgh << g

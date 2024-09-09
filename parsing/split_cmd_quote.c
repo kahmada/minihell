@@ -6,7 +6,7 @@
 /*   By: chourri <chourri@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/12 16:13:45 by chourri           #+#    #+#             */
-/*   Updated: 2024/08/17 16:05:59 by chourri          ###   ########.fr       */
+/*   Updated: 2024/09/09 17:05:04 by chourri          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -161,6 +161,7 @@ static int num_words(char const *s)
 	}
 	return (count);
 }
+
 
 char **ft_split_cmd_quote(char const *s)
 {
