@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: kahmada <kahmada@student.42.fr>            +#+  +:+       +#+        */
+/*   By: chourri <chourri@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/12 15:51:23 by chourri           #+#    #+#             */
-/*   Updated: 2024/09/10 11:38:52 by kahmada          ###   ########.fr       */
+/*   Updated: 2024/09/10 19:02:15 by chourri          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -184,7 +184,7 @@ void bult_export(t_command *cmd, t_env **env);
 int is_valid_variable_name(char *key);
 void add_env(t_env **env, char *key, char *value);
 void ft_remove_quotes(char **str);
-char	*manage_exit_status(int status, int set_flag);
+// char	*manage_exit_status(int status, int set_flag);
 void	update_envp(t_env **envp, char *key, char *value);
 void	update_environment(t_env **env, char *key, char *value, int append_mode);
 void	print_export(t_env *env);
@@ -209,6 +209,7 @@ char *expand_variable(char *data, char **envp);
 void remove_quotes_END(t_command *cmd);
 void free_token_newlist(t_token *lst);
 char	*manage_exit_status(int status, int set_flag);
+// char *expand_variable(const char *str, char **envp);
 
 
 #endif

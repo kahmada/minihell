@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ex_cmd.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: kahmada <kahmada@student.42.fr>            +#+  +:+       +#+        */
+/*   By: chourri <chourri@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/27 11:53:32 by kahmada           #+#    #+#             */
-/*   Updated: 2024/09/10 12:01:33 by kahmada          ###   ########.fr       */
+/*   Updated: 2024/09/10 19:21:38 by chourri          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,19 +14,23 @@
 
 char	**handle_builtin_cmd(t_command *cmd, char **envp)
 {
+	char	*ex;
 	handle_redirects(cmd);
 	envp = handle_builtin(cmd, envp);
-	manage_exit_status(0, 1);
+	ex = manage_exit_status(0, 1);
+	free(ex);
 	return (envp);
 }
 
 int	handle_command_path(char *cmd_path, char *cmd_name)
 {
+	char	*ex;
 	if (!cmd_path)
 	{
 		if (cmd_name)
 			fprintf(stderr, "Command not found: %s\n", cmd_name);
-		manage_exit_status(127, 1);
+		ex = manage_exit_status(127, 1);
+		free(ex);
 		exit(127);
 	}
 	else if (ft_strcmp(cmd_path, "1") == 0 || ft_strcmp(cmd_path, "2") == 0)
@@ -43,6 +47,7 @@ void	child_process_execution(t_command *cmd, char **envp, int *input_fd)
 {
 	char	*cmd_path;
 	int		status;
+	char	*ex;
 
 	signal(SIGINT, SIG_DFL);
 	signal(SIGQUIT, SIG_DFL);
@@ -59,18 +64,19 @@ void	child_process_execution(t_command *cmd, char **envp, int *input_fd)
 		return;
 	execve(cmd_path, cmd->args, envp);
 	perror("execve");
-	manage_exit_status(EXIT_FAILURE, 1);
+	ex = manage_exit_status(EXIT_FAILURE, 1);
 	exit(EXIT_FAILURE);
 }
 
 pid_t	execute_piped_cmd(t_command *cmd, char **envp, int *input_fd)
 {
 	pid_t	pid;
-
+	char	*ex;
 	if (pipe(cmd->pipe_fd) == -1)
 	{
 		perror("pipe");
-		manage_exit_status(EXIT_FAILURE, 1);
+		ex = manage_exit_status(EXIT_FAILURE, 1);
+		free(ex);
 		exit(EXIT_FAILURE);
 	}
 	pid = fork();
@@ -79,7 +85,8 @@ pid_t	execute_piped_cmd(t_command *cmd, char **envp, int *input_fd)
 		close(cmd->pipe_fd[0]);
 		close(cmd->pipe_fd[1]);
 		perror("mini: fork");
-		manage_exit_status(EXIT_FAILURE, 1);
+		ex = manage_exit_status(EXIT_FAILURE, 1);
+		free(ex);
 		exit(EXIT_FAILURE);
 	}
 	else if (pid == 0)
@@ -87,6 +94,8 @@ pid_t	execute_piped_cmd(t_command *cmd, char **envp, int *input_fd)
 	else
 	{
 		signal(SIGINT, SIG_IGN);
+		ex = manage_exit_status(127, 1);
+		free(ex);
 		signal(SIGQUIT, SIG_IGN);
 	}
 	return (pid);
@@ -96,21 +105,48 @@ void	wait_for_children(int *child_pids, int count)
 {
 	int	status;
 	int	i;
-
+	char	*ex;
 	i = -1;
+	// while (++i < count)
+	// {
+	// 	waitpid(child_pids[i], &status, 0);
+	// 	if (WIFSIGNALED(status) && WTERMSIG(status) == SIGQUIT)
+	// 	{
+	// 		if (WIFEXITED(status))
+	// 		{
+	// 			ex = manage_exit_status(WEXITSTATUS(status), 1);
+	// 			free(ex);
+	// 		}
+	// 		write(1, "Quit: 3\n", 9);
+	// 	}
+	// 	else if (WIFSIGNALED(status) && WTERMSIG(status) == SIGINT)
+	// 	{
+	// 		write(1, "\n", 1);
+	// 		ex = manage_exit_status(WEXITSTATUS(status), 1);
+	// 		free(ex);
+	// 	}
+	// }
 	while (++i < count)
 	{
 		waitpid(child_pids[i], &status, 0);
-		if (WIFSIGNALED(status) && WTERMSIG(status) == SIGQUIT)
+		if (WIFEXITED(status))
 		{
-			if (WIFEXITED(status))
-				manage_exit_status(WEXITSTATUS(status), 1);
-			write(1, "Quit: 3\n", 9);
+			ex = manage_exit_status(WEXITSTATUS(status), 1);
+			free(ex);
 		}
-		else if (WIFSIGNALED(status) && WTERMSIG(status) == SIGINT)
+		else if (WIFSIGNALED(status))
 		{
-			write(1, "\n", 1);
-			manage_exit_status(WEXITSTATUS(status), 1);
+			if (WTERMSIG(status) == SIGQUIT)
+			{
+				write (1, "QUIT: 3\n", 8);
+				ex = manage_exit_status(131, 1);
+			}
+			else if (WTERMSIG(status) == SIGINT)
+			{
+				write (1, "\n", 1);
+				ex = manage_exit_status(130, 1);
+			}
+			free(ex);
 		}
 	}
 }

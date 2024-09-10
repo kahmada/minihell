@@ -6,7 +6,7 @@
 /*   By: chourri <chourri@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/28 16:33:51 by kahmada           #+#    #+#             */
-/*   Updated: 2024/09/10 12:37:55 by chourri          ###   ########.fr       */
+/*   Updated: 2024/09/10 16:08:13 by chourri          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,7 +18,7 @@ void signal_handler(int signal)
 {
 	if (signal == SIGINT)
 	{
-		sig_received = 1;// Set flag to indicate signal received
+		sig_received = 1;// Set flag to indicate signal is eceived
 		close(0);
 		return;
 	}

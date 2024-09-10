@@ -6,7 +6,7 @@
 /*   By: chourri <chourri@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/30 10:23:50 by chourri           #+#    #+#             */
-/*   Updated: 2024/09/09 18:48:37 by chourri          ###   ########.fr       */
+/*   Updated: 2024/09/10 19:01:41 by chourri          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -219,45 +219,53 @@ int	ft_strncmp(const char *s1, const char *s2, size_t n)
 
 static size_t expanded_len(char *data, char **envp)
 {
-    size_t exp_len = 0;
-    char *start;
-    int var_len;
-    char *var;
-    int i;
+	size_t exp_len = 0;
+	char *start;
+	int var_len;
+	char *var;
+	int i;
 
-    while (*data) {
-        if (*data == '$') {
-            data++;
-            if (*data == '0' || *data == '-') {
-                if (*data == '0')
-                    exp_len += 4; // "bash"
-                else if (*data == '-')
-                    exp_len += 5; // "himBH"
-                data++;
-            } else if (isdigit(*data)) {
-                data++;
-            } else {
-                start = data;
-                while (*data && *data != ' ' && *data != '$' && is_alnum(*data))
-                    data++;
-                var_len = data - start;
-                var = strndup(start, var_len);
-                i = 0;
-                while (envp[i]) {
-                    if (strncmp(envp[i], var, var_len) == 0 && envp[i][var_len] == '=') {
-                        exp_len += strlen(envp[i] + var_len + 1);
-                        break;
-                    }
-                    i++;
-                }
-                free(var);
-            }
-        } else {
-            exp_len++;
-            data++;
-        }
-    }
-    return exp_len;
+	while (*data)
+	{
+		if (*data == '$')
+		{
+			data++;
+			if (*data == '0' || *data == '-')
+			{
+				if (*data == '0')
+					exp_len += 4; // "bash"
+				else if (*data == '-')
+					exp_len += 5; // "himBH"
+				data++;
+			}
+			else if (isdigit(*data))
+				data++;
+			else
+			{
+				start = data;
+				while (*data && *data != ' ' && *data != '$' && is_alnum(*data))
+					data++;
+				var_len = data - start;
+				var = strndup(start, var_len);
+				i = 0;
+				while (envp[i])
+				{
+					if (strncmp(envp[i], var, var_len) == 0 && envp[i][var_len] == '=')
+					{
+						exp_len += strlen(envp[i] + var_len + 1);
+						break;
+					}
+					i++;
+				}
+				free(var);
+			}
+		} else
+		{
+			exp_len++;
+			data++;
+		}
+	}
+	return exp_len;
 }
 
 char *expand_variable(char *data, char **envp)
@@ -277,20 +285,26 @@ char *expand_variable(char *data, char **envp)
 		return NULL;
 
 	ptr = exp;
-	while (*data) {
-		if (*data == '$') {
+	while (*data)
+	{
+		if (*data == '$')
+		{
 			data++;
-			if (*data == '0') {
+			if (*data == '0')
+			{
 				strcpy(ptr, "bash");
 				ptr += 4;
 				data++;
-			} else if (*data == '-') {
+			} else if (*data == '-')
+			{
 				strcpy(ptr, "himBH");
 				ptr += 5;
 				data++;
-			} else if (isdigit(*data)) {
+			}
+			else if (isdigit(*data))
 				data++;
-			} else {
+			else
+			{
 				start = data;
 				while (*data && *data != ' ' && *data != '$' && is_alnum(*data))
 					data++;
@@ -298,8 +312,10 @@ char *expand_variable(char *data, char **envp)
 				var = strndup(start, var_len);
 				i = 0;
 				value = "";
-				while (envp[i]) {
-					if (strncmp(envp[i], var, var_len) == 0 && envp[i][var_len] == '=') {
+				while (envp[i])
+				{
+					if (strncmp(envp[i], var, var_len) == 0 && envp[i][var_len] == '=')
+					{
 						value = envp[i] + var_len + 1;
 						break;
 					}
@@ -309,9 +325,9 @@ char *expand_variable(char *data, char **envp)
 				ptr += strlen(value);
 				free(var);
 			}
-		} else {
-			*ptr++ = *data++;
 		}
+		else
+			*ptr++ = *data++;
 	}
 	*ptr = '\0';
 	return exp;
@@ -341,22 +357,7 @@ void	ft_expand(t_token *token, char **envp)
 	(void)envp;
 	while (token && token->data)
 	{
-		// if (token)
-		// {
-		// 	token = token->previous;
-		// 		printf("hellllllo\n");
-		// 	while (token && token->type != HEREDOC)
-		// 	{
-		// 		token = token->previous;
-		// 	}
-		// 	if (token && token->type == HEREDOC)
-		// 		is_heredoc = 1;
-		// 	else
-		// 		is_heredoc = 0;
-		// }
-		// if (token && token->data && token->data[0] != '\'' && token->type != EXIT_STATUS && !check_heredoc_presence(token))
-		// 		token->data = handle_digit_after_dollar_sign(token->data);
-		if (token && token->data && token->data[0] != '\'' && !check_heredoc_presence(token))
+		if (token && token->data && token->data[0] != '\'' && !check_heredoc_presence(token) && token->type != DS)
 		{
 			if (token->data && token->type == EXIT_STATUS)
 			{

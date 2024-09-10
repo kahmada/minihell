@@ -6,7 +6,7 @@
 /*   By: chourri <chourri@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/31 15:34:41 by chourri           #+#    #+#             */
-/*   Updated: 2024/09/09 12:00:59 by chourri          ###   ########.fr       */
+/*   Updated: 2024/09/10 17:49:25 by chourri          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,10 +19,7 @@ int	symbols(int type_symbol)
 
 void	parse_error(char *msg)
 {
-	char	*ex;
 	printf("%s\n", msg);
-	ex = manage_exit_status(258, 1);
-	free(ex);
 	return ;
 }
 int	ft_protection(t_token *lst)
@@ -182,10 +179,15 @@ int	parse_quotes(char *s)
 
 int parsing(t_token *lst)
 {
+	char	*ex;
 	if (pipe_parsing(lst)  || heredoc_parsing(lst)
 	|| redirect_append(lst) || redirect_in_parsing(lst)
 	|| redirect_out_parsing(lst))
+	{
+		ex = manage_exit_status(258, 1);
+		free(ex);
 		return (1);
+	}
 	return (0);
 }
 

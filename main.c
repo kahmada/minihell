@@ -6,7 +6,7 @@
 /*   By: chourri <chourri@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/12 16:02:24 by chourri           #+#    #+#             */
-/*   Updated: 2024/09/10 12:43:45 by chourri          ###   ########.fr       */
+/*   Updated: 2024/09/10 19:21:20 by chourri          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -300,7 +300,8 @@ char **process_command(char *input, char **envp)
 					// printf("EXIT STATUS : %p\n", manage_exit_status(0, 0));
 					// printf("lst : %p\n", lst);
 					// printf("output : %p\n", output);
-					return (free_token_list(lst),free(manage_exit_status(0,0)),free(output), envp);
+					// free(manage_exit_status(0,0))
+					return (free_token_list(lst),free(output), envp);
 				}
 				// printf("\n\n-------------------------------------BEFORE-----------------------------------------\n\n");
 				ft_expand(lst, envp); //no leaks
@@ -324,13 +325,11 @@ char **process_command(char *input, char **envp)
 				free_command_list(cmd);
 				lst = NULL;
 			}
-			free(manage_exit_status(0,0));
 			free(output);
 		}
+			// free(manage_exit_status(0,0));
 	return envp;
 }
-
-
 
 
 
@@ -379,19 +378,19 @@ int main(int ac, char **av, char **envp)
 {
 	char *input;
 	char **envp_copy;
-	//rl_catch_signals = 0; //to not print ^C in the prompt
+	rl_catch_signals = 0; //to not print ^C in the prompt
 	signal(SIGQUIT, SIG_IGN);
 	signal(SIGINT, SIGINT_handler);
 	envp_copy = ft_envp_copy(envp);
 	(void)ac;
 	(void)av;
-		input = readline("minihell$ ");
+	input = readline("minihell$ ");
 	while (input)
 	{
 		if (!input)
 		{
-			char *ex = manage_exit_status(0,1);
-			free(ex);
+			// char *ex = manage_exit_status(0,1);
+			// free(ex);
 			break;
 		}
 		envp_copy = process_input(input, envp_copy); // when I remove it : no leaks but no changes to the env when I export sth

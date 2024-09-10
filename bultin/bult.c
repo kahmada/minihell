@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   bult.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: kahmada <kahmada@student.42.fr>            +#+  +:+       +#+        */
+/*   By: chourri <chourri@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/28 18:28:18 by kahmada           #+#    #+#             */
-/*   Updated: 2024/09/10 11:29:55 by kahmada          ###   ########.fr       */
+/*   Updated: 2024/09/10 18:50:01 by chourri          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,12 +16,12 @@ char	*manage_exit_status(int status, int set_flag)
 {
 	static int	current_status;
 
-	current_status = 0;
 	if (set_flag)
 	{
 		current_status = status;
-		return (NULL);
+		// return (NULL);
 	}
+	// printf("CURRENT STATUS : %d\n", current_status);
 	return (ft_itoa(current_status));
 }
 
@@ -79,7 +79,7 @@ char	**handle_builtin(t_command *cmd, char **envp)
 	{
 		bult_cd(cmd, &env);
 	}
-		
+
 	else if (ft_strcmp(cmd->args[0], "echo") == 0)
 		bult_echo(cmd);
 	else if (ft_strcmp(cmd->args[0], "exit") == 0)
