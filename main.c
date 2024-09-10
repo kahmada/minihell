@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: kahmada <kahmada@student.42.fr>            +#+  +:+       +#+        */
+/*   By: chourri <chourri@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/12 16:02:24 by chourri           #+#    #+#             */
-/*   Updated: 2024/09/10 12:24:41 by kahmada          ###   ########.fr       */
+/*   Updated: 2024/09/10 12:35:00 by chourri          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -385,7 +385,7 @@ int main(int ac, char **av, char **envp)
 	envp_copy = ft_envp_copy(envp);
 	(void)ac;
 	(void)av;
-		input = readline("@FOX$ ");
+		input = readline("minihell$ ");
 	while (input)
 	{
 		if (!input)
