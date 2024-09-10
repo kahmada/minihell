@@ -6,7 +6,7 @@
 /*   By: chourri <chourri@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/12 16:02:24 by chourri           #+#    #+#             */
-/*   Updated: 2024/09/10 12:35:00 by chourri          ###   ########.fr       */
+/*   Updated: 2024/09/10 12:43:45 by chourri          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -280,7 +280,7 @@ char **process_command(char *input, char **envp)
 	t_token *lst;
 
 	if (parse_quotes(input))
-		return (NULL);
+		return (envp);
 	(void)lst;
 
 		//test this :  $USER>>DGDFG<< FDGDF
