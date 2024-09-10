@@ -6,7 +6,7 @@
 /*   By: kahmada <kahmada@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/26 16:20:58 by kahmada           #+#    #+#             */
-/*   Updated: 2024/09/03 10:03:05 by kahmada          ###   ########.fr       */
+/*   Updated: 2024/09/10 19:40:43 by kahmada          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,13 +40,17 @@ t_env	*find_env(t_env *env, const char *key)
 	return (NULL);
 }
 
-void	print_export(t_env *env)
+void print_export(t_env *env)
 {
-	while (env)
-	{
-		printf("declare -x %s=\"%s\"\n", env->key, env->value);
-		env = env->next;
-	}
+    while (env) {
+        // printf("declare -x %s=\"%s\"\n", env->key, env->value);
+        printf("declare -x %s", env->key);
+        if(env->value && env->value[0])
+            printf("=\"%s\"\n", env->value);
+        else
+            printf("\n");
+        env = env->next;
+    }
 }
 
 void	update_environment(t_env **env, char *key, char *value, int append_mode)
