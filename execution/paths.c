@@ -6,7 +6,7 @@
 /*   By: kahmada <kahmada@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/27 11:55:39 by kahmada           #+#    #+#             */
-/*   Updated: 2024/09/03 11:09:34 by kahmada          ###   ########.fr       */
+/*   Updated: 2024/09/04 12:23:04 by kahmada          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,18 +14,19 @@
 
 static char **extract_paths_from_envp(char **envp)
 {
-    int i;
+	int i;
+	char	**error;
 
-    i = 0;
-    while (envp[i] && ft_strnstr(envp[i], "PATH", 4) == NULL)
-        i++;
-
-    if (!envp[i])
-    {
-        write(2, "No such file or directory\n", 27);
-        return (NULL);
-    }
-    return (ft_split_lib(envp[i] + 5, ':'));
+	i = 0;
+	error = malloc(sizeof(char *));
+	*error = "3";
+	while (envp[i] && ft_strnstr(envp[i], "PATH", 4) == NULL)
+		i++;
+	if (!envp[i])
+	{
+		return (error);
+	}
+	return (ft_split_lib(envp[i] + 5, ':'));
 }
 
 void	wrerror(char *str)
@@ -104,6 +105,8 @@ char *find_commande(char *cmd, char **envp)
     paths = extract_paths_from_envp(envp);
     if (!paths)
         return NULL;
+    if (ft_strcmp(*paths, "3")==0)
+		return ("3");
     path = find_command_in_paths(cmd, paths);
     for (int i = 0; paths[i]; i++)
         free(paths[i]);

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: chourri <chourri@student.42.fr>            +#+  +:+       +#+        */
+/*   By: kahmada <kahmada@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/12 16:02:24 by chourri           #+#    #+#             */
-/*   Updated: 2024/09/09 19:31:14 by chourri          ###   ########.fr       */
+/*   Updated: 2024/09/10 12:24:41 by kahmada          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -300,7 +300,7 @@ char **process_command(char *input, char **envp)
 					// printf("EXIT STATUS : %p\n", manage_exit_status(0, 0));
 					// printf("lst : %p\n", lst);
 					// printf("output : %p\n", output);
-					return (free_token_list(lst),free(manage_exit_status(0,0)),free(output), NULL);
+					return (free_token_list(lst),free(manage_exit_status(0,0)),free(output), envp);
 				}
 				// printf("\n\n-------------------------------------BEFORE-----------------------------------------\n\n");
 				ft_expand(lst, envp); //no leaks
@@ -374,17 +374,18 @@ char **ft_envp_copy(char **envp)
 	envp_copy[i] = NULL;
 	return (envp_copy);
 }
+
 int main(int ac, char **av, char **envp)
 {
 	char *input;
 	char **envp_copy;
-	rl_catch_signals = 0; //to not print ^C in the prompt
+	//rl_catch_signals = 0; //to not print ^C in the prompt
 	signal(SIGQUIT, SIG_IGN);
 	signal(SIGINT, SIGINT_handler);
 	envp_copy = ft_envp_copy(envp);
 	(void)ac;
 	(void)av;
-		input = readline("minihell$ ");
+		input = readline("@FOX$ ");
 	while (input)
 	{
 		if (!input)

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: chourri <chourri@student.42.fr>            +#+  +:+       +#+        */
+/*   By: kahmada <kahmada@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/12 15:51:23 by chourri           #+#    #+#             */
-/*   Updated: 2024/09/09 12:52:05 by chourri          ###   ########.fr       */
+/*   Updated: 2024/09/10 11:38:52 by kahmada          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -105,7 +105,8 @@ typedef struct s_v
 }	t_v;
 //
 int	sig_flag;
-
+char **f_update_envp(char **envp, char **last_envp);
+void free_2d_array(char **array);
 void print_command(t_command *cmd);
 void add_npc_to_cmd(char *input, char **new_input);
 // char	**ft_split(char *str);

@@ -6,7 +6,7 @@
 /*   By: kahmada <kahmada@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/25 15:38:03 by kahmada           #+#    #+#             */
-/*   Updated: 2024/08/26 16:49:05 by kahmada          ###   ########.fr       */
+/*   Updated: 2024/09/10 12:19:46 by kahmada          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -69,7 +69,11 @@ t_env	*get_env(char ***envp, t_env *env)
 	{
 		parse_env_string(envp_cpy[i], &key, &value);
 		if (key && value)
+		{
 			add_env(&env, key, value);
+			free(key);
+			free(value);
+		}
 		i++;
 	}
 	return (env);
