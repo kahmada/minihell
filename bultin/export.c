@@ -6,7 +6,7 @@
 /*   By: kahmada <kahmada@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/20 17:29:48 by kahmada           #+#    #+#             */
-/*   Updated: 2024/09/10 19:43:55 by kahmada          ###   ########.fr       */
+/*   Updated: 2024/09/11 16:23:46 by kahmada          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,7 +33,6 @@ void	validate_and_parse_export(const char *arg, char **key, char **value, int *a
 	if (!*value || *(*value + 1) == '\0')
 	{
 		free(*key);
-		// *key = NULL;
 		*value = NULL;
 		return ;
 	}
