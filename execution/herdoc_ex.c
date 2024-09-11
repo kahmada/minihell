@@ -6,15 +6,14 @@
 /*   By: chourri <chourri@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/28 16:33:51 by kahmada           #+#    #+#             */
-/*   Updated: 2024/09/10 16:08:13 by chourri          ###   ########.fr       */
+/*   Updated: 2024/09/11 15:09:12 by chourri          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../minishell.h"
 
-static int sig_received = 0;
 
-void signal_handler(int signal)
+void signal_handler_heredoc(int signal)
 {
 	if (signal == SIGINT)
 	{
@@ -24,7 +23,7 @@ void signal_handler(int signal)
 	}
 }
 
-static char *remove_quotes1(char *data)
+static char *remove_quotes2(char *data)
 {
 	int len = ft_strlen(data);
 	int start = 0;
@@ -61,8 +60,8 @@ void handle_child(const char *limiter, int tmp_fd, char **envp)
 	int flag = 0;
 	if (ft_strchr((char *)limiter, '"') || ft_strchr((char *)limiter, '\''))
 		flag = 1;
-	quoted_limiter = remove_quotes1((char *)limiter);
-	signal(SIGINT, signal_handler);
+	quoted_limiter = remove_quotes2((char *)limiter);
+	signal(SIGINT, signal_handler_heredoc);
 	while (1)
 	{
 		line = readline("> ");
@@ -70,13 +69,9 @@ void handle_child(const char *limiter, int tmp_fd, char **envp)
 			break;
 		if (!flag && (ft_strchr(line, '$') || ft_strchr(line, '~')) && ft_strcmp(quoted_limiter, line))
 		{
-			printf("line = %p\n", line);
 			free(line);
 			line = expand_variable(line, envp);
 		}
-		// printf("line = %s\n", line);
-		// printf("limiter = %s\n", limiter);
-		// printf("quoted_limiter = %s\n\n\n", quoted_limiter);
 		if (ft_strcmp(line, quoted_limiter) == 0)
 		{
 			free(line);
@@ -84,7 +79,6 @@ void handle_child(const char *limiter, int tmp_fd, char **envp)
 			close(tmp_fd);
 			return ;
 		}
-		// printf("ft_strcmp = %d\n\n\n", ft_strcmp(line, quoted_limiter) == 0);
 		write(tmp_fd, line, strlen(line));
 		write(tmp_fd, "\n", 1);
 		free(line);

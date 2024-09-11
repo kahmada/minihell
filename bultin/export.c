@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   export.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: chourri <chourri@student.42.fr>            +#+  +:+       +#+        */
+/*   By: kahmada <kahmada@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/20 17:29:48 by kahmada           #+#    #+#             */
-/*   Updated: 2024/09/10 17:25:06 by chourri          ###   ########.fr       */
+/*   Updated: 2024/09/11 16:23:46 by kahmada          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,7 +33,6 @@ void	validate_and_parse_export(const char *arg, char **key, char **value, int *a
 	if (!*value || *(*value + 1) == '\0')
 	{
 		free(*key);
-		*key = NULL;
 		*value = NULL;
 		return ;
 	}
@@ -78,11 +77,12 @@ void	handle_export_modes(t_env **env, char *key, char *value, int append_mode)
 
 void	bult_export(t_command *cmd, t_env **env)
 {
+	// print_command(cmd);
+	// exit(1);
 	int		i;
 	char	*key;
 	char	*value;
 	int		append_mode;
-	char	*ex;
 
 	i = 1;
 	if (!cmd->args[i])
@@ -93,17 +93,17 @@ void	bult_export(t_command *cmd, t_env **env)
 	while (cmd->args[i])
 	{
 		validate_and_parse_export(cmd->args[i], &key, &value, &append_mode);
-		if (!key || !value)
-		{
-			ex = manage_exit_status(1, 1);
-			free(ex);
-			i++;
-			continue ;
-		}
+		// printf("key is==>>%s\n", key);
+		// printf("value is===>>%s\n", value);
+		// if (!key || !value)
+		// {
+		// 	manage_exit_status(1, 1);
+		// 	i++;
+		// 	continue ;
+		// }
 		handle_export_modes(env, key, value, append_mode);
-		free(key);
+		// free(key);
 		i++;
 	}
-	ex = manage_exit_status(0, 1);
-	free(ex);
+	manage_exit_status(0, 1);
 }

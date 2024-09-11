@@ -6,7 +6,7 @@
 /*   By: kahmada <kahmada@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/25 15:38:03 by kahmada           #+#    #+#             */
-/*   Updated: 2024/09/10 12:19:46 by kahmada          ###   ########.fr       */
+/*   Updated: 2024/09/10 19:41:02 by kahmada          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,7 +21,14 @@ void	add_env(t_env **env, char *key, char *value)
 	if (!new)
 		return ;
 	new->key = ft_strdup(key);
+	if(new->value)
+        new->value = ft_strdup(value);
+	else
+		new->value = NULL;
+	// if (new->value)
 	new->value = ft_strdup(value);
+	// else
+	// 	new->value = NULL;
 	new->next = NULL;
 	if (*env == NULL)
 		*env = new;

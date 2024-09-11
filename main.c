@@ -6,12 +6,13 @@
 /*   By: chourri <chourri@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/12 16:02:24 by chourri           #+#    #+#             */
-/*   Updated: 2024/09/10 19:21:20 by chourri          ###   ########.fr       */
+/*   Updated: 2024/09/11 20:46:07 by chourri          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
+int sig_received = 0;
 void	error(void)
 {
 	write(2, "ERROR\n", 6);
@@ -289,18 +290,17 @@ char **process_command(char *input, char **envp)
 		if (output)
 		{
 			lst = build_token_list(output); //no leaks
+			lst->flag = 0;
 			// print_list(lst);
 			// printf("\n---------------------------------------------------------------\n");
 			if (lst)
 			{
 				// parse_quotes(input);
 				//parse syntax error no leaks
-				if(parsing(lst))
+				if(parsing(lst, envp))
 				{
-					// printf("EXIT STATUS : %p\n", manage_exit_status(0, 0));
-					// printf("lst : %p\n", lst);
-					// printf("output : %p\n", output);
 					// free(manage_exit_status(0,0))
+
 					return (free_token_list(lst),free(output), envp);
 				}
 				// printf("\n\n-------------------------------------BEFORE-----------------------------------------\n\n");
@@ -393,7 +393,7 @@ int main(int ac, char **av, char **envp)
 			// free(ex);
 			break;
 		}
-		envp_copy = process_input(input, envp_copy); // when I remove it : no leaks but no changes to the env when I export sth
+		envp_copy = process_input(input, envp_copy);
 		free(input);
 		input = readline("minihell$ ");
 	}

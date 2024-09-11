@@ -6,7 +6,7 @@
 /*   By: chourri <chourri@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/12 15:51:23 by chourri           #+#    #+#             */
-/*   Updated: 2024/09/10 19:02:15 by chourri          ###   ########.fr       */
+/*   Updated: 2024/09/11 18:15:49 by chourri          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,6 +27,7 @@
 #define NON_PRINTABLE_CHAR '\x7F'
 // #define NON_PRINTABLE_CHAR '@'
 
+int sig_received;
 // extern int	sig_received;
 typedef enum s_type
 {
@@ -53,6 +54,7 @@ typedef struct s_token
 	char	*data;
 	t_type	type;
 	int		in_quotes;
+	int		flag;
 	char	*exit_status;
 	struct s_token	*next;
 	struct s_token	*previous;
@@ -127,7 +129,9 @@ t_token	*ft_lstnew(char *data, t_type type);
 // t_token	*ft_lstlast(t_token *lst);
 t_token	*last_token(t_token *head);
 int	parse_quotes(char *input);
-int parsing(t_token *lst);
+// int parsing(t_token *lst);
+int parsing(t_token *lst, char **envp);
+
 int	is_alphabet(char c);
 void    print_env(char **envp);
 // void handle_dollar(t_token *tokens, char **envp);
@@ -162,7 +166,7 @@ void	setup_fork_procs(t_command *proc1_info, t_command *proc2_info, int pipefd[]
 void	child_proc2(char **cmd_arg, int pi_fd[], char *envp[], const char *outf);
 void handle_process(const char *limiter, int fd, char *file_name, t_command *cmd, char **envp);
 void handle_here_doc_redirect(t_command *cmd);
-int handle_heredoc_N(t_token *tokens);
+// int handle_heredoc_N(t_token *tokens);
 void	error(void);
 void	cleanup_2darray(char **cmd_args1, char **cmd_args2);
 char **handle_builtin(t_command *cmd, char **envp);
@@ -193,6 +197,8 @@ int her(t_command *cmd, char **envp);
 void handle_child(const char *limiter, int tmp_fd, char **envp);
 //signals
 void	SIGINT_handler(int s);
+void signal_handler_heredoc(int signal);
+
 // void	SIGQUIT_handler(int signal);
 
 //try

@@ -6,18 +6,18 @@
 #    By: chourri <chourri@student.42.fr>            +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/06/12 15:51:05 by chourri           #+#    #+#              #
-#    Updated: 2024/09/09 18:46:50 by chourri          ###   ########.fr        #
+#    Updated: 2024/09/11 14:51:02 by chourri          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
 NAME   = minishell
 HEADER = minishell.h
 CC     = cc
-# CFLAGS = -Wall -Wextra -Werror -fsanitize=address -g\
-#  -I $(shell brew --prefix readline)/include
-
-CFLAGS = -Wall -Wextra -Werror \
+CFLAGS = -Wall -Wextra -Werror -fsanitize=address -g\
  -I $(shell brew --prefix readline)/include
+
+# CFLAGS = -Wall -Wextra -Werror \
+#  -I $(shell brew --prefix readline)/include
 
 LDFLAGS = -lreadline \
 -L $(shell brew --prefix readline)/lib
