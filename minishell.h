@@ -6,7 +6,7 @@
 /*   By: chourri <chourri@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/12 15:51:23 by chourri           #+#    #+#             */
-/*   Updated: 2024/09/11 18:15:49 by chourri          ###   ########.fr       */
+/*   Updated: 2024/09/12 10:29:39 by chourri          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -216,6 +216,7 @@ void remove_quotes_END(t_command *cmd);
 void free_token_newlist(t_token *lst);
 char	*manage_exit_status(int status, int set_flag);
 // char *expand_variable(const char *str, char **envp);
+void	free_command_list(t_command *cmd_list);
 
 
 #endif

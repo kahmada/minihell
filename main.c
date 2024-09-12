@@ -3,14 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: kahmada <kahmada@student.42.fr>            +#+  +:+       +#+        */
+/*   By: chourri <chourri@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/12 16:02:24 by chourri           #+#    #+#             */
-<<<<<<< HEAD
-/*   Updated: 2024/09/11 20:46:07 by chourri          ###   ########.fr       */
-=======
-/*   Updated: 2024/09/10 19:35:09 by kahmada          ###   ########.fr       */
->>>>>>> 4eacfa3d6bdebdc61c8070c625d60f7808ec33e5
+/*   Updated: 2024/09/12 11:30:57 by chourri          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -301,12 +297,12 @@ char **process_command(char *input, char **envp)
 			{
 				// parse_quotes(input);
 				//parse syntax error no leaks
-				if(parsing(lst, envp))
-				{
-					// free(manage_exit_status(0,0))
+				// if(parsing(lst, envp))
+				// {
+				// 	// free(manage_exit_status(0,0))
 
-					return (free_token_list(lst),free(output), envp);
-				}
+				// 	return (free_token_list(lst),free(output), envp);
+				// }
 				// printf("\n\n-------------------------------------BEFORE-----------------------------------------\n\n");
 				ft_expand(lst, envp); //no leaks
 				// print_list(lst);
@@ -319,7 +315,13 @@ char **process_command(char *input, char **envp)
 				// print_list(new_lst);
 				t_command *cmd = build_cmd(new_lst);
 				if(her(cmd, envp))
+				{
+					free_token_list(lst);
+					free_token_list(new_lst);
+					free_command_list(cmd);
+					free(output);
 					return(envp);
+				}
 				remove_quotes_END(cmd);
 				// print_command(cmd); //no leaks until here
 				// printf("-----COMMAND LINKED LIST-----\n\n");
@@ -382,7 +384,7 @@ int main(int ac, char **av, char **envp)
 {
 	char *input;
 	char **envp_copy;
-	// rl_catch_signals = 0; //to not print ^C in the prompt
+	rl_catch_signals = 0; //to not print ^C in the prompt
 	signal(SIGQUIT, SIG_IGN);
 	signal(SIGINT, SIGINT_handler);
 	envp_copy = ft_envp_copy(envp);
