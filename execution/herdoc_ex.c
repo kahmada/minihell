@@ -6,7 +6,7 @@
 /*   By: chourri <chourri@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/28 16:33:51 by kahmada           #+#    #+#             */
-/*   Updated: 2024/09/12 11:32:21 by chourri          ###   ########.fr       */
+/*   Updated: 2024/09/12 12:31:21 by chourri          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -72,7 +72,10 @@ void handle_child(const char *limiter, int tmp_fd, char **envp)
 			break;
 		}
 		else if (!flag && (ft_strchr(line, '$') || ft_strchr(line, '~')) && ft_strcmp(quoted_limiter, line))
+		{
+			free(line);
 			line = expand_variable(line, envp);
+		}
 		if (ft_strcmp(line, quoted_limiter) == 0)
 		{
 			free(line);
@@ -160,7 +163,6 @@ int her(t_command *cmd, char **envp)
 					dup2(fd, 0);
 					close(fd);
 					sig_received = 0;
-					// free_command_list(start);
 					return(1);
 				}
 			}
