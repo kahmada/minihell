@@ -6,7 +6,7 @@
 /*   By: kahmada <kahmada@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/26 16:20:58 by kahmada           #+#    #+#             */
-/*   Updated: 2024/09/10 19:40:43 by kahmada          ###   ########.fr       */
+/*   Updated: 2024/09/12 18:14:57 by kahmada          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -65,5 +65,8 @@ void	update_environment(t_env **env, char *key, char *value, int append_mode)
 		existing->value = ft_strdup(value);
 	}
 	else
+	{
+		// printf("here again\n");
 		add_env(env, key, value);
+	}
 }

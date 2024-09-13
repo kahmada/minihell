@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   env.c                                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: chourri <chourri@student.42.fr>            +#+  +:+       +#+        */
+/*   By: kahmada <kahmada@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/28 18:28:47 by kahmada           #+#    #+#             */
-/*   Updated: 2024/09/10 17:25:37 by chourri          ###   ########.fr       */
+/*   Updated: 2024/09/12 18:18:31 by kahmada          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,7 +26,8 @@ void	bult_env(t_env *env)
 	tmp = env;
 	while (tmp)
 	{
-		printf("%s=%s\n", tmp->key, tmp->value);
+		if (tmp->key && tmp->value && tmp->value[0])
+			printf("%s=%s\n", tmp->key, tmp->value);
 		tmp = tmp->next;
 	}
 	ex = manage_exit_status(0, 1);

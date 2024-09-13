@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ex_cmd.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: chourri <chourri@student.42.fr>            +#+  +:+       +#+        */
+/*   By: kahmada <kahmada@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/27 11:53:32 by kahmada           #+#    #+#             */
-/*   Updated: 2024/09/10 19:21:38 by chourri          ###   ########.fr       */
+/*   Updated: 2024/09/13 19:01:14 by kahmada          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -103,53 +103,37 @@ pid_t	execute_piped_cmd(t_command *cmd, char **envp, int *input_fd)
 
 void	wait_for_children(int *child_pids, int count)
 {
-	int	status;
-	int	i;
+	int		status;
+	int		i;
 	char	*ex;
+
 	i = -1;
-	// while (++i < count)
-	// {
-	// 	waitpid(child_pids[i], &status, 0);
-	// 	if (WIFSIGNALED(status) && WTERMSIG(status) == SIGQUIT)
-	// 	{
-	// 		if (WIFEXITED(status))
-	// 		{
-	// 			ex = manage_exit_status(WEXITSTATUS(status), 1);
-	// 			free(ex);
-	// 		}
-	// 		write(1, "Quit: 3\n", 9);
-	// 	}
-	// 	else if (WIFSIGNALED(status) && WTERMSIG(status) == SIGINT)
-	// 	{
-	// 		write(1, "\n", 1);
-	// 		ex = manage_exit_status(WEXITSTATUS(status), 1);
-	// 		free(ex);
-	// 	}
-	// }
 	while (++i < count)
 	{
 		waitpid(child_pids[i], &status, 0);
 		if (WIFEXITED(status))
 		{
 			ex = manage_exit_status(WEXITSTATUS(status), 1);
-			free(ex);
+			free(ex); // Free the allocated string after use
 		}
 		else if (WIFSIGNALED(status))
 		{
 			if (WTERMSIG(status) == SIGQUIT)
 			{
-				write (1, "QUIT: 3\n", 8);
+				write(1, "QUIT: 3\n", 8);
 				ex = manage_exit_status(131, 1);
+				free(ex); // Free the allocated string after use
 			}
 			else if (WTERMSIG(status) == SIGINT)
 			{
-				write (1, "\n", 1);
+				write(1, "\n", 1);
 				ex = manage_exit_status(130, 1);
+				free(ex); // Free the allocated string after use
 			}
-			free(ex);
 		}
 	}
 }
+
 int	count_commands(t_command *cmd)
 {
 	int	count;

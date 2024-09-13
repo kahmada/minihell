@@ -37,7 +37,3 @@ envp LEAKS
 //test
 export a="'"
 $a
-
-execute_cmd function : this test doesnt work as expected :
-"ls" "-l" | "ls "
-
