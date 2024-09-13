@@ -6,7 +6,7 @@
 /*   By: chourri <chourri@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/12 15:51:23 by chourri           #+#    #+#             */
-/*   Updated: 2024/09/12 10:29:39 by chourri          ###   ########.fr       */
+/*   Updated: 2024/09/13 14:01:11 by chourri          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,10 +25,10 @@
 #include <readline/history.h>
 # include <sys/stat.h>
 #define NON_PRINTABLE_CHAR '\x7F'
-// #define NON_PRINTABLE_CHAR '@'
+
 
 int sig_received;
-// extern int	sig_received;
+
 typedef enum s_type
 {
 	COMMAND = 1,
@@ -46,22 +46,20 @@ typedef enum s_type
 	SPAACE,
 	TAAB,
 	DS
-	// END,
-	// ERROR,
 }				t_type;
+
 typedef struct s_token
 {
 	char	*data;
 	t_type	type;
 	int		in_quotes;
 	int		flag;
+	int		sig_flag;
 	char	*exit_status;
 	struct s_token	*next;
 	struct s_token	*previous;
 	// int fd_her;
 }			t_token;
-
-
 
 typedef struct s_command
 {
@@ -77,15 +75,15 @@ typedef struct s_command
 
 typedef struct s_redirect_fds
 {
-    int input_fd;
-    int output_fd;
+	int input_fd;
+	int output_fd;
 } t_redirect_fds;
 
 typedef struct s_env
 {
-    char *key;
-    char *value;
-    struct s_env *next;
+	char *key;
+	char *value;
+	struct s_env *next;
 } t_env;
 
 
@@ -106,31 +104,68 @@ typedef struct s_v
 	unsigned int	len;
 }	t_v;
 //
-int	sig_flag;
+
+
+
+//parsing :
+//add_npc_to_input
+void handle_quotes(char *input, char **new, int *i);
+void handle_dollar_sign(char *input, char **new, int *i);
+void handle_heredoc_append(char *input, char **new, int *i);
+void handle_pipe_in_out_redirections(char *input, char **new, int *i);
+void handle_exit_status(char *input, char **new, int *i);
+void handle_space_tab(char *input, char **new, int *i);
+void handle_star(char *input, char **new, int *i);
+int calculate_len(char *input);
+void add_npc_to_cmd(char *input, char **new_input);
+
+//parse_error_syntax
+int	redirection_symbols(int type_symbol);
+int	ft_linked_list_search_redirect_symbols(t_token *lst);
+void handle_child_error(const char *limiter, t_token *lst);
+
+void	parse_error(char *msg);
+int handle_heredoc(t_token *current, t_token *lst);
+int redirect_in_parsing(t_token *lst);
+int	redirect_out_parsing(t_token *lst);
+int	redirect_append(t_token *lst);
+int	parse_quotes(char *s);
+
+//build_token_list
+t_token* build_token_list(char *output);
+int is_combined(char **tokens, int i);
+void update_last_token_quotes(t_token *lst, int in_quotes);
+void handle_combined_tokens(t_token **lst, char **tokens, int *i);
+t_type determine_redirect_or_special(char *token);
+t_type determine_quote_type(char *token, int *in_quotes);
+
+
+
+
+
+
+
+
+
+
+
+
+
 char **f_update_envp(char **envp, char **last_envp);
 void free_2d_array(char **array);
 void print_command(t_command *cmd);
-void add_npc_to_cmd(char *input, char **new_input);
 // char	**ft_split(char *str);
 char	**ft_split_tokens(char const *s, char c);
 char	**ft_split_cmd(char const *s);
 char	**ft_split_cmd_quote(char const *s);
 void	free_word_array(char **array);
-
-t_token* build_token_list(char *output);
 void print_list(t_token *lst);
 void free_token_list(t_token *lst);
-//old
-// void ft_lstadd_back(t_token **lst, t_type type, char *data);
 void	ft_lstadd_back(t_token **lst, t_token *new);
 t_token	*ft_lstnew(char *data, t_type type);
-
-// int	ft_strcmp(char *s1, char *s2);
-// t_token	*ft_lstlast(t_token *lst);
 t_token	*last_token(t_token *head);
-int	parse_quotes(char *input);
 // int parsing(t_token *lst);
-int parsing(t_token *lst, char **envp);
+int parsing(t_token *lst);
 
 int	is_alphabet(char c);
 void    print_env(char **envp);

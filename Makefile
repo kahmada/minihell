@@ -6,7 +6,7 @@
 #    By: chourri <chourri@student.42.fr>            +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/06/12 15:51:05 by chourri           #+#    #+#              #
-#    Updated: 2024/09/12 10:49:20 by chourri          ###   ########.fr        #
+#    Updated: 2024/09/13 12:39:32 by chourri          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -24,12 +24,17 @@ LDFLAGS = -lreadline \
 RM     = rm -f
 
 SRC = main.c \
- parsing/add_npc.c \
+ parsing/add_npc1.c \
+ parsing/add_npc2.c \
+ parsing/add_npc3.c \
  parsing/split_cmd.c \
  parsing/split_cmd_quote.c \
  parsing/split_tokens.c \
- parsing/build_token_list.c \
- parsing/parsing.c \
+ parsing/build_token_list1.c \
+ parsing/build_token_list2.c \
+ parsing/parse_error_syntax1.c \
+ parsing/parse_error_syntax2.c \
+ parsing/open_heredoc_errors.c \
  parsing/expanding.c \
  execution/ex_cmd.c\
  execution/paths.c\

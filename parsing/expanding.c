@@ -6,7 +6,7 @@
 /*   By: chourri <chourri@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/30 10:23:50 by chourri           #+#    #+#             */
-/*   Updated: 2024/09/11 12:21:02 by chourri          ###   ########.fr       */
+/*   Updated: 2024/09/13 13:03:39 by chourri          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,7 +20,6 @@ int	is_digit(char c)
 {
 	return (c >= '1' && c <= '9');
 }
-
 
 //libft_tools
 char	*ft_strndup(const char *s1, size_t n)
@@ -57,124 +56,6 @@ int	ft_strncmp(const char *s1, const char *s2, size_t n)
 	}
 	return (0);
 }
-
-//original one
-// static size_t expanded_len(char *data, char **envp)
-// {
-// 	size_t exp_len = 0;
-// 	char *start;
-// 	int var_len;
-// 	char *var;
-// 	int i;
-
-// 	while (*data)
-// 	{
-// 		if (*data == '$')
-// 		{
-// 			data++;
-// 			if (*data == '0' || *data == '-')
-// 			{
-// 				if (*data == '0')
-// 					exp_len += 4; // "bash"
-// 				else if (*data == '-')
-// 					exp_len += 5; // "himBH"
-// 				data++;
-// 			}
-// 			else if (isdigit(*data))
-// 				data++;
-// 			else
-// 			{
-// 				start = data;
-// 				while (*data && *data != ' ' && *data != '$' && is_alnum(*data))
-// 					data++;
-// 				var_len = data - start;
-// 				var = strndup(start, var_len);
-// 				i = 0;
-// 				while (envp[i])
-// 				{
-// 					if (strncmp(envp[i], var, var_len) == 0 && envp[i][var_len] == '=')
-// 					{
-// 						exp_len += strlen(envp[i] + var_len + 1);
-// 						break;
-// 					}
-// 					i++;
-// 				}
-// 				free(var);
-// 			}
-// 		} else
-// 		{
-// 			exp_len++;
-// 			data++;
-// 		}
-// 	}
-// 	return exp_len;
-// }
-
-// char *expand_variable(char *data, char **envp)
-// {
-// 	size_t exp_len;
-// 	char *exp;
-// 	char *ptr;
-// 	const char *start;
-// 	int var_len;
-// 	char *var;
-// 	char *value;
-// 	int i;
-
-// 	exp_len = expanded_len(data, envp);
-// 	exp = malloc(exp_len + 1);
-// 	if (!exp)
-// 		return NULL;
-
-// 	ptr = exp;
-// 	while (*data)
-// 	{
-// 		if (*data == '$')
-// 		{
-// 			data++;
-// 			if (*data == '0')
-// 			{
-// 				strcpy(ptr, "bash");
-// 				ptr += 4;
-// 				data++;
-// 			} else if (*data == '-')
-// 			{
-// 				strcpy(ptr, "himBH");
-// 				ptr += 5;
-// 				data++;
-// 			}
-// 			else if (isdigit(*data))
-// 				data++;
-// 			else
-// 			{
-// 				start = data;
-// 				while (*data && *data != ' ' && *data != '$' && is_alnum(*data))
-// 					data++;
-// 				var_len = data - start;
-// 				var = strndup(start, var_len);
-// 				i = 0;
-// 				value = "";
-// 				while (envp[i])
-// 				{
-// 					if (strncmp(envp[i], var, var_len) == 0 && envp[i][var_len] == '=')
-// 					{
-// 						value = envp[i] + var_len + 1;
-// 						break;
-// 					}
-// 					i++;
-// 				}
-// 				strcpy(ptr, value);
-// 				ptr += strlen(value);
-// 				free(var);
-// 			}
-// 		}
-// 		else
-// 			*ptr++ = *data++;
-// 	}
-// 	*ptr = '\0';
-// 	return exp;
-// }
-
 
 static size_t expanded_len(char *data, char **envp)
 {
@@ -213,13 +94,13 @@ static size_t expanded_len(char *data, char **envp)
 				while (*data && *data != ' ' && *data != '$' && is_alnum(*data))
 					data++;
 				var_len = data - start;
-				var = strndup(start, var_len);
+				var = ft_strndup(start, var_len);
 				i = 0;
 				while (envp[i])
 				{
-					if (strncmp(envp[i], var, var_len) == 0 && envp[i][var_len] == '=')
+					if (ft_strncmp(envp[i], var, var_len) == 0 && envp[i][var_len] == '=')
 					{
-						exp_len += strlen(envp[i] + var_len + 1);
+						exp_len += ft_strlen(envp[i] + var_len + 1);
 						break;
 					}
 					i++;
@@ -286,12 +167,12 @@ char *expand_variable(char *data, char **envp)
 				while (*data && *data != ' ' && *data != '$' && is_alnum(*data))
 					data++;
 				var_len = data - start;
-				var = strndup(start, var_len);
+				var = ft_strndup(start, var_len);
 				i = 0;
 				value = "";
 				while (envp[i])
 				{
-					if (strncmp(envp[i], var, var_len) == 0 && envp[i][var_len] == '=')
+					if (ft_strncmp(envp[i], var, var_len) == 0 && envp[i][var_len] == '=')
 					{
 						value = envp[i] + var_len + 1;
 						break;

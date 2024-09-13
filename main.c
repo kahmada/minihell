@@ -6,7 +6,7 @@
 /*   By: chourri <chourri@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/12 16:02:24 by chourri           #+#    #+#             */
-/*   Updated: 2024/09/12 11:30:57 by chourri          ###   ########.fr       */
+/*   Updated: 2024/09/13 12:45:57 by chourri          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -279,10 +279,10 @@ char **process_command(char *input, char **envp)
 	char *output = NULL;
 	t_token *new_lst = NULL;
 	t_token *lst;
+	t_command *cmd = NULL;
 
 	if (parse_quotes(input))
 		return (envp);
-	(void)lst;
 
 		//test this :  $USER>>DGDFG<< FDGDF
 		add_npc_to_cmd(input, &output); //no leaks
@@ -291,18 +291,17 @@ char **process_command(char *input, char **envp)
 		{
 			lst = build_token_list(output); //no leaks
 			lst->flag = 0;
-			// print_list(lst);
+			lst->sig_flag = 0;
+			print_list(lst);
 			// printf("\n---------------------------------------------------------------\n");
 			if (lst)
 			{
-				// parse_quotes(input);
 				//parse syntax error no leaks
-				// if(parsing(lst, envp))
-				// {
-				// 	// free(manage_exit_status(0,0))
-
-				// 	return (free_token_list(lst),free(output), envp);
-				// }
+				if(parsing(lst))
+				{
+					// free(manage_exit_status(0,0))
+					return (free_token_list(lst),free(output), envp);
+				}
 				// printf("\n\n-------------------------------------BEFORE-----------------------------------------\n\n");
 				ft_expand(lst, envp); //no leaks
 				// print_list(lst);
@@ -313,7 +312,7 @@ char **process_command(char *input, char **envp)
 				// print_list(new_lst);
 				// print_list(new_lst);
 				// print_list(new_lst);
-				t_command *cmd = build_cmd(new_lst);
+				cmd = build_cmd(new_lst);
 				if(her(cmd, envp))
 				{
 					free_token_list(lst);
@@ -326,14 +325,13 @@ char **process_command(char *input, char **envp)
 				// print_command(cmd); //no leaks until here
 				// printf("-----COMMAND LINKED LIST-----\n\n");
 				envp = execute_cmd(cmd, envp);
-				free_token_list(lst);
-				free_token_list(new_lst);
-				free_command_list(cmd);
-				lst = NULL;
 			}
+			free_token_list(lst);
+			free_token_list(new_lst);
+			free_command_list(cmd);
 			free(output);
+
 		}
-			// free(manage_exit_status(0,0));
 	return envp;
 }
 
@@ -399,6 +397,7 @@ int main(int ac, char **av, char **envp)
 			// free(ex);
 			break;
 		}
+		printf("HI\n");
 		envp_copy = process_input(input, envp_copy);
 		free(input);
 		input = readline("minihell$ ");
