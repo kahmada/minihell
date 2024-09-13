@@ -6,7 +6,7 @@
 /*   By: kahmada <kahmada@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/20 17:29:48 by kahmada           #+#    #+#             */
-/*   Updated: 2024/09/11 16:23:46 by kahmada          ###   ########.fr       */
+/*   Updated: 2024/09/13 17:49:35 by kahmada          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,7 +32,7 @@ void	validate_and_parse_export(const char *arg, char **key, char **value, int *a
 	*value = ft_strchr(*key, '=');
 	if (!*value || *(*value + 1) == '\0')
 	{
-		free(*key);
+		// free(*key);
 		*value = NULL;
 		return ;
 	}
@@ -72,38 +72,43 @@ void	handle_export_modes(t_env **env, char *key, char *value, int append_mode)
 			add_env(env, key, value);
 	}
 	else
+	{
+		// printf("enter here2");
 		update_environment(env, key, value, append_mode);
+	}
 }
 
 void	bult_export(t_command *cmd, t_env **env)
 {
-	// print_command(cmd);
-	// exit(1);
+
 	int		i;
 	char	*key;
 	char	*value;
 	int		append_mode;
+	char *ex;
 
 	i = 1;
 	if (!cmd->args[i])
 	{
 		print_export(*env);
+		ex=manage_exit_status(EXIT_SUCCESS, 1);
+		free(ex);
 		return ;
 	}
 	while (cmd->args[i])
 	{
 		validate_and_parse_export(cmd->args[i], &key, &value, &append_mode);
-		// printf("key is==>>%s\n", key);
-		// printf("value is===>>%s\n", value);
-		// if (!key || !value)
-		// {
-		// 	manage_exit_status(1, 1);
-		// 	i++;
-		// 	continue ;
-		// }
+		if (key == NULL)
+		{
+			ex=manage_exit_status(EXIT_FAILURE, 1); // Set failure status on invalid export
+			free(ex);
+			i++;
+			continue; // Skip to the next argument
+		}
 		handle_export_modes(env, key, value, append_mode);
-		// free(key);
+		free(key);
 		i++;
 	}
-	manage_exit_status(0, 1);
+	ex=manage_exit_status(EXIT_SUCCESS, 1); 
+	free(ex);
 }

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: chourri <chourri@student.42.fr>            +#+  +:+       +#+        */
+/*   By: kahmada <kahmada@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/12 16:02:24 by chourri           #+#    #+#             */
-/*   Updated: 2024/09/12 11:30:57 by chourri          ###   ########.fr       */
+/*   Updated: 2024/09/12 16:01:58 by kahmada          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -333,7 +333,6 @@ char **process_command(char *input, char **envp)
 			}
 			free(output);
 		}
-			// free(manage_exit_status(0,0));
 	return envp;
 }
 
@@ -384,7 +383,7 @@ int main(int ac, char **av, char **envp)
 {
 	char *input;
 	char **envp_copy;
-	rl_catch_signals = 0; //to not print ^C in the prompt
+	// rl_catch_signals = 0; //to not print ^C in the prompt
 	signal(SIGQUIT, SIG_IGN);
 	signal(SIGINT, SIGINT_handler);
 	envp_copy = ft_envp_copy(envp);

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   bult.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: chourri <chourri@student.42.fr>            +#+  +:+       +#+        */
+/*   By: kahmada <kahmada@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/28 18:28:18 by kahmada           #+#    #+#             */
-/*   Updated: 2024/09/10 18:50:01 by chourri          ###   ########.fr       */
+/*   Updated: 2024/09/13 18:47:37 by kahmada          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -92,9 +92,5 @@ char	**handle_builtin(t_command *cmd, char **envp)
 		bult_export(cmd, &env);
 	envp = env_to_envp(env);
 	free_env(env);
-	// free_2d_array(envp);
-	// printf("%p\n", envp_cpy);
-	// printf("%p\n", envp);
-	// printf("%p\n", env	);
 	return (envp);
 }
