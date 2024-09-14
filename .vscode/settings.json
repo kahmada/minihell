@@ -1,8 +1,0 @@
-{
-	"files.associations": {
-		"ctype.h": "c",
-		"minishell.h": "c",
-		"iterator": "c",
-		"__locale": "c"
-	}
-}

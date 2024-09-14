@@ -37,3 +37,18 @@ envp LEAKS
 //test
 export a="'"
 $a
+
+
+➜  minishell git:(master) ✗ ./minishell
+minihell$ sleep 2 | fj
+Command not found: fj
+minihell$
+ >>> minishell 17875 chourri    6   PIPE 0x1592876dbab48464    16384
+
+
+
+minihell$ ls        -la
+
+minishell 19593 chourri    5   PIPE 0x4d0a48e5211885a5    16384
+
+

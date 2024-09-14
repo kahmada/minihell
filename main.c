@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: kahmada <kahmada@student.42.fr>            +#+  +:+       +#+        */
+/*   By: chourri <chourri@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/12 16:02:24 by chourri           #+#    #+#             */
-/*   Updated: 2024/09/12 16:01:58 by kahmada          ###   ########.fr       */
+/*   Updated: 2024/09/14 10:30:14 by chourri          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -297,12 +297,12 @@ char **process_command(char *input, char **envp)
 			{
 				// parse_quotes(input);
 				//parse syntax error no leaks
-				// if(parsing(lst, envp))
-				// {
-				// 	// free(manage_exit_status(0,0))
+				if(parsing(lst))
+				{
+					// free(manage_exit_status(0,0))
 
-				// 	return (free_token_list(lst),free(output), envp);
-				// }
+					return (free_token_list(lst),free(output), envp);
+				}
 				// printf("\n\n-------------------------------------BEFORE-----------------------------------------\n\n");
 				ft_expand(lst, envp); //no leaks
 				// print_list(lst);
@@ -383,7 +383,7 @@ int main(int ac, char **av, char **envp)
 {
 	char *input;
 	char **envp_copy;
-	// rl_catch_signals = 0; //to not print ^C in the prompt
+	rl_catch_signals = 0; //to not print ^C in the prompt
 	signal(SIGQUIT, SIG_IGN);
 	signal(SIGINT, SIGINT_handler);
 	envp_copy = ft_envp_copy(envp);
