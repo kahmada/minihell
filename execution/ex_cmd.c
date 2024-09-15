@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ex_cmd.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: kahmada <kahmada@student.42.fr>            +#+  +:+       +#+        */
+/*   By: chourri <chourri@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/27 11:53:32 by kahmada           #+#    #+#             */
-/*   Updated: 2024/09/13 19:01:14 by kahmada          ###   ########.fr       */
+/*   Updated: 2024/09/15 13:40:33 by chourri          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -188,7 +188,7 @@ char	**execute_cmd(t_command *cmd, char **envp)
 	}
 	wait_for_children(child_pids, i);
 	free(child_pids);
-	signal(SIGINT, SIGINT_handler);
+	signal(SIGINT, sigint_handler);
 	return (envp);
 }
 

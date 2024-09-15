@@ -6,81 +6,92 @@
 /*   By: chourri <chourri@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/14 11:05:14 by chourri           #+#    #+#             */
-/*   Updated: 2024/09/14 11:05:25 by chourri          ###   ########.fr       */
+/*   Updated: 2024/09/15 13:48:13 by chourri          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../minishell.h"
 
-char *expand_variable(char *data, char **envp)
+void	exit_status(t_data *mydata, char **data)
 {
-	size_t exp_len;
-	char *exp;
-	char *ptr;
-	const char *start;
-	int var_len;
-	char *var;
-	char *value;
-	int i;
-	char	*ex;
-	exp_len = expanded_len(data, envp);
-	exp = malloc(exp_len + 1);
-	if (!exp)
-		return NULL;
+	mydata->ex = manage_exit_status(0, 0);
+	ft_strcpy(mydata->ptr, mydata->ex);
+	mydata->ptr += ft_strlen(mydata->ex);
+	free(mydata->ex);
+	*data += 2;
+}
 
-	ptr = exp;
+void	numeric_var(t_data *mydata, char **data)
+{
+	if (**data == '0')
+	{
+		ft_strcpy(mydata->ptr, "bash");
+		mydata->ptr += 4;
+		(*data)++;
+	}
+	else if (**data == '-')
+	{
+		ft_strcpy(mydata->ptr, "himBH");
+		mydata->ptr += 5;
+		(*data)++;
+	}
+	else if (is_digit(**data))
+		(*data)++;
+}
+
+void	expand_env_var(t_data *mydata, char **data, char **envp)
+{
+	mydata->start = *data;
+	while (**data && **data != ' ' && **data != '$' && is_alnum(**data))
+		(*data)++;
+	mydata->var_len = *data - mydata->start;
+	mydata->var = ft_strndup(mydata->start, mydata->var_len);
+	mydata->i = 0;
+	mydata->value = "";
+	while (envp[mydata->i])
+	{
+		if (ft_strncmp(envp[mydata->i], mydata->var, mydata->var_len) == 0
+			&& envp[mydata->i][mydata->var_len] == '=')
+		{
+			mydata->value = envp[mydata->i] + mydata->var_len + 1;
+			break ;
+		}
+		(mydata->i)++;
+	}
+	ft_strcpy(mydata->ptr, mydata->value);
+	mydata->ptr += strlen(mydata->value);
+	free(mydata->var);
+}
+
+void	normal_char(t_data *mydata, char **data)
+{
+	*(mydata->ptr)++ = *(*data)++;
+}
+
+char	*expand_variable(char *data, char **envp)
+{
+	t_data	mydata;
+
+	mydata.exp_len = expanded_len(data, envp);
+	mydata.exp = malloc(mydata.exp_len + 1);
+	if (!mydata.exp)
+		return (NULL);
+	mydata.ptr = mydata.exp;
 	while (*data)
 	{
-		if (*data == '$' && *(data+1) == '?')
-		{
-			ex = manage_exit_status(0, 0);
-			strcpy(ptr, ex);
-			ptr += ft_strlen(ex);
-			free(ex);
-			data += 2;
-		}
+		if (*data == '$' && *(data + 1) == '?')
+			exit_status(&mydata, &data);
 		else if (*data == '$' && is_alnum(*(data + 1)))
 		{
 			data++;
-			if (*data == '0')
-			{
-				strcpy(ptr, "bash");
-				ptr += 4;
-				data++;
-			} else if (*data == '-')
-			{
-				strcpy(ptr, "himBH");
-				ptr += 5;
-				data++;
-			}
-			else if (is_digit(*data))
-				data++;
+			if (*data == '0' || *data == '-')
+				numeric_var(&mydata, &data);
 			else
-			{
-				start = data;
-				while (*data && *data != ' ' && *data != '$' && is_alnum(*data))
-					data++;
-				var_len = data - start;
-				var = ft_strndup(start, var_len);
-				i = 0;
-				value = "";
-				while (envp[i])
-				{
-					if (ft_strncmp(envp[i], var, var_len) == 0 && envp[i][var_len] == '=')
-					{
-						value = envp[i] + var_len + 1;
-						break;
-					}
-					i++;
-				}
-				strcpy(ptr, value);
-				ptr += strlen(value);
-				free(var);
-			}
+				expand_env_var(&mydata, &data, envp);
 		}
 		else
-			*ptr++ = *data++;
+			normal_char(&mydata, &data);
 	}
-	*ptr = '\0';
-	return exp;
+	*(mydata.ptr) = '\0';
+	return (mydata.exp);
 }

@@ -6,7 +6,7 @@
 /*   By: chourri <chourri@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/12 15:51:23 by chourri           #+#    #+#             */
-/*   Updated: 2024/09/14 11:07:39 by chourri          ###   ########.fr       */
+/*   Updated: 2024/09/15 13:40:17 by chourri          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -109,8 +109,22 @@ typedef struct s_v
 //
 int sig_received;
 
+//mydata struct for expanding :
 
-
+typedef struct s_data
+{
+	size_t	exp_len;
+	char	*start;
+	size_t	var_len;
+	char	*exp;
+	char	*var;
+	char	*ptr;
+	char	*value;
+	int		i;
+	char	*ex;
+	char	*var_name;
+	char	*expanded;
+}			t_data;
 
 
 //parsing :
@@ -253,7 +267,7 @@ void	print_export(t_env *env);
 int her(t_command *cmd, char **envp);
 void handle_child(const char *limiter, int tmp_fd, char **envp);
 //signals
-void	SIGINT_handler(int s);
+void	sigint_handler(int s);
 void signal_handler_heredoc(int signal);
 
 // void	SIGQUIT_handler(int signal);

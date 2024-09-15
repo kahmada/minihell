@@ -6,7 +6,7 @@
 #    By: chourri <chourri@student.42.fr>            +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/06/12 15:51:05 by chourri           #+#    #+#              #
-#    Updated: 2024/09/14 11:05:44 by chourri          ###   ########.fr        #
+#    Updated: 2024/09/15 13:54:32 by chourri          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -38,6 +38,7 @@ SRC = main.c \
  parsing/calculate_expanded_len.c \
  parsing/expand_variable.c \
  parsing/expanding.c \
+ parsing/ft_expand.c \
  execution/ex_cmd.c\
  execution/paths.c\
  execution/split_lib.c\

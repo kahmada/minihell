@@ -6,7 +6,7 @@
 /*   By: chourri <chourri@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/28 16:33:51 by kahmada           #+#    #+#             */
-/*   Updated: 2024/09/14 14:36:30 by chourri          ###   ########.fr       */
+/*   Updated: 2024/09/15 11:24:27 by chourri          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,7 +58,8 @@ void handle_child(const char *limiter, int tmp_fd, char **envp)
 	char *line;
 	char *quoted_limiter;
 	int flag = 0;
-	// char	*tmp;
+	char	*expanded_line;
+
 	if (ft_strchr((char *)limiter, '"') || ft_strchr((char *)limiter, '\''))
 		flag = 1;
 	quoted_limiter = remove_quotes2((char *)limiter);
@@ -74,8 +75,9 @@ void handle_child(const char *limiter, int tmp_fd, char **envp)
 		}
 		if (!flag && (ft_strchr(line, '$') || ft_strchr(line, '~')) && ft_strcmp(quoted_limiter, line))
 		{
-			// free(line);
-			line = expand_variable(line, envp);
+			expanded_line = expand_variable(line, envp);
+			free(line);
+			line = expanded_line;
 		}
 		if (ft_strcmp(line, quoted_limiter) == 0)
 		{

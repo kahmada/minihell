@@ -51,4 +51,4 @@ minihell$ ls        -la
 
 minishell 19593 chourri    5   PIPE 0x4d0a48e5211885a5    16384
 
-
+while true ; do ; lsof -c minishell; sleep 1 ; clear ; done #command#

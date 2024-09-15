@@ -6,7 +6,7 @@
 /*   By: chourri <chourri@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/12 16:02:24 by chourri           #+#    #+#             */
-/*   Updated: 2024/09/14 10:30:14 by chourri          ###   ########.fr       */
+/*   Updated: 2024/09/15 13:39:56 by chourri          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -350,7 +350,7 @@ char **process_input(char *input, char **envp)
 		stdin_in = dup(0);
 		stdout_out = dup(1);
 		envp = process_command(input, envp);
-		signal(SIGINT, SIGINT_handler); //added
+		signal(SIGINT, sigint_handler); //added
 		dup2(stdout_out,1);
 		dup2(stdin_in,0);
 		close(stdin_in);
@@ -385,7 +385,7 @@ int main(int ac, char **av, char **envp)
 	char **envp_copy;
 	rl_catch_signals = 0; //to not print ^C in the prompt
 	signal(SIGQUIT, SIG_IGN);
-	signal(SIGINT, SIGINT_handler);
+	signal(SIGINT, sigint_handler);
 	envp_copy = ft_envp_copy(envp);
 	(void)ac;
 	(void)av;
