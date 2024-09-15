@@ -6,16 +6,15 @@
 /*   By: chourri <chourri@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/11 20:18:22 by chourri           #+#    #+#             */
-/*   Updated: 2024/08/17 16:59:37 by chourri          ###   ########.fr       */
+/*   Updated: 2024/09/13 12:49:02 by chourri          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../minishell.h"
 
-// "ls" "-l" || "ls "
-static size_t len_word(char const *s, char c)
+static size_t	len_word(char const *s, char c)
 {
-	size_t i;
+	size_t	i;
 
 	i = 0;
 	while (s[i] && s[i] != c)
@@ -23,10 +22,10 @@ static size_t len_word(char const *s, char c)
 	return (i);
 }
 
-static char *allocate_copy_word(char const *s, char c)
+static char	*allocate_copy_word(char const *s, char c)
 {
-	size_t len;
-	char *word;
+	size_t	len;
+	char	*word;
 
 	len = len_word(s, c);
 	word = (char *)malloc(len + 1);
@@ -37,23 +36,10 @@ static char *allocate_copy_word(char const *s, char c)
 	return (word);
 }
 
-// void	free_word_array(char **array)
-// {
-// 	int	i;
-
-// 	i = 0;
-// 	while (array[i])
-// 	{
-// 		free(array[i]);
-// 		i++;
-// 	}
-// 	free(array);
-// }
-
-static int num_words(char const *s, char c)
+static int	num_words(char const *s, char c)
 {
-	int count;
-	int i;
+	int	count;
+	int	i;
 
 	count = 0;
 	i = 0;
@@ -71,9 +57,9 @@ static int num_words(char const *s, char c)
 	return (count);
 }
 
-char **ft_split_tokens(char const *s, char c)
+char	**ft_split_tokens(char const *s, char c)
 {
-	t_var var;
+	t_var	var;
 
 	var.i = 0;
 	if (!s)

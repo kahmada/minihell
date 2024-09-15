@@ -6,7 +6,7 @@
 /*   By: kahmada <kahmada@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/20 17:29:48 by kahmada           #+#    #+#             */
-/*   Updated: 2024/09/13 17:49:35 by kahmada          ###   ########.fr       */
+/*   Updated: 2024/09/14 20:02:27 by kahmada          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -85,14 +85,13 @@ void	bult_export(t_command *cmd, t_env **env)
 	char	*key;
 	char	*value;
 	int		append_mode;
-	char *ex;
 
 	i = 1;
 	if (!cmd->args[i])
 	{
 		print_export(*env);
-		ex=manage_exit_status(EXIT_SUCCESS, 1);
-		free(ex);
+		cmd->ex = manage_exit_status(EXIT_SUCCESS, 1);
+		free(cmd->ex);
 		return ;
 	}
 	while (cmd->args[i])
@@ -100,15 +99,15 @@ void	bult_export(t_command *cmd, t_env **env)
 		validate_and_parse_export(cmd->args[i], &key, &value, &append_mode);
 		if (key == NULL)
 		{
-			ex=manage_exit_status(EXIT_FAILURE, 1); // Set failure status on invalid export
-			free(ex);
+			cmd->ex = manage_exit_status(EXIT_FAILURE, 1);
+			free(cmd->ex);
 			i++;
-			continue; // Skip to the next argument
+			continue;
 		}
 		handle_export_modes(env, key, value, append_mode);
 		free(key);
 		i++;
 	}
-	ex=manage_exit_status(EXIT_SUCCESS, 1); 
-	free(ex);
+	cmd->ex = manage_exit_status(EXIT_SUCCESS, 1); 
+	free(cmd->ex);
 }

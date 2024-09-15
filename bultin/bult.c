@@ -6,7 +6,7 @@
 /*   By: kahmada <kahmada@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/28 18:28:18 by kahmada           #+#    #+#             */
-/*   Updated: 2024/09/13 18:47:37 by kahmada          ###   ########.fr       */
+/*   Updated: 2024/09/14 20:03:32 by kahmada          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,11 +17,7 @@ char	*manage_exit_status(int status, int set_flag)
 	static int	current_status;
 
 	if (set_flag)
-	{
 		current_status = status;
-		// return (NULL);
-	}
-	// printf("CURRENT STATUS : %d\n", current_status);
 	return (ft_itoa(current_status));
 }
 
@@ -29,7 +25,6 @@ int	is_builtin(char *cmd)
 {
 	if (!cmd)
 		return (0);
-		//cd
 	if (ft_strcmp(cmd, "echo") == 0 || ft_strcmp(cmd, "cd") == 0
 		|| ft_strcmp(cmd, "pwd") == 0 || ft_strcmp(cmd, "export") == 0
 		|| ft_strcmp(cmd, "unset") == 0 || ft_strcmp(cmd, "env") == 0
@@ -37,7 +32,8 @@ int	is_builtin(char *cmd)
 		return (1);
 	return (0);
 }
-void free_env(t_env *env)
+
+void	free_env(t_env *env)
 {
 	t_env	*tmp;
 
@@ -49,9 +45,9 @@ void free_env(t_env *env)
 		free(env);
 		env = tmp;
 	}
-	// free(env);
 }
-void free_2d_array(char **array)
+
+void	free_2d_array(char **array)
 {
 	int	i;
 
@@ -63,6 +59,7 @@ void free_2d_array(char **array)
 	}
 	free(array);
 }
+
 char	**handle_builtin(t_command *cmd, char **envp)
 {
 	t_env	*env;
@@ -74,18 +71,15 @@ char	**handle_builtin(t_command *cmd, char **envp)
 	if (!env)
 		return (envp);
 	if (ft_strcmp(cmd->args[0], "env") == 0)
-		bult_env(env);
+		bult_env(env, cmd);
 	else if (ft_strcmp(cmd->args[0], "cd") == 0)
-	{
 		bult_cd(cmd, &env);
-	}
-
 	else if (ft_strcmp(cmd->args[0], "echo") == 0)
 		bult_echo(cmd);
 	else if (ft_strcmp(cmd->args[0], "exit") == 0)
 		bult_exit(cmd);
 	else if (ft_strcmp(cmd->args[0], "pwd") == 0)
-		bult_pwd();
+		bult_pwd(cmd);
 	else if (ft_strcmp(cmd->args[0], "unset") == 0)
 		bult_unset(cmd, &env);
 	else if (ft_strcmp(cmd->args[0], "export") == 0)

@@ -6,7 +6,7 @@
 /*   By: kahmada <kahmada@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/28 18:28:35 by kahmada           #+#    #+#             */
-/*   Updated: 2024/09/11 17:39:26 by kahmada          ###   ########.fr       */
+/*   Updated: 2024/09/14 19:53:21 by kahmada          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,7 +30,6 @@ void	bult_echo(t_command *cmd)
 {
 	int	i;
 	int	flag;
-	char	*ex;
 
 	i = 1;
 	flag = 0;
@@ -48,6 +47,6 @@ void	bult_echo(t_command *cmd)
 	}
 	if (flag == 0)
 		printf("\n");
-	ex = manage_exit_status(0, 1);
-	free(ex);
+	cmd->ex = manage_exit_status(0, 1);
+	free(cmd->ex);
 }

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   cd.c                                               :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: chourri <chourri@student.42.fr>            +#+  +:+       +#+        */
+/*   By: kahmada <kahmada@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/25 14:27:16 by kahmada           #+#    #+#             */
-/*   Updated: 2024/09/10 17:26:00 by chourri          ###   ########.fr       */
+/*   Updated: 2024/09/14 19:52:05 by kahmada          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,62 +28,31 @@ void	update_envp(t_env **envp, char *key, char *value)
 		tmp = tmp->next;
 	}
 }
-// void	bult_cd(t_command *cmd, t_env **envp)
-// {
-// 	(void)envp;
-// 	char	*path;
-// 	int		ret;
-// 	char	*oldpath;
-
-// 	oldpath = getenv("PWD");
-// 	if (cmd->args[1] == NULL)
-// 		path = getenv("HOME");
-// 	else
-// 		path = cmd->args[1];
-// 	ret = chdir(path);
-// 	if (ret == -1)
-// 	{
-// 		perror("minishell");
-// 		// manage_exit_status(1, 1);
-// 		free(path);
-// 		free(oldpath);
-// 		return ;
-// 	}
-// 	// manage_exit_status(0, 1);
-// 	update_envp(envp, "OLDPWD", oldpath);
-// 	update_envp(envp, "PWD", getcwd(NULL, 0));
-
-// 	// printf("%p\n", path);
-// 	// printf("%p\n", oldpath);
-// }
 
 void	bult_cd(t_command *cmd, t_env **envp)
 {
 	char	*path;
 	int		ret;
 	char	*oldpath;
-	char	*ex;
+	char	*new_path;
 
 	oldpath = getenv("PWD");
 	if (cmd->args[1] == NULL)
-		path = getenv("HOME"); // getenv result should not be freed
+		path = getenv("HOME");
 	else
 		path = cmd->args[1];
-
 	ret = chdir(path);
 	if (ret == -1)
 	{
 		perror("minishell");
-		ex = manage_exit_status(1, 1);
-		free(ex);
-		return;
+		cmd->ex = manage_exit_status(1, 1);
+		free(cmd->ex);
+		return ;
 	}
-	ex = manage_exit_status(0, 1);
-	free(ex);
+	cmd->ex = manage_exit_status(0, 1);
+	free(cmd->ex);
 	update_envp(envp, "OLDPWD", oldpath);
-
-	// getcwd allocates memory, so it needs to be freed later
-	char *new_path = getcwd(NULL, 0);
+	new_path = getcwd(NULL, 0);
 	update_envp(envp, "PWD", new_path);
-	free(new_path);  // Free only new_path, as it was dynamically allocated by getcwd()
+	free(new_path);
 }

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   exit.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: chourri <chourri@student.42.fr>            +#+  +:+       +#+        */
+/*   By: kahmada <kahmada@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/02 13:31:20 by kahmada           #+#    #+#             */
-/*   Updated: 2024/09/10 17:25:24 by chourri          ###   ########.fr       */
+/*   Updated: 2024/09/14 19:59:05 by kahmada          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -90,7 +90,6 @@ void	handle_invalid_argument(char *arg)
 
 void	bult_exit(t_command *cmd)
 {
-	char	*ex;
 	handle_invalid_argument(cmd->args[1]);
 	if (cmd->args[1] && !just_spaces(cmd->args[1]) && !cmd->args[2])
 		cmd->args[1] = ft_strtrim(cmd->args[1], " ");
@@ -100,25 +99,25 @@ void	bult_exit(t_command *cmd)
 		if (cmd->args[2])
 		{
 			fprintf(stderr, "exit\nminishell: exit: too many arguments\n");
-			ex = manage_exit_status(1, 1);
-			free(ex);
+			cmd->ex = manage_exit_status(1, 1);
+			free(cmd->ex);
 			return ;
 		}
 		if (cmd->args[1] && (ft_atoi(cmd->args[1]) > LONG_MAX))
 		{
 			fprintf(stderr, "exit\nminishell: exit: %s: numeric argument required\n",
 				cmd->args[1]);
-			ex = manage_exit_status(255, 1);
-			free(ex);
+			cmd->ex = manage_exit_status(255, 1);
+			free(cmd->ex);
 			exit(255);
 		}
 		printf("exit\n");
-		ex = manage_exit_status(atoi(cmd->args[1]), 1);
-		free(ex);
+		cmd->ex = manage_exit_status(atoi(cmd->args[1]), 1);
+		free(cmd->ex);
 		exit(atoi(cmd->args[1]));
 	}
 	printf("exit\n");
-	ex = manage_exit_status(0, 1);
-	free(ex);
+	cmd->ex = manage_exit_status(0, 1);
+	free(cmd->ex);
 	exit(0);
 }

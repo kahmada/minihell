@@ -6,21 +6,20 @@
 /*   By: kahmada <kahmada@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/28 18:28:47 by kahmada           #+#    #+#             */
-/*   Updated: 2024/09/12 18:18:31 by kahmada          ###   ########.fr       */
+/*   Updated: 2024/09/14 19:56:16 by kahmada          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../minishell.h"
 
-void	bult_env(t_env *env)
+void	bult_env(t_env *env, t_command *cmd)
 {
 	t_env	*tmp;
-	char	*ex;
 
 	if (env == NULL)
 	{
-		ex = manage_exit_status(1, 1);
-		free(ex);
+		cmd->ex = manage_exit_status(1, 1);
+		free(cmd->ex);
 		return ;
 	}
 	tmp = env;
@@ -30,8 +29,8 @@ void	bult_env(t_env *env)
 			printf("%s=%s\n", tmp->key, tmp->value);
 		tmp = tmp->next;
 	}
-	ex = manage_exit_status(0, 1);
-	free(ex);
+	cmd->ex = manage_exit_status(0, 1);
+	free(cmd->ex);
 }
 
 char	*create_env_string(t_env *env)

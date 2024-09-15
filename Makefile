@@ -6,7 +6,7 @@
 #    By: kahmada <kahmada@student.42.fr>            +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/06/12 15:51:05 by chourri           #+#    #+#              #
-#    Updated: 2024/09/13 16:41:16 by kahmada          ###   ########.fr        #
+#    Updated: 2024/09/14 17:20:44 by kahmada          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -24,12 +24,19 @@ LDFLAGS = -lreadline \
 RM     = rm -f
 
 SRC = main.c \
- parsing/add_npc.c \
+ parsing/add_npc1.c \
+ parsing/add_npc2.c \
+ parsing/add_npc3.c \
  parsing/split_cmd.c \
  parsing/split_cmd_quote.c \
  parsing/split_tokens.c \
- parsing/build_token_list.c \
- parsing/parsing.c \
+ parsing/build_token_list1.c \
+ parsing/build_token_list2.c \
+ parsing/parse_error_syntax1.c \
+ parsing/parse_error_syntax2.c \
+ parsing/open_heredoc_errors.c \
+ parsing/calculate_expanded_len.c \
+ parsing/expand_variable.c \
  parsing/expanding.c \
  execution/ex_cmd.c\
  execution/paths.c\
@@ -52,7 +59,8 @@ SRC = main.c \
  libft_tools/tools2.c \
  libft_tools/tools3.c \
  libft_tools/tools4.c \
- libft_tools/tools5.c
+ libft_tools/tools5.c \
+ libft_tools/tools6.c
 
 OBJ = $(SRC:.c=.o)
 
@@ -72,4 +80,3 @@ fclean: clean
 
 re: fclean
 	$(MAKE) all
-

@@ -6,7 +6,7 @@
 /*   By: kahmada <kahmada@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/12 15:51:23 by chourri           #+#    #+#             */
-/*   Updated: 2024/09/12 12:42:58 by kahmada          ###   ########.fr       */
+/*   Updated: 2024/09/14 20:24:09 by kahmada          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,6 +55,7 @@ typedef struct s_token
 	t_type	type;
 	int		in_quotes;
 	int		flag;
+	int		sig_flag;
 	char	*exit_status;
 	struct s_token	*next;
 	struct s_token	*previous;
@@ -66,6 +67,7 @@ typedef struct s_token
 typedef struct s_command
 {
 	char	**args;
+	char **last_envp;
 	t_type	type;
 	struct s_command	*next;
 	int fd_in;
@@ -73,6 +75,7 @@ typedef struct s_command
 	char	*outfile;
 	char **envp;
 	int pipe_fd[2];
+	char	*ex;
 }			t_command;
 
 typedef struct s_redirect_fds
@@ -106,11 +109,68 @@ typedef struct s_v
 	unsigned int	len;
 }	t_v;
 //
-int	sig_flag;
+int sig_received;
+
+
+
+
+
+//parsing :
+//add_npc_to_input
+void handle_quotes(char *input, char **new, int *i);
+void handle_dollar_sign(char *input, char **new, int *i);
+void handle_heredoc_append(char *input, char **new, int *i);
+void handle_pipe_in_out_redirections(char *input, char **new, int *i);
+void handle_exit_status(char *input, char **new, int *i);
+void handle_space_tab(char *input, char **new, int *i);
+void handle_star(char *input, char **new, int *i);
+int calculate_len(char *input);
+void add_npc_to_cmd(char *input, char **new_input);
+
+//parse_error_syntax
+int	redirection_symbols(int type_symbol);
+int	ft_linked_list_search_redirect_symbols(t_token *lst);
+void handle_child_error(const char *limiter, t_token *lst);
+
+void	parse_error(char *msg);
+int handle_heredoc(t_token *current, t_token *lst);
+int redirect_in_parsing(t_token *lst);
+int	redirect_out_parsing(t_token *lst);
+int	redirect_append(t_token *lst);
+int	parse_quotes(char *s);
+
+//build_token_list
+t_token* build_token_list(char *output);
+int is_combined(char **tokens, int i);
+void update_last_token_quotes(t_token *lst, int in_quotes);
+void handle_combined_tokens(t_token **lst, char **tokens, int *i);
+t_type determine_redirect_or_special(char *token);
+t_type determine_quote_type(char *token, int *in_quotes);
+int parsing(t_token *lst);
+
+//expanding tools6
+int	is_alnum(char c);
+int	is_digit(char c);
+char	*ft_strndup(const char *s1, size_t n);
+int	ft_strncmp(const char *s1, const char *s2, size_t n);
+int	check_heredoc_presence(t_token *token);
+//expanding
+size_t expanded_len(char *data, char **envp);
+char *expand_variable(char *data, char **envp);
+
+
+
+
+
+
+
+
+
+
+
 char **f_update_envp(char **envp, char **last_envp);
 void free_2d_array(char **array);
 void print_command(t_command *cmd);
-void add_npc_to_cmd(char *input, char **new_input);
 // char	**ft_split(char *str);
 char	**ft_split_tokens(char const *s, char c);
 char	**ft_split_cmd(char const *s);
@@ -129,8 +189,7 @@ t_token	*ft_lstnew(char *data, t_type type);
 // t_token	*ft_lstlast(t_token *lst);
 t_token	*last_token(t_token *head);
 int	parse_quotes(char *input);
-// int parsing(t_token *lst);
-int parsing(t_token *lst, char **envp);
+// int parsing(t_token *lst, char **envp);
 
 int	is_alphabet(char c);
 void    print_env(char **envp);
@@ -174,13 +233,13 @@ char **handle_builtin(t_command *cmd, char **envp);
 char **ft_envp_copy(char **envp);
 //bultin
 int is_builtin(char *cmd);
-void bult_env(t_env *env);
+void	bult_env(t_env *env, t_command *cmd);
 t_env *get_env(char ***envp, t_env *env);
 char **env_to_envp(t_env *env);
 void bult_cd(t_command *cmd, t_env **envp);
 char **ft_envp_copy(char **envp);
 void bult_echo(t_command *cmd);
-void bult_pwd(void);
+void	bult_pwd(t_command *cmd);
 t_env	*find_env(t_env *env, const char *key);
 void	bult_exit(t_command *cmd);
 void bult_unset(t_command *cmd, t_env **env);
@@ -210,7 +269,7 @@ void signal_handler_heredoc(int signal);
 
 //expanding
 void ft_expand(t_token *token, char **envp);
-int	is_alnum(char c);
+
 char *expand_variable(char *data, char **envp);
 void remove_quotes_END(t_command *cmd);
 void free_token_newlist(t_token *lst);
