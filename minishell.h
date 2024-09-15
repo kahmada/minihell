@@ -6,7 +6,7 @@
 /*   By: chourri <chourri@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/12 15:51:23 by chourri           #+#    #+#             */
-/*   Updated: 2024/09/15 13:40:17 by chourri          ###   ########.fr       */
+/*   Updated: 2024/09/15 14:14:37 by chourri          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -169,6 +169,7 @@ int	check_heredoc_presence(t_token *token);
 //expanding
 size_t expanded_len(char *data, char **envp);
 char *expand_variable(char *data, char **envp);
+void	handle_token_expansion(t_token *token, char **envp);
 
 
 
