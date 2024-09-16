@@ -6,7 +6,7 @@
 /*   By: kahmada <kahmada@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/27 11:55:39 by kahmada           #+#    #+#             */
-/*   Updated: 2024/09/04 12:23:04 by kahmada          ###   ########.fr       */
+/*   Updated: 2024/09/15 16:53:00 by kahmada          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -71,7 +71,9 @@ char *find_commande(char *cmd, char **envp)
         return NULL;
 
     // Check if the command starts with '/'
-    if (cmd[0] == '/')
+    if (cmd[0] == '.')
+        return (cmd);  
+    else if (cmd[0] == '/')
     {
         // Check if the file exists and is executable
         if (stat(cmd, &filestat) == 0)

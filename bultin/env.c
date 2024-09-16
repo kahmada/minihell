@@ -6,7 +6,7 @@
 /*   By: kahmada <kahmada@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/28 18:28:47 by kahmada           #+#    #+#             */
-/*   Updated: 2024/09/14 19:56:16 by kahmada          ###   ########.fr       */
+/*   Updated: 2024/09/15 19:00:55 by kahmada          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -86,8 +86,7 @@ char	**env_to_envp(t_env *env)
 		{
 			while (i > 0)
 				free(envp[--i]);
-			free(envp);
-			return (NULL);
+			return (free(envp), NULL);
 		}
 		i++;
 		tmp = tmp->next;

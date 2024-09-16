@@ -1,26 +1,22 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   Ctrl_c.c                                           :+:      :+:    :+:   */
+/*   ft_expand.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: kahmada <kahmada@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/07/14 19:59:26 by kahmada           #+#    #+#             */
-/*   Updated: 2024/09/15 14:20:15 by kahmada          ###   ########.fr       */
+/*   Created: 2024/09/15 13:53:28 by chourri           #+#    #+#             */
+/*   Updated: 2024/09/15 14:13:48 by kahmada          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../minishell.h"
 
-void	sigint_handler(int s)
+void	ft_expand(t_token *token, char **envp)
 {
-	char	*ex;
-
-	(void)s;
-	write(2, "\n", 1);
-	rl_on_new_line();
-	// rl_replace_line("", 0);
-	rl_redisplay();
-	ex = manage_exit_status(1, 1);
-	free (ex);
+	while (token && token->data)
+	{
+		handle_token_expansion(token, envp);
+		token = token->next;
+	}
 }

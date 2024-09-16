@@ -9,10 +9,12 @@ expanding_OLDEST_ONE.c
 expanding_try.c
 file.c
 libft_tools
+ls
 main.c
 main.o
 minishell
 minishell.h
+minishell_tester
 p
 parse_errors.tldr
 parsing

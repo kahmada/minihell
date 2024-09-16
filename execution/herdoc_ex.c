@@ -6,7 +6,7 @@
 /*   By: kahmada <kahmada@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/28 16:33:51 by kahmada           #+#    #+#             */
-/*   Updated: 2024/09/15 12:49:44 by kahmada          ###   ########.fr       */
+/*   Updated: 2024/09/16 12:04:44 by kahmada          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -121,10 +121,7 @@ void handle_process(const char *limiter, int fd, char *file_name, t_command *cmd
 		return;
 	}
 	cmd->fd_in = fd;
-	dup2(fd, 0);
-	close(fd); // Close the file descriptor after opening it
 	unlink(file_name);
-	
 }
 
 void handle_here_doc(const char *limiter, t_command *cmd, int file_counter, char **envp)
@@ -160,22 +157,24 @@ int her(t_command *cmd, char **envp)
 		i = 0;
 		while (start->args[i] != NULL && start->args[i + 1])
 		{
+			
 			if (ft_strcmp(start->args[i], "<<") == 0)
 			{
 				int fd = dup(0);
 				handle_here_doc(start->args[i + 1], start, file_counter++, envp);
+				
 				if (sig_received == 1)
 				{
-					ex = manage_exit_status(1, 1); //added
+					ex = manage_exit_status(1, 1);
 					free(ex);
 					dup2(fd, 0);
 					close(fd);
 					sig_received = 0;
 					return (1);
-				}
-				
-			}
+				}				
+			}	
 			i++;
+			
 		}
 		start = start->next;
 	}

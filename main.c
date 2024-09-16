@@ -6,7 +6,7 @@
 /*   By: kahmada <kahmada@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/12 16:02:24 by chourri           #+#    #+#             */
-/*   Updated: 2024/09/12 16:01:58 by kahmada          ###   ########.fr       */
+/*   Updated: 2024/09/16 12:15:41 by kahmada          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -297,12 +297,12 @@ char **process_command(char *input, char **envp)
 			{
 				// parse_quotes(input);
 				//parse syntax error no leaks
-				// if(parsing(lst, envp))
-				// {
-				// 	// free(manage_exit_status(0,0))
+				if(parsing(lst))
+				{
+					// free(manage_exit_status(0,0))
 
-				// 	return (free_token_list(lst),free(output), envp);
-				// }
+					return (free_token_list(lst),free(output), envp);
+				}
 				// printf("\n\n-------------------------------------BEFORE-----------------------------------------\n\n");
 				ft_expand(lst, envp); //no leaks
 				// print_list(lst);
@@ -350,7 +350,7 @@ char **process_input(char *input, char **envp)
 		stdin_in = dup(0);
 		stdout_out = dup(1);
 		envp = process_command(input, envp);
-		signal(SIGINT, SIGINT_handler); //added
+		signal(SIGINT, sigint_handler); //added
 		dup2(stdout_out,1);
 		dup2(stdin_in,0);
 		close(stdin_in);
@@ -385,11 +385,13 @@ int main(int ac, char **av, char **envp)
 	char **envp_copy;
 	// rl_catch_signals = 0; //to not print ^C in the prompt
 	signal(SIGQUIT, SIG_IGN);
-	signal(SIGINT, SIGINT_handler);
+	signal(SIGINT, sigint_handler);
 	envp_copy = ft_envp_copy(envp);
 	(void)ac;
 	(void)av;
 	input = readline("minihell$ ");
+	struct termios termios_p;
+	tcgetattr(0, &termios_p);
 	while (input)
 	{
 		if (!input)
@@ -399,44 +401,15 @@ int main(int ac, char **av, char **envp)
 			break;
 		}
 		envp_copy = process_input(input, envp_copy);
+		tcsetattr(0, 0, &termios_p);
 		free(input);
 		input = readline("minihell$ ");
 	}
 	free(envp_copy);
+	
 	return (write(2, "exit\n", 5), 0);
 }
 
-
-// int main(int ac, char **av, char **envp)
-// {
-// 	char *input;
-// 	char **envp_copy;
-
-// 	rl_catch_signals = 0; //to not print ^C in the prompt
-// 	signal(SIGQUIT, SIG_IGN);
-// 	envp_copy = ft_envp_copy(envp);
-// 	(void)ac;
-// 	(void)av;
-// 	while (1)
-// 	{
-// 		signal(SIGINT, SIGINT_handler);
-// 		input = readline("minihell$ ");
-// 		// if (sig_received == SIGINT)
-// 		// {
-// 		// 	sig_received = 0;
-// 		// 	free(input);
-// 		// 	continue;
-// 		// }
-// 		//here we handle EOF "Ctrl+"
-// 		if (!input)
-// 		{
-// 			printf("exit\n");
-// 			break;
-// 		}
-// 		envp_copy = process_input(input, envp_copy);
-// 	}
-// 	return (0);
-// }
 
 
 

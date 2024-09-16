@@ -1,26 +1,26 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   Ctrl_c.c                                           :+:      :+:    :+:   */
+/*   tool_ex.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: kahmada <kahmada@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/07/14 19:59:26 by kahmada           #+#    #+#             */
-/*   Updated: 2024/09/15 14:20:15 by kahmada          ###   ########.fr       */
+/*   Created: 2024/09/16 10:00:24 by kahmada           #+#    #+#             */
+/*   Updated: 2024/09/16 10:05:44 by kahmada          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../minishell.h"
 
-void	sigint_handler(int s)
+int	count_commands(t_command *cmd)
 {
-	char	*ex;
+	int	count;
 
-	(void)s;
-	write(2, "\n", 1);
-	rl_on_new_line();
-	// rl_replace_line("", 0);
-	rl_redisplay();
-	ex = manage_exit_status(1, 1);
-	free (ex);
+	count = 0;
+	while (cmd)
+	{
+		count++;
+		cmd = cmd->next;
+	}
+	return (count);
 }

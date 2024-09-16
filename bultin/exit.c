@@ -6,35 +6,11 @@
 /*   By: kahmada <kahmada@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/02 13:31:20 by kahmada           #+#    #+#             */
-/*   Updated: 2024/09/14 19:59:05 by kahmada          ###   ########.fr       */
+/*   Updated: 2024/09/15 19:04:57 by kahmada          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../minishell.h"
-
-char	*ft_strtrim(char const *s1, char const *set)
-{
-	size_t	start;
-	size_t	end;
-	size_t	len;
-	char	*trimmed;
-
-	start = 0;
-	if (!s1 || !set)
-		return (NULL);
-	end = ft_strlen(s1);
-	while (s1[start] && ft_strchr(set, s1[start]))
-		start++;
-	while (end > start && ft_strchr(set, s1[end - 1]))
-		end--;
-	len = end - start;
-	trimmed = (char *)malloc(len + 1);
-	if (!trimmed)
-		return (NULL);
-	ft_memcpy(trimmed, s1 + start, len);
-	trimmed[len] = '\0';
-	return (trimmed);
-}
 
 int	just_spaces(char *str)
 {
@@ -52,7 +28,7 @@ int	just_spaces(char *str)
 
 void	validate_numeric_argument(char *arg)
 {
-	int	i;
+	int		i;
 	char	*ex;
 
 	i = 0;
@@ -77,7 +53,9 @@ void	validate_numeric_argument(char *arg)
 void	handle_invalid_argument(char *arg)
 {
 	char	*ex;
-	if (arg && (arg[0] == '\0' || (!ft_strcmp(arg, "+") || !ft_strcmp(arg, "-"))))
+
+	if (arg && (arg[0] == '\0' || (!ft_strcmp(arg, "+")
+				|| !ft_strcmp(arg, "-"))))
 	{
 		fprintf(stderr, "exit\n");
 		fprintf(stderr, "minishell: exit: %s: numeric argument required\n",
@@ -86,6 +64,15 @@ void	handle_invalid_argument(char *arg)
 		free(ex);
 		exit(255);
 	}
+}
+
+void	handle_numeric_error(t_command *cmd)
+{
+	fprintf(stderr, "exit\nminishell: exit: %s: numeric argument required\n",
+		cmd->args[1]);
+	cmd->ex = manage_exit_status(255, 1);
+	free(cmd->ex);
+	exit(255);
 }
 
 void	bult_exit(t_command *cmd)
@@ -104,13 +91,7 @@ void	bult_exit(t_command *cmd)
 			return ;
 		}
 		if (cmd->args[1] && (ft_atoi(cmd->args[1]) > LONG_MAX))
-		{
-			fprintf(stderr, "exit\nminishell: exit: %s: numeric argument required\n",
-				cmd->args[1]);
-			cmd->ex = manage_exit_status(255, 1);
-			free(cmd->ex);
-			exit(255);
-		}
+			handle_numeric_error(cmd);
 		printf("exit\n");
 		cmd->ex = manage_exit_status(atoi(cmd->args[1]), 1);
 		free(cmd->ex);

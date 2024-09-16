@@ -6,47 +6,48 @@
 /*   By: kahmada <kahmada@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/25 15:38:03 by kahmada           #+#    #+#             */
-/*   Updated: 2024/09/12 18:17:11 by kahmada          ###   ########.fr       */
+/*   Updated: 2024/09/15 19:23:48 by kahmada          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../minishell.h"
 
-void add_env(t_env **env, char *key, char *value)
+int	set_env_value(t_env *new, char *value)
 {
-	t_env *new;
-	t_env *tmp;
+	new->value = ft_strdup(value);
+	if (!new->value)
+	{
+		free(new->key);
+		free(new);
+		return (0);
+	}
+	return (1);
+}
+
+void	add_env(t_env **env, char *key, char *value)
+{
+	t_env	*new;
+	t_env	*tmp;
 
 	new = (t_env *)malloc(sizeof(t_env));
 	if (!new)
-		return;
+		return ;
 	new->key = ft_strdup(key);
 	if (new->key)
 	{
-		new->value = ft_strdup(value);
-		if (!new->value)
-		{
-			free(new->key);
-			free(new);
-			return;
-		}
+		if (!set_env_value(new, value))
+			return ;
 	}
 	else
-	{
 		new->value = NULL;
-	}
 	new->next = NULL;
 	if (*env == NULL)
-	{
 		*env = new;
-	}
 	else
 	{
 		tmp = *env;
 		while (tmp->next)
-		{
 			tmp = tmp->next;
-		}
 		tmp->next = new;
 	}
 }
@@ -90,7 +91,6 @@ t_env	*get_env(char ***envp, t_env *env)
 			add_env(&env, key, value);
 			free(key);
 			free(value);
-			
 		}
 		i++;
 	}

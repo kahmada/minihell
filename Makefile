@@ -6,7 +6,7 @@
 #    By: kahmada <kahmada@student.42.fr>            +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/06/12 15:51:05 by chourri           #+#    #+#              #
-#    Updated: 2024/09/14 17:20:44 by kahmada          ###   ########.fr        #
+#    Updated: 2024/09/16 10:21:03 by kahmada          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -38,7 +38,10 @@ SRC = main.c \
  parsing/calculate_expanded_len.c \
  parsing/expand_variable.c \
  parsing/expanding.c \
+ parsing/ft_expand.c \
  execution/ex_cmd.c\
+ execution/ex_cmd_utils.c\
+ execution/tool_ex.c\
  execution/paths.c\
  execution/split_lib.c\
  execution/redirect.c\
@@ -60,7 +63,8 @@ SRC = main.c \
  libft_tools/tools3.c \
  libft_tools/tools4.c \
  libft_tools/tools5.c \
- libft_tools/tools6.c
+ libft_tools/tools6.c \
+ libft_tools/tools7.c
 
 OBJ = $(SRC:.c=.o)
 
@@ -80,3 +84,4 @@ fclean: clean
 
 re: fclean
 	$(MAKE) all
+

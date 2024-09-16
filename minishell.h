@@ -6,7 +6,7 @@
 /*   By: kahmada <kahmada@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/12 15:51:23 by chourri           #+#    #+#             */
-/*   Updated: 2024/09/14 20:24:09 by kahmada          ###   ########.fr       */
+/*   Updated: 2024/09/16 12:13:23 by kahmada          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,6 +24,7 @@
 #include <readline/readline.h>
 #include <readline/history.h>
 # include <sys/stat.h>
+#include <termios.h>
 #define NON_PRINTABLE_CHAR '\x7F'
 // #define NON_PRINTABLE_CHAR '@'
 
@@ -67,15 +68,16 @@ typedef struct s_token
 typedef struct s_command
 {
 	char	**args;
-	char **last_envp;
+
+	char *ex;
 	t_type	type;
+	char **last_envp;
 	struct s_command	*next;
 	int fd_in;
 	char	*infile;
 	char	*outfile;
 	char **envp;
 	int pipe_fd[2];
-	char	*ex;
 }			t_command;
 
 typedef struct s_redirect_fds
@@ -111,8 +113,22 @@ typedef struct s_v
 //
 int sig_received;
 
+//mydata struct for expanding :
 
-
+typedef struct s_data
+{
+	size_t	exp_len;
+	char	*start;
+	size_t	var_len;
+	char	*exp;
+	char	*var;
+	char	*ptr;
+	char	*value;
+	int		i;
+	char	*ex;
+	char	*var_name;
+	char	*expanded;
+}			t_data;
 
 
 //parsing :
@@ -157,6 +173,7 @@ int	check_heredoc_presence(t_token *token);
 //expanding
 size_t expanded_len(char *data, char **envp);
 char *expand_variable(char *data, char **envp);
+void	handle_token_expansion(t_token *token, char **envp);
 
 
 
@@ -210,10 +227,17 @@ char	*ft_strnstr(const char *haystack, const char *needle, size_t len);
 char	*ft_itoa(int n);
 char *ft_strcpy(char *dest, const char *src);
 char *ft_strcat(char *dest, const char *src);
+char	*ft_strtrim(char const *s1, char const *set);
 //execution
 char **execute_cmd(t_command *cmd, char **envp);
 char	*find_commande(char *cmd, char **envp);
 char	**ft_split_lib(char const *s, char c);
+int	count_commands(t_command *cmd);
+void	handle_parent_signals(t_command *cmd);
+char	**handle_builtin_cmd(t_command *cmd, char **envp);
+char **f_update_envp(char **envp, char **last_envp);
+void	handle_signal_termination(int status);
+void	wait_for_children(int *child_pids, int count);
 //reidrect
 void handle_redirect_append(char *filename);
 void handle_redirect_out(char *filename);
@@ -233,13 +257,13 @@ char **handle_builtin(t_command *cmd, char **envp);
 char **ft_envp_copy(char **envp);
 //bultin
 int is_builtin(char *cmd);
-void	bult_env(t_env *env, t_command *cmd);
+void bult_env(t_env *env, t_command *cmd);
 t_env *get_env(char ***envp, t_env *env);
 char **env_to_envp(t_env *env);
 void bult_cd(t_command *cmd, t_env **envp);
 char **ft_envp_copy(char **envp);
 void bult_echo(t_command *cmd);
-void	bult_pwd(t_command *cmd);
+void bult_pwd(t_command *cmd);
 t_env	*find_env(t_env *env, const char *key);
 void	bult_exit(t_command *cmd);
 void bult_unset(t_command *cmd, t_env **env);
@@ -255,7 +279,7 @@ void	print_export(t_env *env);
 int her(t_command *cmd, char **envp);
 void handle_child(const char *limiter, int tmp_fd, char **envp);
 //signals
-void	SIGINT_handler(int s);
+void	sigint_handler(int s);
 void signal_handler_heredoc(int signal);
 
 // void	SIGQUIT_handler(int signal);

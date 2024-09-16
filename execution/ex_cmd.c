@@ -6,24 +6,16 @@
 /*   By: kahmada <kahmada@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/27 11:53:32 by kahmada           #+#    #+#             */
-/*   Updated: 2024/09/14 20:25:08 by kahmada          ###   ########.fr       */
+/*   Updated: 2024/09/16 10:15:28 by kahmada          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../minishell.h"
 
-char	**handle_builtin_cmd(t_command *cmd, char **envp)
-{
-	handle_redirects(cmd);
-	envp = handle_builtin(cmd, envp);
-	cmd->ex = manage_exit_status(0, 1);
-	free(cmd->ex);
-	return (envp);
-}
-
 int	handle_command_path(char *cmd_path, char *cmd_name)
 {
 	char	*ex;
+
 	if (!cmd_path)
 	{
 		if (cmd_name)
@@ -59,7 +51,7 @@ void	child_process_execution(t_command *cmd, char **envp, int *input_fd)
 	cmd_path = find_commande(cmd->args[0], envp);
 	status = handle_command_path(cmd_path, cmd->args[0]);
 	if (status == 1 || status == 2)
-		return;
+		return ;
 	execve(cmd_path, cmd->args, envp);
 	perror("execve");
 	cmd->ex = manage_exit_status(EXIT_FAILURE, 1);
@@ -88,109 +80,50 @@ pid_t	execute_piped_cmd(t_command *cmd, char **envp, int *input_fd)
 		exit(EXIT_FAILURE);
 	}
 	else if (pid == 0)
-	{
 		child_process_execution(cmd, envp, input_fd);
-	}
-		
 	else
-	{
-		signal(SIGINT, SIG_IGN);
-		cmd->ex = manage_exit_status(127, 1);
-		free(cmd->ex);
-		signal(SIGQUIT, SIG_IGN);
-	}
+		handle_parent_signals(cmd);
 	return (pid);
 }
 
-void	wait_for_children(int *child_pids, int count)
+void	exec_pipes(t_command *cmd, char **envp, int *child_pids, int *input_fd)
 {
-	int		status;
-	int		i;
-	char	*ex;
+	int	i;
 
-	i = -1;
-	while (++i < count)
-	{
-		waitpid(child_pids[i], &status, 0);
-		if (WIFEXITED(status))
-		{
-			ex = manage_exit_status(WEXITSTATUS(status), 1);
-			free(ex); // Free the allocated string after use
-		}
-		else if (WIFSIGNALED(status))
-		{
-			if (WTERMSIG(status) == SIGQUIT)
-			{
-				write(1, "QUIT: 3\n", 8);
-				ex = manage_exit_status(131, 1);
-				free(ex); // Free the allocated string after use
-			}
-			else if (WTERMSIG(status) == SIGINT)
-			{
-				write(1, "\n", 1);
-				ex = manage_exit_status(130, 1);
-				free(ex); // Free the allocated string after use
-			}
-		}
-	}
-}
-
-int	count_commands(t_command *cmd)
-{
-	int	count;
-
-	count = 0;
+	i = 0;
 	while (cmd)
 	{
-		count++;
+		if (cmd->next == NULL && is_builtin(cmd->args[0]))
+			return ;
+		child_pids[i++] = execute_piped_cmd(cmd, envp, input_fd);
+		close(cmd->pipe_fd[1]);
+		if (*input_fd != 0)
+			close(*input_fd);
+		*input_fd = cmd->pipe_fd[0];
 		cmd = cmd->next;
 	}
-	return (count);
-}
-char **f_update_envp(char **envp, char **last_envp)
-{
-    if (envp) // Évite de libérer si c'est la même zone mémoire
-    {
-        free_2d_array(envp);  // libère l'ancien envp
-    }
-    envp = last_envp;  // affecte la nouvelle valeur
-    return (envp);
 }
 
 char	**execute_cmd(t_command *cmd, char **envp)
 {
 	int	input_fd;
-	int count;
+	int	count;
 	int	*child_pids;
-	int	i;
 
-	cmd->last_envp = NULL;
-	count = count_commands(cmd);
-	child_pids = (int *)malloc(sizeof(int) * count);
 	input_fd = 0;
-	i = 0;
 	if (!cmd)
 		return (envp);
-	while (cmd)
+	count = count_commands(cmd);
+	child_pids = (int *)malloc(sizeof(int) * count);
+	exec_pipes(cmd, envp, child_pids, &input_fd);
+	if (cmd && is_builtin(cmd->args[0]))
 	{
-		if (cmd->next == NULL && is_builtin(cmd->args[0]))
-        {
-            cmd->last_envp = handle_builtin_cmd(cmd, envp);
-            free(child_pids);
-            envp = f_update_envp(envp, cmd->last_envp);
-            return envp;
-        }
-		child_pids[i++] = execute_piped_cmd(cmd, envp, &input_fd);
-		close(cmd->pipe_fd[1]);
-		if (input_fd != 0)
-			close(input_fd);
-		input_fd = cmd->pipe_fd[0];
-		cmd = cmd->next;
+		cmd->last_envp = handle_builtin_cmd(cmd, envp);
+		envp = f_update_envp(envp, cmd->last_envp);
 	}
 	close(input_fd);
-	wait_for_children(child_pids, i);
+	wait_for_children(child_pids, count);
 	free(child_pids);
-	signal(SIGINT, SIGINT_handler);
+	signal(SIGINT, sigint_handler);
 	return (envp);
 }
-

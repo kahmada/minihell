@@ -6,7 +6,7 @@
 /*   By: kahmada <kahmada@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/09 14:52:44 by kahmada           #+#    #+#             */
-/*   Updated: 2024/09/14 20:04:17 by kahmada          ###   ########.fr       */
+/*   Updated: 2024/09/15 19:21:06 by kahmada          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,16 +20,15 @@ void	bult_pwd(t_command *cmd)
 	if (cwd == NULL)
 	{
 		perror("minishell");
-		cmd->ex = manage_exit_status(EXIT_FAILURE, 1); // Set failure status
+		cmd->ex = manage_exit_status(EXIT_FAILURE, 1);
 		free(cmd->ex);
-		return;
+		return ;
 	}
 	printf("%s\n", cwd);
-	cmd->ex = manage_exit_status(EXIT_SUCCESS, 1); // Set success status
+	cmd->ex = manage_exit_status(EXIT_SUCCESS, 1);
 	free(cmd->ex);
 	free(cwd);
 }
-
 
 int	unset_variable(t_env **env, const char *key)
 {

@@ -6,11 +6,21 @@
 /*   By: kahmada <kahmada@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/28 18:28:35 by kahmada           #+#    #+#             */
-/*   Updated: 2024/09/14 19:53:21 by kahmada          ###   ########.fr       */
+/*   Updated: 2024/09/16 12:16:38 by kahmada          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../minishell.h"
+
+void	ft_putstr_fd(char *s, int fd)
+{
+	int	len;
+
+	if (!s || fd < 0)
+		return ;
+	len = ft_strlen(s);
+	write(fd, s, len);
+}
 
 int	contain_n(char *str)
 {
@@ -40,13 +50,13 @@ void	bult_echo(t_command *cmd)
 	}
 	while (cmd->args[i])
 	{
-		printf("%s", cmd->args[i]);
+		ft_putstr_fd(cmd->args[i], 1);
 		if (cmd->args[i + 1])
-			printf(" ");
+			write(1, " ", 1);
 		i++;
 	}
 	if (flag == 0)
-		printf("\n");
+		write(1, "\n", 1);
 	cmd->ex = manage_exit_status(0, 1);
 	free(cmd->ex);
 }
