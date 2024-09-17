@@ -6,7 +6,7 @@
 /*   By: chourri <chourri@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/12 15:51:23 by chourri           #+#    #+#             */
-/*   Updated: 2024/09/17 12:53:11 by chourri          ###   ########.fr       */
+/*   Updated: 2024/09/17 13:02:26 by chourri          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -183,7 +183,8 @@ int	check_heredoc_presence(t_token *token);
 size_t expanded_len(char *data, char **envp);
 char *expand_variable(char *data, char **envp);
 void	handle_token_expansion(t_token *token, char **envp);
-
+void ft_expand(t_token *token, char **envp);
+char *expand_variable(char *data, char **envp);
 //build_cmd_tools
 char	*ft_strjoin_space(char const *s1, char const *s2);
 int	is_redirection_symbol(int type);
@@ -196,21 +197,10 @@ t_token *build_new_tokens_pipe(t_token *token);
 t_command	*build_cmd(t_token *new_token);
 void	remove_quotes_end(t_command *cmd);
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+//signals
+void	sigint_handler(int s);
+void signal_handler_heredoc(int signal);
+//////parsing end
 
 
 char **f_update_envp(char **envp, char **last_envp);
@@ -292,35 +282,13 @@ void bult_export(t_command *cmd, t_env **env);
 int is_valid_variable_name(char *key);
 void add_env(t_env **env, char *key, char *value);
 void ft_remove_quotes(char **str);
-// char	*manage_exit_status(int status, int set_flag);
 void	update_envp(t_env **envp, char *key, char *value);
 void	update_environment(t_env **env, char *key, char *value, int append_mode);
 void	print_export(t_env *env);
 //
 int her(t_command *cmd, char **envp);
 void handle_child(const char *limiter, int tmp_fd, char **envp);
-//signals
-void	sigint_handler(int s);
-void signal_handler_heredoc(int signal);
-
-// void	SIGQUIT_handler(int signal);
-
-//try
-// void	handle_signal(int sig);
-// void	setup_sig_handlers(void);
-//try
-
-// void	SIGINT_HEREDOC_handler(int signal);
-
-//expanding
-void ft_expand(t_token *token, char **envp);
-
-char *expand_variable(char *data, char **envp);
-void remove_quotes_END(t_command *cmd);
-void free_token_newlist(t_token *lst);
 char	*manage_exit_status(int status, int set_flag);
-// char *expand_variable(const char *str, char **envp);
-void	free_command_list(t_command *cmd_list);
 
 
 #endif

@@ -6,7 +6,7 @@
 /*   By: chourri <chourri@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/12 16:20:13 by chourri           #+#    #+#             */
-/*   Updated: 2024/09/09 16:56:33 by chourri          ###   ########.fr       */
+/*   Updated: 2024/09/17 13:01:47 by chourri          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -175,17 +175,3 @@ void free_token_list(t_token *lst)
 		current = next;
 	}
 }
-
-
-// void free_token_newlist(t_token *lst)
-// {
-// 	t_token *current = lst;
-// 	while (current != NULL)
-// 	{
-// 	t_token *next = current->next;
-// 	// printf("data = %p\n", current->data);
-// 	free(current->data); //should be
-// 	free(current);
-// 	current = next;
-// 	}
-// }
