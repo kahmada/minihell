@@ -6,7 +6,7 @@
 /*   By: chourri <chourri@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/14 11:05:14 by chourri           #+#    #+#             */
-/*   Updated: 2024/09/17 12:45:34 by chourri          ###   ########.fr       */
+/*   Updated: 2024/09/17 21:45:48 by chourri          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -66,9 +66,7 @@ void	expand_variable_value(char **data, char **ptr, char **envp)
 	else if (is_digit(**data))
 		(*data)++;
 	else
-	{
 		expand_env_variable(data, ptr, envp);
-	}
 }
 
 char	*expand_variable(char *data, char **envp)
@@ -84,6 +82,11 @@ char	*expand_variable(char *data, char **envp)
 	{
 		if (*data == '$' && *(data + 1) == '?')
 			exit_status(&data, &mydata.ptr);
+		else if (*data == '$' && *(data + 1) == '$')
+		{
+			*mydata.ptr++ = *data++;
+			*mydata.ptr++ = *data++;
+		}
 		else if (*data == '$' && is_alnum(*(data + 1)))
 		{
 			data++;

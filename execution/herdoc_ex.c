@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   herdoc_ex.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: kahmada <kahmada@student.42.fr>            +#+  +:+       +#+        */
+/*   By: chourri <chourri@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/28 16:33:51 by kahmada           #+#    #+#             */
-/*   Updated: 2024/09/17 15:34:36 by kahmada          ###   ########.fr       */
+/*   Updated: 2024/09/17 21:34:10 by chourri          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -85,7 +85,7 @@ void handle_child(const char *limiter, int tmp_fd, char **envp)
 			free(line);
 			free(quoted_limiter);
 			close(tmp_fd);
-			return;
+			return ;
 		}
 		write(tmp_fd, line, ft_strlen(line));
 		write(tmp_fd, "\n", 1);
@@ -161,12 +161,12 @@ int her(t_command *cmd, char **envp)
 		i = 0;
 		while (start->args[i] != NULL && start->args[i + 1])
 		{
-			
+
 			if (ft_strcmp(start->args[i], "<<") == 0)
 			{
 				int fd = dup(0);
 				handle_here_doc(start->args[i + 1], start, file_counter++, envp);
-				
+
 				if (sig_received == 1)
 				{
 					ex = manage_exit_status(1, 1);
@@ -175,10 +175,10 @@ int her(t_command *cmd, char **envp)
 					close(fd);
 					sig_received = 0;
 					return (1);
-				}				
-			}	
+				}
+			}
 			i++;
-			
+
 		}
 		start = start->next;
 	}
