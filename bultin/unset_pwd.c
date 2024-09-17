@@ -6,7 +6,11 @@
 /*   By: kahmada <kahmada@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/09 14:52:44 by kahmada           #+#    #+#             */
+<<<<<<< HEAD
 /*   Updated: 2024/09/15 19:21:06 by kahmada          ###   ########.fr       */
+=======
+/*   Updated: 2024/09/13 17:49:48 by kahmada          ###   ########.fr       */
+>>>>>>> 2e4895a5baa2e54579d2c8964c1a02732d564670
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,11 +19,13 @@
 void	bult_pwd(t_command *cmd)
 {
 	char	*cwd;
+	char *ex;
 
 	cwd = getcwd(NULL, 0);
 	if (cwd == NULL)
 	{
 		perror("minishell");
+<<<<<<< HEAD
 		cmd->ex = manage_exit_status(EXIT_FAILURE, 1);
 		free(cmd->ex);
 		return ;
@@ -27,8 +33,18 @@ void	bult_pwd(t_command *cmd)
 	printf("%s\n", cwd);
 	cmd->ex = manage_exit_status(EXIT_SUCCESS, 1);
 	free(cmd->ex);
+=======
+		ex=manage_exit_status(EXIT_FAILURE, 1); // Set failure status
+		free(ex);
+		return;
+	}
+	printf("%s\n", cwd);
+	ex=manage_exit_status(EXIT_SUCCESS, 1); // Set success status
+	free(ex);
+>>>>>>> 2e4895a5baa2e54579d2c8964c1a02732d564670
 	free(cwd);
 }
+
 
 int	unset_variable(t_env **env, const char *key)
 {
@@ -59,18 +75,25 @@ int	unset_variable(t_env **env, const char *key)
 void	bult_unset(t_command *cmd, t_env **env)
 {
 	int	i;
+	char *ex;
 
 	i = 1;
 	if (!cmd->args[i])
 	{
+<<<<<<< HEAD
 		cmd->ex = manage_exit_status(1, 1);
 		free(cmd->ex);
+=======
+		ex=manage_exit_status(1, 1);
+		free(ex);
+>>>>>>> 2e4895a5baa2e54579d2c8964c1a02732d564670
 		return ;
 	}
 	while (cmd->args[i])
 	{
 		if (unset_variable(env, cmd->args[i]))
 		{
+<<<<<<< HEAD
 			cmd->ex = manage_exit_status(0, 1);
 			free(cmd->ex);
 		}
@@ -78,6 +101,15 @@ void	bult_unset(t_command *cmd, t_env **env)
 		{
 			cmd->ex = manage_exit_status(1, 1);
 			free(cmd->ex);
+=======
+			ex=manage_exit_status(0, 1);
+			free(ex);
+		}
+		else
+		{
+			ex=manage_exit_status(1, 1);
+			free(ex);
+>>>>>>> 2e4895a5baa2e54579d2c8964c1a02732d564670
 		}
 		i++;
 	}

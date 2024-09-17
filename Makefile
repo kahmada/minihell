@@ -6,7 +6,11 @@
 #    By: kahmada <kahmada@student.42.fr>            +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/06/12 15:51:05 by chourri           #+#    #+#              #
+<<<<<<< HEAD
 #    Updated: 2024/09/17 14:50:23 by kahmada          ###   ########.fr        #
+=======
+#    Updated: 2024/09/17 11:28:36 by chourri          ###   ########.fr        #
+>>>>>>> 2e4895a5baa2e54579d2c8964c1a02732d564670
 #                                                                              #
 # **************************************************************************** #
 
@@ -66,8 +70,12 @@ SRC = main.c \
  libft_tools/tools4.c \
  libft_tools/tools5.c \
  libft_tools/tools6.c \
+<<<<<<< HEAD
  libft_tools/tools7.c \
  libft_tools/tools8.c
+=======
+ libft_tools/tools7.c
+>>>>>>> 2e4895a5baa2e54579d2c8964c1a02732d564670
 
 OBJ = $(SRC:.c=.o)
 

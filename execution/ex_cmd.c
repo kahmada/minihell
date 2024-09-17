@@ -6,7 +6,11 @@
 /*   By: kahmada <kahmada@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/27 11:53:32 by kahmada           #+#    #+#             */
+<<<<<<< HEAD
 /*   Updated: 2024/09/16 10:15:28 by kahmada          ###   ########.fr       */
+=======
+/*   Updated: 2024/09/15 13:40:33 by chourri          ###   ########.fr       */
+>>>>>>> 2e4895a5baa2e54579d2c8964c1a02732d564670
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -88,7 +92,44 @@ pid_t	execute_piped_cmd(t_command *cmd, char **envp, int *input_fd)
 
 void	exec_pipes(t_command *cmd, char **envp, int *child_pids, int *input_fd)
 {
+<<<<<<< HEAD
 	int	i;
+=======
+	int		status;
+	int		i;
+	char	*ex;
+
+	i = -1;
+	while (++i < count)
+	{
+		waitpid(child_pids[i], &status, 0);
+		if (WIFEXITED(status))
+		{
+			ex = manage_exit_status(WEXITSTATUS(status), 1);
+			free(ex); // Free the allocated string after use
+		}
+		else if (WIFSIGNALED(status))
+		{
+			if (WTERMSIG(status) == SIGQUIT)
+			{
+				write(1, "QUIT: 3\n", 8);
+				ex = manage_exit_status(131, 1);
+				free(ex); // Free the allocated string after use
+			}
+			else if (WTERMSIG(status) == SIGINT)
+			{
+				write(1, "\n", 1);
+				ex = manage_exit_status(130, 1);
+				free(ex); // Free the allocated string after use
+			}
+		}
+	}
+}
+
+int	count_commands(t_command *cmd)
+{
+	int	count;
+>>>>>>> 2e4895a5baa2e54579d2c8964c1a02732d564670
 
 	i = 0;
 	while (cmd)

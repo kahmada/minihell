@@ -6,7 +6,11 @@
 /*   By: kahmada <kahmada@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/28 16:33:51 by kahmada           #+#    #+#             */
+<<<<<<< HEAD
 /*   Updated: 2024/09/16 12:04:44 by kahmada          ###   ########.fr       */
+=======
+/*   Updated: 2024/09/15 15:58:35 by chourri          ###   ########.fr       */
+>>>>>>> 2e4895a5baa2e54579d2c8964c1a02732d564670
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,7 +21,11 @@ void signal_handler_heredoc(int signal)
 {
 	if (signal == SIGINT)
 	{
+<<<<<<< HEAD
 		sig_received = 1; // Set flag to indicate signal is received
+=======
+		sig_received = 1;
+>>>>>>> 2e4895a5baa2e54579d2c8964c1a02732d564670
 		close(0);
 		return;
 	}
@@ -58,6 +66,8 @@ void handle_child(const char *limiter, int tmp_fd, char **envp)
 	char *line;
 	char *quoted_limiter;
 	int flag = 0;
+	char	*expanded_line;
+
 	if (ft_strchr((char *)limiter, '"') || ft_strchr((char *)limiter, '\''))
 		flag = 1;
 	quoted_limiter = remove_quotes2((char *)limiter);
@@ -71,10 +81,16 @@ void handle_child(const char *limiter, int tmp_fd, char **envp)
 			free(quoted_limiter);
 			break;
 		}
-		else if (!flag && (ft_strchr(line, '$') || ft_strchr(line, '~')) && ft_strcmp(quoted_limiter, line))
+		if (!flag && (ft_strchr(line, '$') || ft_strchr(line, '~')) && ft_strcmp(quoted_limiter, line))
 		{
+<<<<<<< HEAD
 			// free(line);
 			line = expand_variable(line, envp);
+=======
+			expanded_line = expand_variable(line, envp);
+			free(line);
+			line = expanded_line;
+>>>>>>> 2e4895a5baa2e54579d2c8964c1a02732d564670
 		}
 		if (ft_strcmp(line, quoted_limiter) == 0)
 		{
@@ -165,9 +181,13 @@ int her(t_command *cmd, char **envp)
 				
 				if (sig_received == 1)
 				{
+<<<<<<< HEAD
 					ex = manage_exit_status(1, 1);
+=======
+					ex = manage_exit_status(1,1);
+>>>>>>> 2e4895a5baa2e54579d2c8964c1a02732d564670
 					free(ex);
-					dup2(fd, 0);
+					dup2(fd, 0); //why
 					close(fd);
 					sig_received = 0;
 					return (1);
