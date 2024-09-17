@@ -6,11 +6,7 @@
 /*   By: kahmada <kahmada@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/12 15:51:23 by chourri           #+#    #+#             */
-<<<<<<< HEAD
-/*   Updated: 2024/09/17 14:49:37 by kahmada          ###   ########.fr       */
-=======
-/*   Updated: 2024/09/17 13:02:26 by chourri          ###   ########.fr       */
->>>>>>> 2e4895a5baa2e54579d2c8964c1a02732d564670
+/*   Updated: 2024/09/17 15:00:17 by kahmada          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -104,7 +100,6 @@ typedef struct s_var
 	int		i;
 	size_t	len;
 	int		num;
-	size_t	len;
 }	t_var;
 
 //itoa struct
@@ -115,11 +110,7 @@ typedef struct s_v
 	unsigned int	len;
 }	t_v;
 //
-<<<<<<< HEAD
 int sig_received;
-=======
-int	g_sig_received;
->>>>>>> 2e4895a5baa2e54579d2c8964c1a02732d564670
 
 //mydata struct for expanding :
 
@@ -152,11 +143,8 @@ typedef struct s_data
 }			t_data;
 
 
-<<<<<<< HEAD
 
 
-=======
->>>>>>> 2e4895a5baa2e54579d2c8964c1a02732d564670
 //parsing :
 //add_npc_to_input
 void handle_quotes(char *input, char **new, int *i);
@@ -217,7 +205,6 @@ void	remove_quotes_end(t_command *cmd);
 //signals
 void	sigint_handler(int s);
 void signal_handler_heredoc(int signal);
-<<<<<<< HEAD
 //parsing end
 
 
@@ -228,9 +215,6 @@ void signal_handler_heredoc(int signal);
 
 
 
-=======
-//////parsing end
->>>>>>> 2e4895a5baa2e54579d2c8964c1a02732d564670
 
 
 char **f_update_envp(char **envp, char **last_envp);
@@ -325,7 +309,6 @@ void	print_export(t_env *env);
 //
 int her(t_command *cmd, char **envp);
 void handle_child(const char *limiter, int tmp_fd, char **envp);
-<<<<<<< HEAD
 //signals
 void	sigint_handler(int s);
 void signal_handler_heredoc(int signal);
@@ -345,8 +328,6 @@ void ft_expand(t_token *token, char **envp);
 char *expand_variable(char *data, char **envp);
 void remove_quotes_END(t_command *cmd);
 void free_token_newlist(t_token *lst);
-=======
->>>>>>> 2e4895a5baa2e54579d2c8964c1a02732d564670
 char	*manage_exit_status(int status, int set_flag);
 
 

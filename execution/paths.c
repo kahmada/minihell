@@ -3,14 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   paths.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: chourri <chourri@student.42.fr>            +#+  +:+       +#+        */
+/*   By: kahmada <kahmada@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/27 11:55:39 by kahmada           #+#    #+#             */
-<<<<<<< HEAD
-/*   Updated: 2024/09/15 16:53:00 by kahmada          ###   ########.fr       */
-=======
-/*   Updated: 2024/09/15 16:54:10 by chourri          ###   ########.fr       */
->>>>>>> 2e4895a5baa2e54579d2c8964c1a02732d564670
+/*   Updated: 2024/09/17 15:00:36 by kahmada          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -75,15 +71,9 @@ char *find_commande(char *cmd, char **envp)
         return NULL;
 
     // Check if the command starts with '/'
-<<<<<<< HEAD
     if (cmd[0] == '.')
         return (cmd);  
     else if (cmd[0] == '/')
-=======
-	if (cmd[0] == '.')
-		return (cmd);
-	else if (cmd[0] == '/')
->>>>>>> 2e4895a5baa2e54579d2c8964c1a02732d564670
     {
         // Check if the file exists and is executable
         if (stat(cmd, &filestat) == 0)

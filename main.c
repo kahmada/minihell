@@ -6,11 +6,7 @@
 /*   By: kahmada <kahmada@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/12 16:02:24 by chourri           #+#    #+#             */
-<<<<<<< HEAD
-/*   Updated: 2024/09/17 14:52:12 by kahmada          ###   ########.fr       */
-=======
-/*   Updated: 2024/09/17 11:50:38 by chourri          ###   ########.fr       */
->>>>>>> 2e4895a5baa2e54579d2c8964c1a02732d564670
+/*   Updated: 2024/09/17 15:00:04 by kahmada          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,14 +19,6 @@ void	error(void)
 	exit(1);
 }
 
-<<<<<<< HEAD
-=======
-// int	is_word(int type)
-// {
-// 	return (type == WORD || type == INSIDE_DOUBLE_QUOTE || type == INSIDE_SINGLE_QUOTE);
-// }
-
->>>>>>> 2e4895a5baa2e54579d2c8964c1a02732d564670
 void print_command(t_command *cmd)
 {
 	int i = 0;
