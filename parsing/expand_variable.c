@@ -6,7 +6,7 @@
 /*   By: chourri <chourri@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/14 11:05:14 by chourri           #+#    #+#             */
-/*   Updated: 2024/09/17 12:14:14 by chourri          ###   ########.fr       */
+/*   Updated: 2024/09/17 12:45:34 by chourri          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,10 +23,34 @@ void	exit_status(char **data, char **ptr)
 	*data += 2;
 }
 
-void	expand_variable_value(char **data, char **ptr, char **envp)
+void	expand_env_variable(char **data, char **ptr, char **envp)
 {
 	t_data	mydata;
 
+	mydata.start = *data;
+	while (**data && **data != ' ' && **data != '$' && is_alnum(**data))
+		(*data)++;
+	mydata.var_len = *data - mydata.start;
+	mydata.var = ft_strndup(mydata.start, mydata.var_len);
+	mydata.i = 0;
+	mydata.value = "";
+	while (envp[mydata.i])
+	{
+		if (ft_strncmp(envp[mydata.i], mydata.var, mydata.var_len) == 0
+			&& envp[mydata.i][mydata.var_len] == '=')
+		{
+			mydata.value = envp[mydata.i] + mydata.var_len + 1;
+			break ;
+		}
+		mydata.i++;
+	}
+	ft_strcpy(*ptr, mydata.value);
+	*ptr += strlen(mydata.value);
+	free(mydata.var);
+}
+
+void	expand_variable_value(char **data, char **ptr, char **envp)
+{
 	if (**data == '0')
 	{
 		ft_strcpy(*ptr, "bash");
@@ -43,26 +67,7 @@ void	expand_variable_value(char **data, char **ptr, char **envp)
 		(*data)++;
 	else
 	{
-		mydata.start = *data;
-		while (**data && **data != ' ' && **data != '$' && is_alnum(**data))
-			(*data)++;
-		mydata.var_len = *data - mydata.start;
-		mydata.var = ft_strndup(mydata.start, mydata.var_len);
-		mydata.i = 0;
-		mydata.value = "";
-		while (envp[mydata.i])
-		{
-			if (ft_strncmp(envp[mydata.i], mydata.var, mydata.var_len) == 0
-				&& envp[mydata.i][mydata.var_len] == '=')
-			{
-				mydata.value = envp[mydata.i] + mydata.var_len + 1;
-				break ;
-			}
-			mydata.i++;
-		}
-		ft_strcpy(*ptr, mydata.value);
-		*ptr += strlen(mydata.value);
-		free(mydata.var);
+		expand_env_variable(data, ptr, envp);
 	}
 }
 

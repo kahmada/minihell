@@ -6,7 +6,7 @@
 /*   By: chourri <chourri@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/12 15:51:23 by chourri           #+#    #+#             */
-/*   Updated: 2024/09/17 11:52:44 by chourri          ###   ########.fr       */
+/*   Updated: 2024/09/17 12:33:02 by chourri          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -129,6 +129,13 @@ typedef struct s_data
 	char	*new_arg;
 	char	quote_char;
 	int		in_quotes;
+	//build_cmd
+	t_command	*cmd;
+	t_command	*head;
+	t_command	*prev;
+	//build_new_token_pipe
+	t_token	*new;
+	char	*combined;
 }			t_data;
 
 
