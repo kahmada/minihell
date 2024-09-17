@@ -6,7 +6,7 @@
 /*   By: chourri <chourri@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/12 15:51:23 by chourri           #+#    #+#             */
-/*   Updated: 2024/09/17 12:33:02 by chourri          ###   ########.fr       */
+/*   Updated: 2024/09/17 12:53:11 by chourri          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -96,6 +96,7 @@ typedef struct s_var
 	char	**array;
 	int		i;
 	int		num;
+	size_t	len;
 }	t_var;
 
 //itoa struct
@@ -106,7 +107,7 @@ typedef struct s_v
 	unsigned int	len;
 }	t_v;
 //
-int sig_received;
+int	g_sig_received;
 
 //mydata struct for expanding :
 

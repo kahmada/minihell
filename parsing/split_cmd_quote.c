@@ -6,7 +6,7 @@
 /*   By: chourri <chourri@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/12 16:13:45 by chourri           #+#    #+#             */
-/*   Updated: 2024/09/14 11:47:27 by chourri          ###   ########.fr       */
+/*   Updated: 2024/09/17 12:55:04 by chourri          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -73,20 +73,13 @@ static int	num_words(char const *s)
 	return (count);
 }
 
-static char	*protect_malloc(const char *s)
-{
-	if (!s)
-		return (NULL);
-	return ((char *)s);
-}
-
 char	**ft_split_cmd_quote(char const *s)
 {
 	t_var	var;
-	size_t	len;
 
 	var.i = 0;
-	protect_malloc(s);
+	if (!s)
+		return (NULL);
 	var.num = num_words(s);
 	var.array = (char **)malloc(sizeof(char *) * (var.num + 1));
 	if (!(var.array))
@@ -97,12 +90,12 @@ char	**ft_split_cmd_quote(char const *s)
 			s++;
 		if (*s)
 		{
-			len = len_word(s);
-			var.array[var.i] = allocate_copy_word(s, len);
+			var.len = len_word(s);
+			var.array[var.i] = allocate_copy_word(s, var.len);
 			if (!var.array[var.i])
 				return (free_word_array(var.array), NULL);
 			var.i++;
-			s += len;
+			s += var.len;
 		}
 	}
 	var.array[var.i] = NULL;
