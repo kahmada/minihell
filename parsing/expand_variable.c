@@ -6,66 +6,64 @@
 /*   By: chourri <chourri@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/14 11:05:14 by chourri           #+#    #+#             */
-/*   Updated: 2024/09/15 13:48:13 by chourri          ###   ########.fr       */
+/*   Updated: 2024/09/17 12:14:14 by chourri          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../minishell.h"
 
-void	exit_status(t_data *mydata, char **data)
+void	exit_status(char **data, char **ptr)
 {
-	mydata->ex = manage_exit_status(0, 0);
-	ft_strcpy(mydata->ptr, mydata->ex);
-	mydata->ptr += ft_strlen(mydata->ex);
-	free(mydata->ex);
+	char	*exit_status;
+
+	exit_status = manage_exit_status(0, 0);
+	ft_strcpy(*ptr, exit_status);
+	*ptr += ft_strlen(exit_status);
+	free(exit_status);
 	*data += 2;
 }
 
-void	numeric_var(t_data *mydata, char **data)
+void	expand_variable_value(char **data, char **ptr, char **envp)
 {
+	t_data	mydata;
+
 	if (**data == '0')
 	{
-		ft_strcpy(mydata->ptr, "bash");
-		mydata->ptr += 4;
+		ft_strcpy(*ptr, "bash");
+		*ptr += 4;
 		(*data)++;
 	}
 	else if (**data == '-')
 	{
-		ft_strcpy(mydata->ptr, "himBH");
-		mydata->ptr += 5;
+		ft_strcpy(*ptr, "himBH");
+		*ptr += 5;
 		(*data)++;
 	}
 	else if (is_digit(**data))
 		(*data)++;
-}
-
-void	expand_env_var(t_data *mydata, char **data, char **envp)
-{
-	mydata->start = *data;
-	while (**data && **data != ' ' && **data != '$' && is_alnum(**data))
-		(*data)++;
-	mydata->var_len = *data - mydata->start;
-	mydata->var = ft_strndup(mydata->start, mydata->var_len);
-	mydata->i = 0;
-	mydata->value = "";
-	while (envp[mydata->i])
+	else
 	{
-		if (ft_strncmp(envp[mydata->i], mydata->var, mydata->var_len) == 0
-			&& envp[mydata->i][mydata->var_len] == '=')
+		mydata.start = *data;
+		while (**data && **data != ' ' && **data != '$' && is_alnum(**data))
+			(*data)++;
+		mydata.var_len = *data - mydata.start;
+		mydata.var = ft_strndup(mydata.start, mydata.var_len);
+		mydata.i = 0;
+		mydata.value = "";
+		while (envp[mydata.i])
 		{
-			mydata->value = envp[mydata->i] + mydata->var_len + 1;
-			break ;
+			if (ft_strncmp(envp[mydata.i], mydata.var, mydata.var_len) == 0
+				&& envp[mydata.i][mydata.var_len] == '=')
+			{
+				mydata.value = envp[mydata.i] + mydata.var_len + 1;
+				break ;
+			}
+			mydata.i++;
 		}
-		(mydata->i)++;
+		ft_strcpy(*ptr, mydata.value);
+		*ptr += strlen(mydata.value);
+		free(mydata.var);
 	}
-	ft_strcpy(mydata->ptr, mydata->value);
-	mydata->ptr += strlen(mydata->value);
-	free(mydata->var);
-}
-
-void	normal_char(t_data *mydata, char **data)
-{
-	*(mydata->ptr)++ = *(*data)++;
 }
 
 char	*expand_variable(char *data, char **envp)
@@ -80,18 +78,15 @@ char	*expand_variable(char *data, char **envp)
 	while (*data)
 	{
 		if (*data == '$' && *(data + 1) == '?')
-			exit_status(&mydata, &data);
+			exit_status(&data, &mydata.ptr);
 		else if (*data == '$' && is_alnum(*(data + 1)))
 		{
 			data++;
-			if (*data == '0' || *data == '-')
-				numeric_var(&mydata, &data);
-			else
-				expand_env_var(&mydata, &data, envp);
+			expand_variable_value(&data, &mydata.ptr, envp);
 		}
 		else
-			normal_char(&mydata, &data);
+			*mydata.ptr++ = *data++;
 	}
-	*(mydata.ptr) = '\0';
+	*mydata.ptr = '\0';
 	return (mydata.exp);
 }

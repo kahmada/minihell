@@ -6,7 +6,7 @@
 /*   By: chourri <chourri@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/12 15:51:23 by chourri           #+#    #+#             */
-/*   Updated: 2024/09/15 14:14:37 by chourri          ###   ########.fr       */
+/*   Updated: 2024/09/17 11:52:44 by chourri          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,9 +46,8 @@ typedef enum s_type
 	SPAACE,
 	TAAB,
 	DS
-	// END,
-	// ERROR,
 }				t_type;
+
 typedef struct s_token
 {
 	char	*data;
@@ -124,6 +123,12 @@ typedef struct s_data
 	char	*ex;
 	char	*var_name;
 	char	*expanded;
+	//remove_quotes
+	int		j;
+	int		k;
+	char	*new_arg;
+	char	quote_char;
+	int		in_quotes;
 }			t_data;
 
 
@@ -170,6 +175,25 @@ int	check_heredoc_presence(t_token *token);
 size_t expanded_len(char *data, char **envp);
 char *expand_variable(char *data, char **envp);
 void	handle_token_expansion(t_token *token, char **envp);
+
+//build_cmd_tools
+char	*ft_strjoin_space(char const *s1, char const *s2);
+int	is_redirection_symbol(int type);
+void ft_lstadd_back_new(t_token **lst, t_type type, const char *data);
+t_token *free_list(t_token *list);
+void	free_command_list(t_command *cmd_list);
+
+//build_cmd
+t_token *build_new_tokens_pipe(t_token *token);
+t_command	*build_cmd(t_token *new_token);
+void	remove_quotes_end(t_command *cmd);
+
+
+
+
+
+
+
 
 
 
