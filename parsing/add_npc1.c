@@ -6,7 +6,7 @@
 /*   By: chourri <chourri@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/12 16:13:04 by chourri           #+#    #+#             */
-/*   Updated: 2024/09/12 12:56:56 by chourri          ###   ########.fr       */
+/*   Updated: 2024/09/17 21:05:05 by chourri          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,7 +39,12 @@ int	calculate_len(char *input)
 	while (input[i])
 	{
 		len_to_add(input[i], input[i + 1], &extra_len, &i);
-		if (input[i] == '$' && is_alphabet(input[i + 1]))
+		if (input[i] == '$' && input[i + 1] == '$')
+		{
+			extra_len += 2;
+			i++;
+		}
+		else if (input[i] == '$' && is_alphabet(input[i + 1]))
 		{
 			j = i + 1;
 			while (input[j] && is_alphabet(input[j]))

@@ -6,11 +6,19 @@
 /*   By: chourri <chourri@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/12 12:47:17 by chourri           #+#    #+#             */
-/*   Updated: 2024/09/13 16:55:06 by chourri          ###   ########.fr       */
+/*   Updated: 2024/09/17 21:26:55 by chourri          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../minishell.h"
+
+void	handle_pid(char *input, char **new, int	*i)
+{
+	*(*new)++ = NON_PRINTABLE_CHAR;
+	*(*new)++ = input[(*i)++];
+	*(*new)++ = input[(*i)];
+	*(*new)++ = NON_PRINTABLE_CHAR;
+}
 
 void	handle_input_chars(char *input, char **new_input, int *i)
 {
@@ -19,6 +27,8 @@ void	handle_input_chars(char *input, char **new_input, int *i)
 	new = *new_input;
 	if (input[*i] == '$' && input[*i + 1] == '?')
 		handle_exit_status(input, &new, i);
+	else if (input[*i] == '$' && input[*i + 1] == '$')
+		handle_pid(input, &new, i);
 	else if (input[*i] == '$' && (*i == 0 || input[*i - 1] != ' '))
 		handle_dollar_sign(input, &new, i);
 	else if (input[*i] == '"' || input[*i] == '\'')
