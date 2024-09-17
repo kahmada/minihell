@@ -6,7 +6,7 @@
 /*   By: kahmada <kahmada@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/12 15:51:23 by chourri           #+#    #+#             */
-/*   Updated: 2024/09/16 12:13:23 by kahmada          ###   ########.fr       */
+/*   Updated: 2024/09/17 14:49:37 by kahmada          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -68,7 +68,6 @@ typedef struct s_token
 typedef struct s_command
 {
 	char	**args;
-
 	char *ex;
 	t_type	type;
 	char **last_envp;
@@ -100,6 +99,7 @@ typedef struct s_var
 {
 	char	**array;
 	int		i;
+	size_t	len;
 	int		num;
 }	t_var;
 
@@ -128,7 +128,22 @@ typedef struct s_data
 	char	*ex;
 	char	*var_name;
 	char	*expanded;
+	//remove_quotes
+	int		j;
+	int		k;
+	char	*new_arg;
+	char	quote_char;
+	int		in_quotes;
+	//build_cmd
+	t_command	*cmd;
+	t_command	*head;
+	t_command	*prev;
+	//build_new_token_pipe
+	t_token	*new;
+	char	*combined;
 }			t_data;
+
+
 
 
 //parsing :
@@ -174,6 +189,24 @@ int	check_heredoc_presence(t_token *token);
 size_t expanded_len(char *data, char **envp);
 char *expand_variable(char *data, char **envp);
 void	handle_token_expansion(t_token *token, char **envp);
+void ft_expand(t_token *token, char **envp);
+char *expand_variable(char *data, char **envp);
+//build_cmd_tools
+char	*ft_strjoin_space(char const *s1, char const *s2);
+int	is_redirection_symbol(int type);
+void ft_lstadd_back_new(t_token **lst, t_type type, const char *data);
+t_token *free_list(t_token *list);
+void	free_command_list(t_command *cmd_list);
+
+//build_cmd
+t_token *build_new_tokens_pipe(t_token *token);
+t_command	*build_cmd(t_token *new_token);
+void	remove_quotes_end(t_command *cmd);
+
+//signals
+void	sigint_handler(int s);
+void signal_handler_heredoc(int signal);
+//parsing end
 
 
 

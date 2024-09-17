@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   split_cmd_quote.c                                  :+:      :+:    :+:   */
+/*   split_cmd.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: chourri <chourri@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/06/12 16:13:45 by chourri           #+#    #+#             */
-/*   Updated: 2024/09/17 12:56:11 by chourri          ###   ########.fr       */
+/*   Created: 2024/08/17 16:05:01 by chourri           #+#    #+#             */
+/*   Updated: 2024/08/17 16:05:49 by chourri          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,65 +15,61 @@
 static size_t	len_word(char const *s)
 {
 	size_t	i;
-	char	quote;
 
 	i = 0;
-	quote = 0;
-	while (s[i])
-	{
-		if ((s[i] == '\'' || s[i] == '\"') && quote == 0)
-			quote = s[i];
-		else if (s[i] == quote)
-			quote = 0;
-		else if ((s[i] == ' ' || s[i] == '\t') && quote == 0)
-			break ;
+	while (s[i] && s[i] != ' ' && s[i] != '\t')
 		i++;
-	}
 	return (i);
 }
 
-static char	*allocate_copy_word(char const *s, size_t len)
+static char	*allocate_copy_word(char const *s)
 {
+	size_t	len;
 	char	*word;
 
+	len = len_word(s);
 	word = (char *)malloc(len + 1);
 	if (!word)
 		return (NULL);
-	strncpy(word, s, len);
-	word[len] = '\0';
+	strlcpy(word, s, len + 1);
 	return (word);
+}
+
+void	free_word_array(char **array)
+{
+	int	i;
+
+	i = 0;
+	while (array[i])
+	{
+		free(array[i]);
+		i++;
+	}
+	free(array);
 }
 
 static int	num_words(char const *s)
 {
-	int		count;
-	int		i;
-	char	quote;
+	int	count;
+	int	i;
 
 	count = 0;
 	i = 0;
-	quote = 0;
 	while (s[i])
 	{
-		while (s[i] && (s[i] == ' ' || s[i] == '\t'))
+		if (s[i] == ' ' || s[i] == '\t')
 			i++;
-		if (s[i])
+		else
 		{
 			count++;
-			while (s[i] && ((s[i] != ' ' && s[i] != '\t') || quote))
-			{
-				if ((s[i] == '\'' || s[i] == '\"') && quote == 0)
-					quote = s[i];
-				else if (s[i] == quote)
-					quote = 0;
+			while (s[i] && s[i] != ' ' && s[i] != '\t')
 				i++;
-			}
 		}
 	}
 	return (count);
 }
 
-char	**ft_split_cmd_quote(char const *s)
+char	**ft_split_cmd(char const *s)
 {
 	t_var	var;
 
@@ -90,13 +86,12 @@ char	**ft_split_cmd_quote(char const *s)
 			s++;
 		if (*s)
 		{
-			var.len = len_word(s);
-			var.array[var.i] = allocate_copy_word(s, var.len);
+			var.array[var.i] = allocate_copy_word(s);
 			if (!var.array[var.i])
 				return (free_word_array(var.array), NULL);
 			var.i++;
-			s += var.len;
 		}
+		s += len_word(s);
 	}
 	var.array[var.i] = NULL;
 	return (var.array);

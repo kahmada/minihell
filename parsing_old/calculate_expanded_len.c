@@ -1,29 +1,43 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   expand_variable.c                                  :+:      :+:    :+:   */
+/*   calculate_expanded_len.c                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: chourri <chourri@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/09/14 11:05:14 by chourri           #+#    #+#             */
-/*   Updated: 2024/09/17 12:45:34 by chourri          ###   ########.fr       */
+/*   Created: 2024/09/14 10:52:34 by chourri           #+#    #+#             */
+/*   Updated: 2024/09/15 13:44:46 by chourri          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../minishell.h"
 
-void	exit_status(char **data, char **ptr)
+size_t	ft_exit_status(char **data)
 {
 	char	*exit_status;
+	size_t	len;
 
 	exit_status = manage_exit_status(0, 0);
-	ft_strcpy(*ptr, exit_status);
-	*ptr += ft_strlen(exit_status);
+	len = ft_strlen(exit_status);
 	free(exit_status);
 	*data += 2;
+	return (len);
 }
 
-void	expand_env_variable(char **data, char **ptr, char **envp)
+size_t	handle_numeric_var(char **data)
+{
+	size_t	len;
+
+	len = 0;
+	if (**data == '0')
+		len = 4;
+	else if (**data == '-')
+		len = 5;
+	(*data)++;
+	return (len);
+}
+
+size_t	expand_var(char **data, char **envp)
 {
 	t_data	mydata;
 
@@ -33,65 +47,47 @@ void	expand_env_variable(char **data, char **ptr, char **envp)
 	mydata.var_len = *data - mydata.start;
 	mydata.var = ft_strndup(mydata.start, mydata.var_len);
 	mydata.i = 0;
-	mydata.value = "";
 	while (envp[mydata.i])
 	{
 		if (ft_strncmp(envp[mydata.i], mydata.var, mydata.var_len) == 0
 			&& envp[mydata.i][mydata.var_len] == '=')
 		{
-			mydata.value = envp[mydata.i] + mydata.var_len + 1;
-			break ;
+			free(mydata.var);
+			return (ft_strlen(envp[mydata.i] + mydata.var_len + 1));
 		}
 		mydata.i++;
 	}
-	ft_strcpy(*ptr, mydata.value);
-	*ptr += strlen(mydata.value);
 	free(mydata.var);
+	return (0);
 }
 
-void	expand_variable_value(char **data, char **ptr, char **envp)
+void	handle_normal_char(char **data, size_t *exp_len)
 {
-	if (**data == '0')
-	{
-		ft_strcpy(*ptr, "bash");
-		*ptr += 4;
-		(*data)++;
-	}
-	else if (**data == '-')
-	{
-		ft_strcpy(*ptr, "himBH");
-		*ptr += 5;
-		(*data)++;
-	}
-	else if (is_digit(**data))
-		(*data)++;
-	else
-	{
-		expand_env_variable(data, ptr, envp);
-	}
+	(*exp_len)++;
+	(*data)++;
 }
 
-char	*expand_variable(char *data, char **envp)
+size_t	expanded_len(char *data, char **envp)
 {
 	t_data	mydata;
 
-	mydata.exp_len = expanded_len(data, envp);
-	mydata.exp = malloc(mydata.exp_len + 1);
-	if (!mydata.exp)
-		return (NULL);
-	mydata.ptr = mydata.exp;
+	mydata.exp_len = 0;
 	while (*data)
 	{
 		if (*data == '$' && *(data + 1) == '?')
-			exit_status(&data, &mydata.ptr);
+			mydata.exp_len += ft_exit_status(&data);
 		else if (*data == '$' && is_alnum(*(data + 1)))
 		{
 			data++;
-			expand_variable_value(&data, &mydata.ptr, envp);
+			if (*data == '0' || *data == '-')
+				mydata.exp_len += handle_numeric_var(&data);
+			else if (is_digit(*data))
+				data++;
+			else
+				mydata.exp_len += expand_var(&data, envp);
 		}
 		else
-			*mydata.ptr++ = *data++;
+			handle_normal_char(&data, &mydata.exp_len);
 	}
-	*mydata.ptr = '\0';
-	return (mydata.exp);
+	return (mydata.exp_len);
 }

@@ -6,7 +6,7 @@
 #    By: kahmada <kahmada@student.42.fr>            +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/06/12 15:51:05 by chourri           #+#    #+#              #
-#    Updated: 2024/09/16 10:21:03 by kahmada          ###   ########.fr        #
+#    Updated: 2024/09/17 14:50:23 by kahmada          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -39,6 +39,8 @@ SRC = main.c \
  parsing/expand_variable.c \
  parsing/expanding.c \
  parsing/ft_expand.c \
+ parsing/build_cmd.c \
+ parsing/remove_quotes_before_exec.c \
  execution/ex_cmd.c\
  execution/ex_cmd_utils.c\
  execution/tool_ex.c\
@@ -64,7 +66,8 @@ SRC = main.c \
  libft_tools/tools4.c \
  libft_tools/tools5.c \
  libft_tools/tools6.c \
- libft_tools/tools7.c
+ libft_tools/tools7.c \
+ libft_tools/tools8.c
 
 OBJ = $(SRC:.c=.o)
 
