@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: chourri <chourri@student.42.fr>            +#+  +:+       +#+        */
+/*   By: kahmada <kahmada@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/12 15:51:23 by chourri           #+#    #+#             */
-/*   Updated: 2024/09/20 16:20:45 by chourri          ###   ########.fr       */
+/*   Updated: 2024/09/20 19:01:54 by kahmada          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -74,8 +74,8 @@ typedef struct s_command
 	int fd_in;
 	char	*infile;
 	char	*outfile;
-	char **envp;
 	int pipe_fd[2];
+	char *file_name; //added
 }			t_command;
 
 typedef struct s_redirect_fds
@@ -192,11 +192,7 @@ void	remove_quotes_end(t_command *cmd);
 //signals
 void	sigint_handler(int s);
 void signal_handler_heredoc(int signal);
-
-int	should_open_heredoc(t_token *lst);
-
 //parsing end
-
 
 
 
@@ -217,17 +213,23 @@ char	**ft_split_cmd_quote(char const *s);
 void	free_word_array(char **array);
 
 t_token* build_token_list(char *output);
+void print_list(t_token *lst);
+void free_token_list(t_token *lst);
 //old
+// void ft_lstadd_back(t_token **lst, t_type type, char *data);
+void	ft_lstadd_back(t_token **lst, t_token *new);
+t_token	*ft_lstnew(char *data, t_type type);
 
+// int	ft_strcmp(char *s1, char *s2);
 // t_token	*ft_lstlast(t_token *lst);
+t_token	*last_token(t_token *head);
 int	parse_quotes(char *input);
 // int parsing(t_token *lst, char **envp);
 
+int	is_alphabet(char c);
 void    print_env(char **envp);
 // void handle_dollar(t_token *tokens, char **envp);
-
-
-//libft_tools
+//libft
 
 char *ft_strcat(char *dest, const char *src);
 char *ft_strcpy(char *dest, const char *src);
@@ -263,9 +265,6 @@ int	is_redirection_symbol(int type);
 void ft_lstadd_back_new(t_token **lst, t_type type, const char *data);
 t_token *free_list(t_token *list);
 void	free_command_list(t_command *cmd_list);
-
-//libft_tools_end
-// char	*ft_strjoin2(char const *s1, char const *s2);
 char	*ft_itoa(int n);
 //execution
 char **execute_cmd(t_command *cmd, char **envp);
@@ -286,7 +285,8 @@ void handle_redirects(t_command *cmd);
 void handle_here_doc_and_execute(t_command *cmd, char **envp);
 void	setup_fork_procs(t_command *proc1_info, t_command *proc2_info, int pipefd[]);
 void	child_proc2(char **cmd_arg, int pi_fd[], char *envp[], const char *outf);
-void handle_process(const char *limiter, int fd, char *file_name, t_command *cmd, char **envp);
+// void handle_process(const char *limiter, int fd, char *file_name, t_command *cmd, char **envp); //original
+
 void handle_here_doc_redirect(t_command *cmd);
 // int handle_heredoc_N(t_token *tokens);
 void	error(void);

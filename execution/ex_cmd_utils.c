@@ -6,7 +6,7 @@
 /*   By: kahmada <kahmada@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/16 09:59:58 by kahmada           #+#    #+#             */
-/*   Updated: 2024/09/16 10:19:06 by kahmada          ###   ########.fr       */
+/*   Updated: 2024/09/20 13:18:17 by kahmada          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,6 +14,7 @@
 
 void	handle_parent_signals(t_command *cmd)
 {
+	close(cmd->fd_in);
 	signal(SIGINT, SIG_IGN);
 	cmd->ex = manage_exit_status(127, 1);
 	free(cmd->ex);

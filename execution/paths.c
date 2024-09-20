@@ -6,15 +6,15 @@
 /*   By: kahmada <kahmada@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/27 11:55:39 by kahmada           #+#    #+#             */
-/*   Updated: 2024/09/17 15:00:36 by kahmada          ###   ########.fr       */
+/*   Updated: 2024/09/18 11:25:57 by kahmada          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../minishell.h"
 
-static char **extract_paths_from_envp(char **envp)
+static char	**extract_paths_from_envp(char **envp)
 {
-	int i;
+	int		i;
 	char	**error;
 
 	i = 0;
@@ -34,6 +34,7 @@ void	wrerror(char *str)
 	if (str)
 		write(2, str, ft_strlen(str));
 }
+
 static char	*find_command_in_paths(char *cmd, char **paths)
 {
 	char	*path;
@@ -55,64 +56,60 @@ static char	*find_command_in_paths(char *cmd, char **paths)
 			wrerror(cmd);
 			wrerror("\n");
 		}
-
 		i++;
 	}
 	return (NULL);
 }
 
-char *find_commande(char *cmd, char **envp)
+char	*check_absolute_path(char *cmd, struct stat *filestat)
 {
-    char **paths;
-    char *path;
-    struct stat filestat;
-
-    if (!cmd || !cmd[0])
-        return NULL;
-
-    // Check if the command starts with '/'
-    if (cmd[0] == '.')
-        return (cmd);  
-    else if (cmd[0] == '/')
-    {
-        // Check if the file exists and is executable
-        if (stat(cmd, &filestat) == 0)
-        {
-            // Check if it's a directory
-            if (S_ISDIR(filestat.st_mode))
-            {
-                fprintf(stderr, "%s: is a directory\n", cmd);
-				cmd = "1";
-                return cmd;
-            }
-            // Check if it's executable
-            if (access(cmd, X_OK) == 0)
-            {
-                return (cmd); // Return a duplicate of the command path
-            }
-            else
-            {
-                fprintf(stderr, "%s: no such file or directory\n", cmd);
-				cmd = "2";
-                return cmd;
-            }
-        }
-        else
-        {
-            fprintf(stderr, "%s: no such file or directory\n", cmd);
-            cmd = "2";
-            return cmd;
-        }
-    }
-    paths = extract_paths_from_envp(envp);
-    if (!paths)
-        return NULL;
-    if (ft_strcmp(*paths, "3")==0)
-		return ("3");
-    path = find_command_in_paths(cmd, paths);
-    for (int i = 0; paths[i]; i++)
-        free(paths[i]);
-    free(paths);
-    return path;
+	if (stat(cmd, filestat) == 0)
+	{
+		if (S_ISDIR(filestat->st_mode))
+		{
+			fprintf(stderr, "%s: is a directory\n", cmd);
+			cmd = "1";
+			return (cmd);
+		}
+		if (access(cmd, X_OK) == 0)
+			return (cmd);
+		else
+		{
+			fprintf(stderr, "%s: no such file or directory\n", cmd);
+			cmd = "2";
+			return (cmd);
+		}
+	}
+	else
+	{
+		fprintf(stderr, "%s: no such file or directory\n", cmd);
+		cmd = "2";
+		return (cmd);
+	}
 }
 
+char	*find_commande(char *cmd, char **envp)
+{
+	char		**paths;
+	char		*path;
+	struct stat	filestat;
+	int			i;
+
+	i = 0;
+	if (!cmd || !cmd[0])
+		return (NULL);
+	if (cmd[0] == '.')
+		return (cmd);
+	else if (cmd[0] == '/')
+		return (check_absolute_path(cmd, &filestat));
+	paths = extract_paths_from_envp(envp);
+	if (!paths)
+		return (NULL);
+	if (ft_strcmp(*paths, "3") == 0)
+		return ("3");
+	path = find_command_in_paths(cmd, paths);
+	while (paths[i])
+		free(paths[i++]);
+	free(paths);
+	return (path);
+}

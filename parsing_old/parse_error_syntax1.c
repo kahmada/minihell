@@ -6,7 +6,7 @@
 /*   By: chourri <chourri@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/12 19:01:10 by chourri           #+#    #+#             */
-/*   Updated: 2024/09/18 16:43:53 by chourri          ###   ########.fr       */
+/*   Updated: 2024/09/13 13:58:54 by chourri          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,7 +55,7 @@ int	redirect_in_parsing(t_token *lst)
 			if (!curr)
 				return (parse_error("near unexpected token `newline'\n"), 1);
 			else if (curr->type != WORD && curr->type != INSIDE_DOUBLE_QUOTE
-				&& curr->type != INSIDE_SINGLE_QUOTE && curr->type != DS)
+				&& curr->type != INSIDE_SINGLE_QUOTE)
 				return (parse_error("near unexpected token `<'\n"), 1);
 			else if (curr && curr->type == REDIRECT_IN)
 				return (parse_error("near unexpected token `<'\n"), 1);

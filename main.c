@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: chourri <chourri@student.42.fr>            +#+  +:+       +#+        */
+/*   By: kahmada <kahmada@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/12 16:02:24 by chourri           #+#    #+#             */
-/*   Updated: 2024/09/20 16:23:54 by chourri          ###   ########.fr       */
+/*   Updated: 2024/09/20 19:02:36 by kahmada          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,69 +30,6 @@ void print_command(t_command *cmd)
 		cmd = cmd->next;
 	}
 }
-
-// char **process_command(char *input, char **envp)
-// {
-// 	char *output = NULL;
-// 	t_token *new_lst = NULL;
-// 	t_token *lst;
-
-// 	if (parse_quotes(input))
-// 		return (envp);
-// 	(void)lst;
-
-// 		//test this :  $USER>>DGDFG<< FDGDF
-// 		add_npc_to_cmd(input, &output); //no leaks
-// 		// printf("%s", output);
-// 		if (output)
-// 		{
-// 			lst = build_token_list(output); //no leaks
-// 			lst->flag = 0;
-// 			// printf("\n---------------------------------------------------------------\n");
-// 			if (lst)
-// 			{
-// 				// parse_quotes(input);
-// 				//parse syntax error no leaks
-// 				if(parsing(lst))
-// 				{
-// 					// free(manage_exit_status(0,0))
-
-// 					return (free_token_list(lst),free(output), envp);
-// 				}
-// 				// printf("\n\n-------------------------------------BEFORE-----------------------------------------\n\n");
-// 				ft_expand(lst, envp); //no leaks
-// 				// print_list(lst);
-// 				// printf("\n\n-------------------------------------AFTER-----------------------------------------\n\n");
-// 				new_lst = build_new_tokens_pipe(lst); //leaks here
-// 				// printf(" new_lst ==> %p\n", new_lst);
-// 				// printf(" lst ==> %p\n", lst);
-// 				// print_list(new_lst);
-// 				// print_list(new_lst);
-// 				// print_list(new_lst);
-// 				t_command *cmd = build_cmd(new_lst);
-// 				if(her(cmd, envp))
-// 				{
-// 					free_token_list(lst);
-// 					free_token_list(new_lst);
-// 					free_command_list(cmd);
-// 					free(output);
-// 					return(envp);
-// 				}
-// 				remove_quotes_end(cmd);
-// 				// print_command(cmd); //no leaks until here
-// 				// printf("-----COMMAND LINKED LIST-----\n\n");
-// 				envp = execute_cmd(cmd, envp);
-// 				free_token_list(lst);
-// 				free_token_list(new_lst);
-// 				free_command_list(cmd);
-// 				lst = NULL;
-// 			}
-// 			free(output);
-// 		}
-// 	return envp;
-// }
-
-
 
 char **process_command(char *input, char **envp)
 {
@@ -183,7 +120,7 @@ int main(int ac, char **av, char **envp)
 {
 	char *input;
 	char **envp_copy;
-	rl_catch_signals = 0; //to not print ^C in the prompt
+	//rl_catch_signals = 0; //to not print ^C in the prompt
 	signal(SIGQUIT, SIG_IGN);
 	signal(SIGINT, sigint_handler);
 	envp_copy = ft_envp_copy(envp);

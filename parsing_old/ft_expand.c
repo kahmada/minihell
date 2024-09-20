@@ -1,26 +1,22 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   tool_ex.c                                          :+:      :+:    :+:   */
+/*   ft_expand.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: kahmada <kahmada@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/09/16 10:00:24 by kahmada           #+#    #+#             */
-/*   Updated: 2024/09/18 11:10:55 by kahmada          ###   ########.fr       */
+/*   Created: 2024/09/15 13:53:28 by chourri           #+#    #+#             */
+/*   Updated: 2024/09/15 14:13:48 by kahmada          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../minishell.h"
 
-int	count_commands(t_command *cmd)
+void	ft_expand(t_token *token, char **envp)
 {
-	int	count;
-
-	count = 0;
-	while (cmd)
+	while (token && token->data)
 	{
-		count++;
-		cmd = cmd->next;
+		handle_token_expansion(token, envp);
+		token = token->next;
 	}
-	return (count);
 }
