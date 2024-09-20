@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   tools7.c                                           :+:      :+:    :+:   */
+/*   tools8.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: chourri <chourri@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/17 11:19:15 by chourri           #+#    #+#             */
-/*   Updated: 2024/09/17 11:21:37 by chourri          ###   ########.fr       */
+/*   Updated: 2024/09/19 19:47:16 by chourri          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,30 +37,29 @@ char	*ft_strjoin_space(char const *s1, char const *s2)
 int	is_redirection_symbol(int type)
 {
 	return (type == REDIRECT_APPEND || type == REDIRECT_IN
-	|| type == REDIRECT_OUT || type == PIPE || type == HEREDOC);
+		|| type == REDIRECT_OUT || type == PIPE || type == HEREDOC);
 }
 
-void ft_lstadd_back_new(t_token **lst, t_type type, const char *data)
+void	ft_lstadd_back_new(t_token **lst, t_type type, const char *data)
 {
-	t_token *new_token;
-	t_token *last;
+	t_token	*new_token;
+	t_token	*last;
 
 	new_token = malloc(sizeof(t_token));
 	if (new_token == NULL)
-		return;
-
+		return ;
 	new_token->data = strdup(data);
 	if (new_token->data == NULL)
 	{
 		free(new_token);
-		return;
+		return ;
 	}
 	new_token->type = type;
 	new_token->next = NULL;
 	if (*lst == NULL)
 	{
 		*lst = new_token;
-		return;
+		return ;
 	}
 	last = *lst;
 	while (last->next != NULL)
@@ -68,9 +67,9 @@ void ft_lstadd_back_new(t_token **lst, t_type type, const char *data)
 	last->next = new_token;
 }
 
-t_token *free_list(t_token *list)
+t_token	*free_list(t_token *list)
 {
-	t_token *temp;
+	t_token	*temp;
 
 	while (list)
 	{
@@ -85,25 +84,10 @@ t_token *free_list(t_token *list)
 void	free_command_list(t_command *cmd_list)
 {
 	t_command	*temp;
-	int			i;
 
 	while (cmd_list)
 	{
 		free_word_array(cmd_list->args);
-		// if (cmd_list->infile)
-		// 	free(cmd_list->infile);
-		// if (cmd_list->outfile)
-		// 	free(cmd_list->outfile);
-		if (cmd_list->envp)
-		{
-			i = 0;
-			// while (cmd_list->envp[i])
-			// {
-			// 	free(cmd_list->envp[i]);
-			// 	i++;
-			// }
-			// free(cmd_list->envp);
-		}
 		temp = cmd_list;
 		cmd_list = cmd_list->next;
 		free(temp);

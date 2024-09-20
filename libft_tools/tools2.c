@@ -6,11 +6,26 @@
 /*   By: chourri <chourri@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/27 12:08:45 by kahmada           #+#    #+#             */
-/*   Updated: 2024/09/09 11:12:00 by chourri          ###   ########.fr       */
+/*   Updated: 2024/09/19 19:10:44 by chourri          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../minishell.h"
+
+void	free_token_list(t_token *lst)
+{
+	t_token	*current;
+	t_token	*next;
+
+	current = lst;
+	while (current != NULL)
+	{
+		next = current->next;
+		free(current->data);
+		free(current);
+		current = next;
+	}
+}
 
 static char	*pre_conv(int len)
 {

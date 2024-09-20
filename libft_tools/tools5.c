@@ -6,7 +6,7 @@
 /*   By: chourri <chourri@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/03 10:51:25 by kahmada           #+#    #+#             */
-/*   Updated: 2024/09/14 10:19:48 by chourri          ###   ########.fr       */
+/*   Updated: 2024/09/19 19:36:05 by chourri          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,26 +39,36 @@ long	ft_atoi(char *s)
 	return (signe * result);
 }
 
-int is_alphabet(char c)
+int	is_alphabet(char c)
 {
 	return ((c >= 'a' && c <= 'z') || (c >= 'A' && c <= 'Z'));
 }
 
 int	redirection_symbols(int type_symbol)
 {
-	return ((type_symbol == WORD || type_symbol == HEREDOC || type_symbol == REDIRECT_APPEND || type_symbol == REDIRECT_IN || type_symbol == REDIRECT_OUT || type_symbol == INSIDE_DOUBLE_QUOTE || type_symbol == INSIDE_SINGLE_QUOTE));
+	return ((type_symbol == WORD || type_symbol == HEREDOC
+			|| type_symbol == REDIRECT_APPEND
+			|| type_symbol == REDIRECT_IN || type_symbol == REDIRECT_OUT
+			|| type_symbol == INSIDE_DOUBLE_QUOTE
+			|| type_symbol == INSIDE_SINGLE_QUOTE));
 }
+
 int	ft_linked_list_search_redirect_symbols(t_token *lst)
 {
-	t_token *current = lst;
+	t_token	*current;
+
+	current = lst;
 	while (current)
 	{
-		if (current->type == REDIRECT_APPEND || current->type == REDIRECT_IN || current->type == REDIRECT_OUT)
+		if (current->type == REDIRECT_APPEND
+			|| current->type == REDIRECT_IN
+			|| current->type == REDIRECT_OUT)
 			return (1);
 		current = current->next;
 	}
 	return (0);
 }
+
 void	parse_error(char *msg)
 {
 	printf("syntax error : %s", msg);

@@ -6,7 +6,7 @@
 /*   By: chourri <chourri@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/12 19:07:13 by chourri           #+#    #+#             */
-/*   Updated: 2024/09/12 19:20:22 by chourri          ###   ########.fr       */
+/*   Updated: 2024/09/19 14:09:52 by chourri          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,7 +22,7 @@ t_type	determine_token_type(char *token, int *in_quotes)
 	return (determine_quote_type(token, in_quotes));
 }
 
-void	process_token(t_token **lst, char **tokens, int *i)
+static void	process_token(t_token **lst, char **tokens, int *i)
 {
 	t_type	type;
 	int		in_quotes;
@@ -35,7 +35,6 @@ void	process_token(t_token **lst, char **tokens, int *i)
 		return ;
 	}
 	ft_lstadd_back(lst, ft_lstnew(strdup(tokens[*i]), type));
-	update_last_token_quotes(*lst, in_quotes);
 }
 
 t_token	*build_token_list(char *output)

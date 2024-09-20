@@ -6,13 +6,13 @@
 /*   By: chourri <chourri@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/12 12:47:17 by chourri           #+#    #+#             */
-/*   Updated: 2024/09/17 21:26:55 by chourri          ###   ########.fr       */
+/*   Updated: 2024/09/19 14:07:08 by chourri          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../minishell.h"
 
-void	handle_pid(char *input, char **new, int	*i)
+static void	handle_pid(char *input, char **new, int	*i)
 {
 	*(*new)++ = NON_PRINTABLE_CHAR;
 	*(*new)++ = input[(*i)++];
@@ -20,7 +20,7 @@ void	handle_pid(char *input, char **new, int	*i)
 	*(*new)++ = NON_PRINTABLE_CHAR;
 }
 
-void	handle_input_chars(char *input, char **new_input, int *i)
+static void	handle_input_chars(char *input, char **new_input, int *i)
 {
 	char	*new;
 
@@ -48,7 +48,7 @@ void	handle_input_chars(char *input, char **new_input, int *i)
 	*new_input = new;
 }
 
-void	create_new_string(char *input, char **new_input)
+static void	create_new_string(char *input, char **new_input)
 {
 	int		i;
 	char	*new;

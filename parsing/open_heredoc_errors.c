@@ -6,7 +6,7 @@
 /*   By: chourri <chourri@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/12 13:11:25 by chourri           #+#    #+#             */
-/*   Updated: 2024/09/14 10:44:39 by chourri          ###   ########.fr       */
+/*   Updated: 2024/09/19 14:14:55 by chourri          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,7 +51,7 @@ static char	*remove_quotes_limiter_hd(char *data)
 	return (new);
 }
 
-int	create_tempfile_error(char *temp_filename, int file_counter)
+static int	create_tempfile_error(char *temp_filename, int file_counter)
 {
 	const char	*base_filename;
 	char		*counter_str;
@@ -74,7 +74,7 @@ int	create_tempfile_error(char *temp_filename, int file_counter)
 	return (tmp_fd);
 }
 
-void	handle_heredoc_input(int tmp_fd, const char *ql, t_token *lst)
+static void	handle_heredoc_input(int tmp_fd, const char *ql, t_token *lst)
 {
 	char	*line;
 	char	*ex;

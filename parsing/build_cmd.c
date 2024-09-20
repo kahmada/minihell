@@ -6,13 +6,13 @@
 /*   By: chourri <chourri@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/17 11:25:04 by chourri           #+#    #+#             */
-/*   Updated: 2024/09/17 12:37:18 by chourri          ###   ########.fr       */
+/*   Updated: 2024/09/19 14:07:41 by chourri          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../minishell.h"
 
-char	*join_data(char *combined_data, char *data, int flag)
+static char	*join_data(char *combined_data, char *data, int flag)
 {
 	char	*temp;
 
@@ -29,7 +29,7 @@ char	*join_data(char *combined_data, char *data, int flag)
 	return (temp);
 }
 
-void	ft_join(char **combined_data, char *data)
+static void	ft_join(char **combined_data, char *data)
 {
 	(*combined_data) = join_data((*combined_data), " ", 1);
 	(*combined_data) = join_data((*combined_data), data, 1);

@@ -6,13 +6,13 @@
 /*   By: chourri <chourri@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/17 11:28:12 by chourri           #+#    #+#             */
-/*   Updated: 2024/09/17 12:12:49 by chourri          ###   ########.fr       */
+/*   Updated: 2024/09/19 14:16:03 by chourri          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../minishell.h"
 
-void	ft_initialize(t_data *mydata, char *arg)
+static void	ft_initialize(t_data *mydata, char *arg)
 {
 	mydata->j = 0;
 	mydata->k = 0;
@@ -22,7 +22,7 @@ void	ft_initialize(t_data *mydata, char *arg)
 		return ;
 }
 
-void	remove_quotes(char **args)
+static void	remove_quotes(char **args)
 {
 	t_data	mydata;
 

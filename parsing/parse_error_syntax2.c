@@ -6,18 +6,18 @@
 /*   By: chourri <chourri@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/31 15:34:41 by chourri           #+#    #+#             */
-/*   Updated: 2024/09/14 10:45:11 by chourri          ###   ########.fr       */
+/*   Updated: 2024/09/19 14:15:29 by chourri          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../minishell.h"
 
-void	multiple_pipes_error(void)
+static void	multiple_pipes_error(void)
 {
 	parse_error("multiple pipes with no command in between\n");
 }
 
-int	pipe_parsing(t_token *lst)
+static int	pipe_parsing(t_token *lst)
 {
 	t_token	*curr;
 	t_token	*fin;
@@ -45,7 +45,7 @@ int	pipe_parsing(t_token *lst)
 	return (0);
 }
 
-int	heredoc_parsing(t_token *lst)
+static int	heredoc_parsing(t_token *lst)
 {
 	t_token	*curr;
 
@@ -60,7 +60,7 @@ int	heredoc_parsing(t_token *lst)
 			if (!curr)
 				return (parse_error("near unexpected token `newline'\n"), 1);
 			else if (curr->type != WORD && curr->type != INSIDE_DOUBLE_QUOTE
-				&& curr->type != INSIDE_SINGLE_QUOTE)
+				&& curr->type != INSIDE_SINGLE_QUOTE && curr->type != DS)
 				return (parse_error("near unexpected token `<<'\n"), 1);
 			else if (curr && curr->type == HEREDOC)
 				return (parse_error("near unexpected token `<<'\n"), 1);

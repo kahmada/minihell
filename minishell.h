@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: kahmada <kahmada@student.42.fr>            +#+  +:+       +#+        */
+/*   By: chourri <chourri@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/12 15:51:23 by chourri           #+#    #+#             */
-/*   Updated: 2024/09/17 15:00:17 by kahmada          ###   ########.fr       */
+/*   Updated: 2024/09/19 19:48:20 by chourri          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,7 +53,7 @@ typedef struct s_token
 {
 	char	*data;
 	t_type	type;
-	int		in_quotes;
+	// int		in_quotes;
 	int		flag;
 	int		sig_flag;
 	char	*exit_status;
@@ -158,11 +158,8 @@ int calculate_len(char *input);
 void add_npc_to_cmd(char *input, char **new_input);
 
 //parse_error_syntax
-int	redirection_symbols(int type_symbol);
-int	ft_linked_list_search_redirect_symbols(t_token *lst);
 void handle_child_error(const char *limiter, t_token *lst);
 
-void	parse_error(char *msg);
 int handle_heredoc(t_token *current, t_token *lst);
 int redirect_in_parsing(t_token *lst);
 int	redirect_out_parsing(t_token *lst);
@@ -178,12 +175,7 @@ t_type determine_redirect_or_special(char *token);
 t_type determine_quote_type(char *token, int *in_quotes);
 int parsing(t_token *lst);
 
-//expanding tools6
-int	is_alnum(char c);
-int	is_digit(char c);
-char	*ft_strndup(const char *s1, size_t n);
-int	ft_strncmp(const char *s1, const char *s2, size_t n);
-int	check_heredoc_presence(t_token *token);
+
 //expanding
 size_t expanded_len(char *data, char **envp);
 char *expand_variable(char *data, char **envp);
@@ -191,11 +183,6 @@ void	handle_token_expansion(t_token *token, char **envp);
 void ft_expand(t_token *token, char **envp);
 char *expand_variable(char *data, char **envp);
 //build_cmd_tools
-char	*ft_strjoin_space(char const *s1, char const *s2);
-int	is_redirection_symbol(int type);
-void ft_lstadd_back_new(t_token **lst, t_type type, const char *data);
-t_token *free_list(t_token *list);
-void	free_command_list(t_command *cmd_list);
 
 //build_cmd
 t_token *build_new_tokens_pipe(t_token *token);
@@ -227,39 +214,56 @@ char	**ft_split_cmd_quote(char const *s);
 void	free_word_array(char **array);
 
 t_token* build_token_list(char *output);
-void print_list(t_token *lst);
-void free_token_list(t_token *lst);
 //old
-// void ft_lstadd_back(t_token **lst, t_type type, char *data);
-void	ft_lstadd_back(t_token **lst, t_token *new);
-t_token	*ft_lstnew(char *data, t_type type);
 
-// int	ft_strcmp(char *s1, char *s2);
 // t_token	*ft_lstlast(t_token *lst);
-t_token	*last_token(t_token *head);
 int	parse_quotes(char *input);
 // int parsing(t_token *lst, char **envp);
 
-int	is_alphabet(char c);
 void    print_env(char **envp);
 // void handle_dollar(t_token *tokens, char **envp);
-//libft
+
+
+//libft_tools
+
+char *ft_strcat(char *dest, const char *src);
+char *ft_strcpy(char *dest, const char *src);
+t_token	*last_token(t_token *head);
+t_token	*ft_lstnew(char *data, t_type type);
+void	ft_lstadd_back(t_token **lst, t_token *new);
+void print_list(t_token *lst); //should be deleted later !!!!!!!!!!!!!
+void free_token_list(t_token *lst);
 int	ft_isalnum(int c);
 int	ft_isalpha(int c);
 int ft_isdigit(int c);
-long	ft_atoi(char *s);
 char	*ft_strchr(const char *s, int c);
 int	ft_strcmp(const char *s1, const char *s2);
 void	*ft_memcpy(void *dst, const void *src, size_t n);
-char	*ft_strjoin(char const *s1, char const *s2);
-char	*ft_strjoin2(char const *s1, char const *s2);
-char	*ft_strdup(const char *s1);
-size_t	ft_strlen(const char *s);
 char	*ft_strnstr(const char *haystack, const char *needle, size_t len);
-char	*ft_itoa(int n);
-char *ft_strcpy(char *dest, const char *src);
-char *ft_strcat(char *dest, const char *src);
+size_t	ft_strlen(const char *s);
+char	*ft_strdup(const char *s1);
+char	*ft_strjoin(char const *s1, char const *s2);
+long	ft_atoi(char *s);
+int	is_alphabet(char c);
+int	redirection_symbols(int type_symbol);
+int	ft_linked_list_search_redirect_symbols(t_token *lst);
+void	parse_error(char *msg);
+//expanding tools6
+int	is_alnum(char c);
+int	is_digit(char c);
+char	*ft_strndup(const char *s1, size_t n);
+int	ft_strncmp(const char *s1, const char *s2, size_t n);
+int	check_heredoc_presence(t_token *token);
 char	*ft_strtrim(char const *s1, char const *set);
+char	*ft_strjoin_space(char const *s1, char const *s2);
+int	is_redirection_symbol(int type);
+void ft_lstadd_back_new(t_token **lst, t_type type, const char *data);
+t_token *free_list(t_token *list);
+void	free_command_list(t_command *cmd_list);
+
+//libft_tools_end
+// char	*ft_strjoin2(char const *s1, char const *s2);
+char	*ft_itoa(int n);
 //execution
 char **execute_cmd(t_command *cmd, char **envp);
 char	*find_commande(char *cmd, char **envp);

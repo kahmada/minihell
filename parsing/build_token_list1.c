@@ -6,7 +6,7 @@
 /*   By: chourri <chourri@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/12 16:16:06 by chourri           #+#    #+#             */
-/*   Updated: 2024/09/12 19:19:06 by chourri          ###   ########.fr       */
+/*   Updated: 2024/09/19 14:01:42 by chourri          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,19 +15,6 @@
 int	is_combined(char **tokens, int i)
 {
 	return (tokens[i][0] == '$' && is_alphabet(tokens[i][1]));
-}
-
-void	update_last_token_quotes(t_token *lst, int in_quotes)
-{
-	t_token	*last;
-
-	if (lst)
-	{
-		last = lst;
-		while (last->next)
-			last = last->next;
-		last->in_quotes = in_quotes;
-	}
 }
 
 void	handle_combined_tokens(t_token **lst, char **tokens, int *i)

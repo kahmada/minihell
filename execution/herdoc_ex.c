@@ -6,51 +6,49 @@
 /*   By: chourri <chourri@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/28 16:33:51 by kahmada           #+#    #+#             */
-/*   Updated: 2024/09/17 21:34:10 by chourri          ###   ########.fr       */
+/*   Updated: 2024/09/19 12:31:07 by chourri          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../minishell.h"
 
-
 void signal_handler_heredoc(int signal)
 {
 	if (signal == SIGINT)
 	{
-		sig_received = 1; // Set flag to indicate signal is received
+		sig_received = 1;
 		close(0);
 		return;
 	}
 }
-
-static char *remove_quotes2(char *data)
+//added
+static char *remove_quotes_limiter(const char *arg)
 {
-	int len = ft_strlen(data);
-	int start = 0;
-	int end = len - 1;
-	char *new;
+	int	i;
+	int	j;
+	char *new_arg;
+	char quote_char;
+	int in_quotes;
 
-	if (data[0] == '"' || data[0] == '\'')
+	i = -1;
+	j = 0;
+	in_quotes = 0;
+	new_arg = (char *)malloc(strlen(arg) + 1);
+	if (!new_arg) return NULL;
+	while (arg[++i])
 	{
-		char opening_quote = data[0];
-		if (data[end] == opening_quote)
+		if (!in_quotes && (arg[i] == '\'' || arg[i] == '\"'))
 		{
-			start++;
-			end--;
+			in_quotes = 1;
+			quote_char = arg[i];
 		}
+		else if (in_quotes && arg[i] == quote_char)
+			in_quotes = 0;
+		else
+			new_arg[j++] = arg[i];
 	}
-	len = end - start + 1;
-	new = malloc(len + 1);
-	if (!new)
-		return (NULL);
-	int i = 0;
-	while (i < len)
-	{
-		new[i] = data[start + i];
-		i++;
-	}
-	new[len] = '\0';
-	return (new);
+	new_arg[j] = '\0';
+	return (new_arg);
 }
 
 void handle_child(const char *limiter, int tmp_fd, char **envp)
@@ -62,7 +60,9 @@ void handle_child(const char *limiter, int tmp_fd, char **envp)
 
 	if (ft_strchr((char *)limiter, '"') || ft_strchr((char *)limiter, '\''))
 		flag = 1;
-	quoted_limiter = remove_quotes2((char *)limiter);
+	if (limiter[0] == '$' && limiter[1] != '$' && (ft_strchr((char *)limiter, '"') || ft_strchr((char *)limiter, '\'')))
+		limiter++; //ADDED
+	quoted_limiter = remove_quotes_limiter((char *)limiter);
 	signal(SIGINT, signal_handler_heredoc);
 	while (1)
 	{

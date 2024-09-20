@@ -6,13 +6,13 @@
 /*   By: chourri <chourri@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/12 16:13:04 by chourri           #+#    #+#             */
-/*   Updated: 2024/09/17 21:05:05 by chourri          ###   ########.fr       */
+/*   Updated: 2024/09/19 14:06:27 by chourri          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../minishell.h"
 
-void	len_to_add(char c1, char c2, int *extra_len, int *i)
+static void	len_to_add(char c1, char c2, int *extra_len, int *i)
 {
 	if ((c1 == '$' && c2 == '?') || (c1 == '>' && c2 == '>')
 		|| (c1 == '<' && c2 == '<'))

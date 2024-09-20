@@ -6,13 +6,13 @@
 /*   By: chourri <chourri@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/14 10:52:34 by chourri           #+#    #+#             */
-/*   Updated: 2024/09/17 12:37:59 by chourri          ###   ########.fr       */
+/*   Updated: 2024/09/19 14:11:26 by chourri          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../minishell.h"
 
-size_t	ft_exit_status(char **data)
+static size_t	ft_exit_status(char **data)
 {
 	char	*exit_status;
 	size_t	len;
@@ -24,7 +24,7 @@ size_t	ft_exit_status(char **data)
 	return (len);
 }
 
-size_t	handle_numeric_var(char **data)
+static size_t	handle_numeric_var(char **data)
 {
 	size_t	len;
 
@@ -37,7 +37,7 @@ size_t	handle_numeric_var(char **data)
 	return (len);
 }
 
-size_t	expand_var(char **data, char **envp)
+static size_t	expand_var(char **data, char **envp)
 {
 	t_data	mydata;
 
@@ -61,7 +61,7 @@ size_t	expand_var(char **data, char **envp)
 	return (0);
 }
 
-void	handle_normal_char(char **data, size_t *exp_len)
+static void	handle_normal_char(char **data, size_t *exp_len)
 {
 	(*exp_len)++;
 	(*data)++;

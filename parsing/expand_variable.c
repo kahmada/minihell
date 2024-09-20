@@ -6,13 +6,13 @@
 /*   By: chourri <chourri@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/14 11:05:14 by chourri           #+#    #+#             */
-/*   Updated: 2024/09/17 21:45:48 by chourri          ###   ########.fr       */
+/*   Updated: 2024/09/20 12:23:49 by chourri          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../minishell.h"
 
-void	exit_status(char **data, char **ptr)
+static void	exit_status(char **data, char **ptr)
 {
 	char	*exit_status;
 
@@ -23,7 +23,7 @@ void	exit_status(char **data, char **ptr)
 	*data += 2;
 }
 
-void	expand_env_variable(char **data, char **ptr, char **envp)
+static void	expand_env_variable(char **data, char **ptr, char **envp)
 {
 	t_data	mydata;
 
@@ -49,11 +49,11 @@ void	expand_env_variable(char **data, char **ptr, char **envp)
 	free(mydata.var);
 }
 
-void	expand_variable_value(char **data, char **ptr, char **envp)
+static void	expand_variable_value(char **data, char **ptr, char **envp)
 {
 	if (**data == '0')
 	{
-		ft_strcpy(*ptr, "bash");
+		ft_strcpy(*ptr, "bash"); 
 		*ptr += 4;
 		(*data)++;
 	}
@@ -69,12 +69,17 @@ void	expand_variable_value(char **data, char **ptr, char **envp)
 		expand_env_variable(data, ptr, envp);
 }
 
+static void	ft_allocation(t_data *mydata, char *data, char **envp)
+{
+	mydata->exp_len = expanded_len(data, envp);
+	mydata->exp = malloc(mydata->exp_len + 1);
+}
+
 char	*expand_variable(char *data, char **envp)
 {
 	t_data	mydata;
 
-	mydata.exp_len = expanded_len(data, envp);
-	mydata.exp = malloc(mydata.exp_len + 1);
+	ft_allocation(&mydata, data, envp);
 	if (!mydata.exp)
 		return (NULL);
 	mydata.ptr = mydata.exp;
@@ -87,7 +92,7 @@ char	*expand_variable(char *data, char **envp)
 			*mydata.ptr++ = *data++;
 			*mydata.ptr++ = *data++;
 		}
-		else if (*data == '$' && is_alnum(*(data + 1)))
+		else if ((*data == '$' && is_alnum(*(data + 1))))
 		{
 			data++;
 			expand_variable_value(&data, &mydata.ptr, envp);

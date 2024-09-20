@@ -6,13 +6,13 @@
 /*   By: chourri <chourri@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/30 10:23:50 by chourri           #+#    #+#             */
-/*   Updated: 2024/09/17 12:38:14 by chourri          ###   ########.fr       */
+/*   Updated: 2024/09/19 14:14:04 by chourri          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../minishell.h"
 
-void	expand_exit_status(t_token *token)
+static void	expand_exit_status(t_token *token)
 {
 	char	*expanded;
 
@@ -24,20 +24,7 @@ void	expand_exit_status(t_token *token)
 	}
 }
 
-void	expand_tilde(t_token *token, char **envp)
-{
-	char	*expanded;
-
-	if ((token->data[0] == '~' && token->data[1] == '/')
-		|| (token->data[0] == '~' && token->data[1] == '\0'))
-	{
-		expanded = expand_variable(token->data, envp);
-		free(token->data);
-		token->data = expanded;
-	}
-}
-
-void	expand_special_vars(t_token *token)
+static void	expand_special_vars(t_token *token)
 {
 	if (ft_strcmp(token->data, "$*") == 0
 		|| ft_strcmp(token->data, "\"$*\"") == 0
@@ -49,7 +36,7 @@ void	expand_special_vars(t_token *token)
 	}
 }
 
-void	expand_dollar_sign(t_token *token, char **envp)
+static void	expand_dollar_sign(t_token *token, char **envp)
 {
 	char	*expanded;
 
@@ -67,7 +54,6 @@ void	handle_token_expansion(t_token *token, char **envp)
 		&& token->type != DS)
 	{
 		expand_exit_status(token);
-		expand_tilde(token, envp);
 		expand_special_vars(token);
 		if (token->data[0] != '"' && token->data[0] != '\'')
 			expand_dollar_sign(token, envp);
