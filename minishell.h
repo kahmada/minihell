@@ -6,7 +6,7 @@
 /*   By: chourri <chourri@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/12 15:51:23 by chourri           #+#    #+#             */
-/*   Updated: 2024/09/19 19:48:20 by chourri          ###   ########.fr       */
+/*   Updated: 2024/09/20 16:20:45 by chourri          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -192,6 +192,9 @@ void	remove_quotes_end(t_command *cmd);
 //signals
 void	sigint_handler(int s);
 void signal_handler_heredoc(int signal);
+
+int	should_open_heredoc(t_token *lst);
+
 //parsing end
 
 

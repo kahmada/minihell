@@ -3,10 +3,10 @@
 #                                                         :::      ::::::::    #
 #    Makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: kahmada <kahmada@student.42.fr>            +#+  +:+       +#+         #
+#    By: chourri <chourri@student.42.fr>            +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/06/12 15:51:05 by chourri           #+#    #+#              #
-#    Updated: 2024/09/17 14:59:21 by kahmada          ###   ########.fr        #
+#    Updated: 2024/09/20 16:21:54 by chourri          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -40,6 +40,7 @@ SRC = main.c \
  parsing/expanding.c \
  parsing/ft_expand.c \
  parsing/build_cmd.c \
+ parsing/is_syntax_errors.c \
  parsing/remove_quotes_before_exec.c \
  execution/ex_cmd.c\
  execution/ex_cmd_utils.c\
