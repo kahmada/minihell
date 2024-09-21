@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   bult.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: kahmada <kahmada@student.42.fr>            +#+  +:+       +#+        */
+/*   By: chourri <chourri@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/28 18:28:18 by kahmada           #+#    #+#             */
-/*   Updated: 2024/09/17 15:01:41 by kahmada          ###   ########.fr       */
+/*   Updated: 2024/09/21 11:39:05 by chourri          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,6 +18,7 @@ char	*manage_exit_status(int status, int set_flag)
 
 	if (set_flag)
 		current_status = status;
+	// printf("curr status = %d\n", current_status);
 	return (ft_itoa(current_status));
 }
 

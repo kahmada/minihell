@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   herdoc_ex.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: kahmada <kahmada@student.42.fr>            +#+  +:+       +#+        */
+/*   By: chourri <chourri@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/28 16:33:51 by kahmada           #+#    #+#             */
-/*   Updated: 2024/09/20 18:55:15 by kahmada          ###   ########.fr       */
+/*   Updated: 2024/09/21 11:17:42 by chourri          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,17 +14,18 @@
 
 typedef struct s_here_doc
 {
-    const char *limiter;
-    int fd;
-    char *file_name;
-    t_command *cmd;
-    char **envp;
+	const char *limiter;
+	int fd;
+	char *file_name;
+	t_command *cmd;
+	char **envp;
 } t_here_doc;
 
 void signal_handler_heredoc(int signal)
 {
 	if (signal == SIGINT)
 	{
+		rl_catch_signals = 0;
 		sig_received = 1;
 		close(0);
 		return;
@@ -59,16 +60,17 @@ static char *remove_quotes_limiter(const char *arg)
 	new_arg[j] = '\0';
 	return (new_arg);
 }
-char *handle_expansion(char *line, int flag, char **envp)
-{
-    char *expanded_line = line;
 
-    if (!flag && (ft_strchr(line, '$') || ft_strchr(line, '~')))
-    {
-        expanded_line = expand_variable(line, envp);
-        free(line);
-    }
-    return expanded_line;
+char *handle_expansion(char *quoted_limiter, char *line, int flag, char **envp)
+{
+	char *expanded_line = line;
+
+	if (!flag && (ft_strchr(line, '$') || ft_strchr(line, '~')) && ft_strcmp(quoted_limiter, line))
+	{
+		expanded_line = expand_variable(line, envp);
+		free(line);
+	}
+	return expanded_line;
 }
 
 int process_input_her(int tmp_fd, char *quoted_limiter, int flag, char **envp)
@@ -81,7 +83,7 @@ int process_input_her(int tmp_fd, char *quoted_limiter, int flag, char **envp)
         line = readline("> ");
         if (!line)
             return 0;
-        expanded_line = handle_expansion(line, flag, envp);
+        expanded_line = handle_expansion(quoted_limiter, line, flag, envp);
         line = expanded_line;
 		printf("line = %s\n", line);
         if (ft_strcmp(line, quoted_limiter) == 0)
@@ -106,6 +108,7 @@ void handle_child(const char *limiter, int tmp_fd, char **envp)
         limiter++;
     quoted_limiter = remove_quotes_limiter((char *)limiter);
 	printf("limiter = %s \n", quoted_limiter);
+	rl_catch_signals = 1; //to understand
      signal(SIGINT, signal_handler_heredoc);
     if (!process_input_her(tmp_fd, quoted_limiter, flag, envp))
         free(quoted_limiter);
@@ -203,7 +206,7 @@ int process_here_doc(t_command *cmd, int i, int *file_counter, char **envp)
 	int fd = dup(0);
 	handle_here_doc(cmd->args[i + 1], cmd, (*file_counter)++, envp);
 	if (not_last(cmd, i))
-        close(cmd->fd_in); 
+        close(cmd->fd_in);
 	if (sig_received == 1)
 	{
 		cmd->ex = manage_exit_status(1,1);

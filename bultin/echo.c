@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   echo.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: kahmada <kahmada@student.42.fr>            +#+  +:+       +#+        */
+/*   By: chourri <chourri@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/28 18:28:35 by kahmada           #+#    #+#             */
-/*   Updated: 2024/09/16 12:16:38 by kahmada          ###   ########.fr       */
+/*   Updated: 2024/09/21 11:38:37 by chourri          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,6 +57,6 @@ void	bult_echo(t_command *cmd)
 	}
 	if (flag == 0)
 		write(1, "\n", 1);
-	cmd->ex = manage_exit_status(0, 1);
-	free(cmd->ex);
+	// cmd->ex = manage_exit_status(0, 1);
+	// free(cmd->ex);
 }
