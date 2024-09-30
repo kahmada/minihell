@@ -6,7 +6,7 @@
 #    By: kahmada <kahmada@student.42.fr>            +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/06/12 15:51:05 by chourri           #+#    #+#              #
-#    Updated: 2024/09/18 11:12:43 by kahmada          ###   ########.fr        #
+#    Updated: 2024/09/30 16:57:57 by kahmada          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -50,6 +50,9 @@ SRC = main.c \
  execution/herdoc_ex.c\
  execution/herdoc_utils.c\
  execution/handle_redirections.c\
+ execution/ex_func.c\
+ execution/herdoc_3.c\
+ execution/herdoc_ex_second.c\
  bultin/bult.c\
  bultin/env.c\
  bultin/echo.c\
@@ -59,6 +62,10 @@ SRC = main.c \
  bultin/exit.c\
  bultin/cd.c\
  bultin/unset_pwd.c \
+ bultin/env_to_env.c \
+ bultin/exp_handle.c \
+ bultin/func_help.c \
+ bultin/ex_stat_ch.c \
  signals/Ctrl_c.c \
  libft_tools/tools1.c \
  libft_tools/tools2.c \

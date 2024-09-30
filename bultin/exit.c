@@ -6,7 +6,7 @@
 /*   By: kahmada <kahmada@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/02 13:31:20 by kahmada           #+#    #+#             */
-/*   Updated: 2024/09/15 19:04:57 by kahmada          ###   ########.fr       */
+/*   Updated: 2024/09/27 15:12:43 by kahmada          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -77,6 +77,8 @@ void	handle_numeric_error(t_command *cmd)
 
 void	bult_exit(t_command *cmd)
 {
+	if (cmd->next)
+		return ;
 	handle_invalid_argument(cmd->args[1]);
 	if (cmd->args[1] && !just_spaces(cmd->args[1]) && !cmd->args[2])
 		cmd->args[1] = ft_strtrim(cmd->args[1], " ");
@@ -102,3 +104,5 @@ void	bult_exit(t_command *cmd)
 	free(cmd->ex);
 	exit(0);
 }
+
+

@@ -6,7 +6,7 @@
 /*   By: kahmada <kahmada@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/12 15:51:23 by chourri           #+#    #+#             */
-/*   Updated: 2024/09/20 19:01:54 by kahmada          ###   ########.fr       */
+/*   Updated: 2024/09/30 16:48:48 by kahmada          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,6 +25,7 @@
 #include <readline/history.h>
 # include <sys/stat.h>
 #include <termios.h>
+#include <dirent.h>
 #define NON_PRINTABLE_CHAR '\x7F'
 // #define NON_PRINTABLE_CHAR '@'
 
@@ -63,7 +64,6 @@ typedef struct s_token
 }			t_token;
 
 
-
 typedef struct s_command
 {
 	char	**args;
@@ -78,6 +78,14 @@ typedef struct s_command
 	char *file_name; //added
 }			t_command;
 
+typedef struct s_here_doc
+{
+    const char *limiter;
+    int fd;
+    char *file_name;
+    t_command *cmd;
+    char **envp;
+} t_here_doc;
 typedef struct s_redirect_fds
 {
     int input_fd;
@@ -266,7 +274,15 @@ void ft_lstadd_back_new(t_token **lst, t_type type, const char *data);
 t_token *free_list(t_token *list);
 void	free_command_list(t_command *cmd_list);
 char	*ft_itoa(int n);
-//execution
+void child_process_execution(t_command *cmd, char **envp, int *input_fd);
+//herdoc 
+char *handle_expansion(char *quoted_limiter, char *line, int flag, char **envp);
+char *remove_quotes_limiter(const char *arg);
+void signal_handler_heredoc(int signal);
+int create_tempfile(char *temp_filename, int file_counter);
+void handle_child(const char *limiter, int tmp_fd, char **envp);
+int process_input_her(int tmp_fd, char *quoted_limiter, int flag, char **envp);
+// execution
 char **execute_cmd(t_command *cmd, char **envp);
 char	*find_commande(char *cmd, char **envp);
 char	**ft_split_lib(char const *s, char c);
@@ -295,6 +311,9 @@ char **handle_builtin(t_command *cmd, char **envp);
 //env
 char **ft_envp_copy(char **envp);
 //bultin
+char **handle_built_out(t_command *cmd, char **envp);
+void	valid_and_prs_exprt(const char *arg, char **ky, char **val, int *ap_md);
+void	free_env(t_env *env);
 int is_builtin(char *cmd);
 void bult_env(t_env *env, t_command *cmd);
 t_env *get_env(char ***envp, t_env *env);
@@ -311,7 +330,7 @@ int is_valid_variable_name(char *key);
 void add_env(t_env **env, char *key, char *value);
 void ft_remove_quotes(char **str);
 void	update_envp(t_env **envp, char *key, char *value);
-void	update_environment(t_env **env, char *key, char *value, int append_mode);
+void	update_environment(t_env **env, char *key, char *value);
 void	print_export(t_env *env);
 //
 int her(t_command *cmd, char **envp);
@@ -336,6 +355,5 @@ char *expand_variable(char *data, char **envp);
 void remove_quotes_END(t_command *cmd);
 void free_token_newlist(t_token *lst);
 char	*manage_exit_status(int status, int set_flag);
-
-
+void	wrerror(char *str);
 #endif

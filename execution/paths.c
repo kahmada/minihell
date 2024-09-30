@@ -6,7 +6,7 @@
 /*   By: kahmada <kahmada@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/27 11:55:39 by kahmada           #+#    #+#             */
-/*   Updated: 2024/09/18 11:25:57 by kahmada          ###   ########.fr       */
+/*   Updated: 2024/09/30 16:34:49 by kahmada          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,24 +15,15 @@
 static char	**extract_paths_from_envp(char **envp)
 {
 	int		i;
-	char	**error;
 
 	i = 0;
-	error = malloc(sizeof(char *));
-	*error = "3";
 	while (envp[i] && ft_strnstr(envp[i], "PATH", 4) == NULL)
 		i++;
 	if (!envp[i])
 	{
-		return (error);
+		return (NULL);
 	}
 	return (ft_split_lib(envp[i] + 5, ':'));
-}
-
-void	wrerror(char *str)
-{
-	if (str)
-		write(2, str, ft_strlen(str));
 }
 
 static char	*find_command_in_paths(char *cmd, char **paths)
@@ -61,38 +52,43 @@ static char	*find_command_in_paths(char *cmd, char **paths)
 	return (NULL);
 }
 
-char	*check_absolute_path(char *cmd, struct stat *filestat)
+char *check_absolute_path(char *cmd)
 {
-	if (stat(cmd, filestat) == 0)
-	{
-		if (S_ISDIR(filestat->st_mode))
-		{
-			fprintf(stderr, "%s: is a directory\n", cmd);
-			cmd = "1";
-			return (cmd);
-		}
-		if (access(cmd, X_OK) == 0)
-			return (cmd);
-		else
-		{
-			fprintf(stderr, "%s: no such file or directory\n", cmd);
-			cmd = "2";
-			return (cmd);
-		}
-	}
-	else
-	{
-		fprintf(stderr, "%s: no such file or directory\n", cmd);
-		cmd = "2";
-		return (cmd);
-	}
+    DIR *dir = opendir(cmd);
+
+    if (dir)
+    {
+        fprintf(stderr, "%s: is a directory\n", cmd);
+        closedir(dir);
+        cmd = "1";
+        return (cmd);
+    }
+    else
+    {
+        if (access(cmd, F_OK) == 0)
+        {
+            if (access(cmd, X_OK) == 0)
+                return (cmd);
+            else
+            {
+                fprintf(stderr, "%s: no such file or directory\n", cmd);
+                cmd = "2";
+                return (cmd);
+            }
+        }
+        else
+        {
+            fprintf(stderr, "%s: no such file or directory\n", cmd);
+            cmd = "2";
+            return (cmd);
+        }
+    }
 }
 
 char	*find_commande(char *cmd, char **envp)
 {
 	char		**paths;
 	char		*path;
-	struct stat	filestat;
 	int			i;
 
 	i = 0;
@@ -101,12 +97,13 @@ char	*find_commande(char *cmd, char **envp)
 	if (cmd[0] == '.')
 		return (cmd);
 	else if (cmd[0] == '/')
-		return (check_absolute_path(cmd, &filestat));
+		return (check_absolute_path(cmd));
 	paths = extract_paths_from_envp(envp);
 	if (!paths)
-		return (NULL);
-	if (ft_strcmp(*paths, "3") == 0)
-		return ("3");
+	{
+		fprintf(stderr, "%s: no such file or directory\n", cmd);
+		exit(1);
+	}	
 	path = find_command_in_paths(cmd, paths);
 	while (paths[i])
 		free(paths[i++]);

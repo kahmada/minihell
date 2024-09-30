@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: chourri <chourri@student.42.fr>            +#+  +:+       +#+        */
+/*   By: kahmada <kahmada@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/12 16:02:24 by chourri           #+#    #+#             */
-/*   Updated: 2024/09/21 11:11:31 by chourri          ###   ########.fr       */
+/*   Updated: 2024/09/29 14:37:41 by kahmada          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,8 +48,8 @@ char **process_command(char *input, char **envp)
 			lst->flag = 0;
 			if (lst)
 			{
-				if(parsing(lst))
-					return (free_token_list(lst),free(output), envp);
+				// if(parsing(lst))
+				// 	return (free_token_list(lst),free(output), envp);
 				ft_expand(lst, envp); //no leaks
 				new_lst = build_new_tokens_pipe(lst); //leaks here
 				t_command *cmd = build_cmd(new_lst);
@@ -120,7 +120,7 @@ int main(int ac, char **av, char **envp)
 {
 	char *input;
 	char **envp_copy;
-	rl_catch_signals = 0; //to not print ^C in the prompt
+	//rl_catch_signals = 0; //to not print ^C in the prompt
 	signal(SIGQUIT, SIG_IGN);
 	signal(SIGINT, sigint_handler);
 	envp_copy = ft_envp_copy(envp);

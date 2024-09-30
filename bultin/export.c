@@ -6,45 +6,11 @@
 /*   By: kahmada <kahmada@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/20 17:29:48 by kahmada           #+#    #+#             */
-/*   Updated: 2024/09/17 15:05:47 by kahmada          ###   ########.fr       */
+/*   Updated: 2024/09/30 17:22:22 by kahmada          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../minishell.h"
-
-void	handle_invalid_identifier(char **key, char **value)
-{
-	fprintf(stderr, "minishell: export: `%s`:not a valid identifier\n", *key);
-	free(*key);
-	*key = NULL;
-	*value = NULL;
-}
-
-void	valid_and_prs_exprt(const char *arg, char **ky, char **val, int *ap_md)
-{
-	*ap_md = 0;
-	*ky = ft_strdup(arg);
-	if ((*ky)[0] == '=' || (*ky)[0] == '$' || ft_strchr(*ky, '=') == *ky)
-	{
-		handle_invalid_identifier(ky, val);
-		return ;
-	}
-	*val = ft_strchr(*ky, '=');
-	if (!*val || *(*val + 1) == '\0')
-	{
-		*val = NULL;
-		return ;
-	}
-	**val = '\0';
-	(*val)++;
-	if ((*ky)[ft_strlen(*ky) - 1] == '+')
-	{
-		*ap_md = 1;
-		(*ky)[ft_strlen(*ky) - 1] = '\0';
-	}
-	if (!is_valid_variable_name(*ky))
-		handle_invalid_identifier(ky, val);
-}
 
 void	handle_export_modes(t_env **env, char *key, char *value, int ap_md)
 {
@@ -72,7 +38,7 @@ void	handle_export_modes(t_env **env, char *key, char *value, int ap_md)
 			add_env(env, key, value);
 	}
 	else
-		update_environment(env, key, value, ap_md);
+		update_environment(env, key, value);
 }
 
 void	process_export_argument(t_command *cmd, t_env **env, char *arg)
@@ -88,6 +54,7 @@ void	process_export_argument(t_command *cmd, t_env **env, char *arg)
 		free(cmd->ex);
 		return ;
 	}
+	// printf("======%s\n", key);
 	handle_export_modes(env, key, value, append_mode);
 	free(key);
 }

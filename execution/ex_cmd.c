@@ -6,7 +6,7 @@
 /*   By: kahmada <kahmada@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/27 11:53:32 by kahmada           #+#    #+#             */
-/*   Updated: 2024/09/20 13:18:50 by kahmada          ###   ########.fr       */
+/*   Updated: 2024/09/30 16:40:24 by kahmada          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,7 +18,9 @@ int	handle_command_path(char *cmd_path, char *cmd_name)
 
 	if (!cmd_path)
 	{
-		if (cmd_name)
+		if(ft_strcmp(cmd_name, "exit") == 0)
+			return (1);
+		else if (cmd_name)
 			fprintf(stderr, "Command not found: %s\n", cmd_name);
 		ex = manage_exit_status(127, 1);
 		free(ex);
@@ -26,36 +28,48 @@ int	handle_command_path(char *cmd_path, char *cmd_name)
 	}
 	else if (ft_strcmp(cmd_path, "1") == 0 || ft_strcmp(cmd_path, "2") == 0)
 		return (1);
-	else if (ft_strcmp(cmd_path, "3") == 0)
-	{
-		printf("%s: No such file or directory\n", cmd_name);
-		return (2);
-	}
 	return (0);
 }
 
-void	child_process_execution(t_command *cmd, char **envp, int *input_fd)
+void child_process_execution(t_command *cmd, char **envp, int *input_fd)
 {
-	char	*cmd_path;
-	int		status;
+    char *cmd_path;
+    int status;
 
-	signal(SIGINT, SIG_DFL);
-	signal(SIGQUIT, SIG_DFL);
-	dup2(*input_fd, STDIN_FILENO);
-	if (cmd->next)
-		dup2(cmd->pipe_fd[1], STDOUT_FILENO);
-	close(cmd->pipe_fd[0]);
-	if (*input_fd != 0)
-		close(*input_fd);
-	handle_redirects(cmd);
-	cmd_path = find_commande(cmd->args[0], envp);
-	status = handle_command_path(cmd_path, cmd->args[0]);
-	if (status == 1 || status == 2)
-		return ;
-	execve(cmd_path, cmd->args, envp);
-	perror("execve");
-	cmd->ex = manage_exit_status(EXIT_FAILURE, 1);
-	exit(EXIT_FAILURE);
+    signal(SIGINT, SIG_DFL);
+    signal(SIGQUIT, SIG_DFL);
+    dup2(*input_fd, STDIN_FILENO);
+    
+    if (cmd->next)
+        dup2(cmd->pipe_fd[1], STDOUT_FILENO);
+
+    close(cmd->pipe_fd[0]);
+    if (*input_fd != 0)
+        close(*input_fd);
+
+    handle_redirects(cmd);
+    
+    // Check if the command is a built-in
+    if (is_builtin(cmd->args[0]))
+    {
+        // Execute the built-in command
+        cmd->last_envp = handle_builtin_cmd(cmd, envp);
+        envp = f_update_envp(envp, cmd->last_envp);
+        
+        // Exit after handling the built-in command
+        exit(0); 
+    }
+
+    cmd_path = find_commande(cmd->args[0], envp);
+    
+    status = handle_command_path(cmd_path, cmd->args[0]);
+    
+    if (status == 1 || status == 2)
+        return;
+
+    execve(cmd_path, cmd->args, envp);
+    perror("execve");
+    exit(EXIT_FAILURE); // Exit with failure if execve fails
 }
 
 pid_t	execute_piped_cmd(t_command *cmd, char **envp, int *input_fd)
@@ -80,7 +94,10 @@ pid_t	execute_piped_cmd(t_command *cmd, char **envp, int *input_fd)
 		exit(EXIT_FAILURE);
 	}
 	else if (pid == 0)
+	{
 		child_process_execution(cmd, envp, input_fd);
+	}
+		
 	else
 		handle_parent_signals(cmd);
 	return (pid);
@@ -93,8 +110,8 @@ void	exec_pipes(t_command *cmd, char **envp, int *child_pids, int *input_fd)
 	i = 0;
 	while (cmd)
 	{
-		if (cmd->next == NULL && is_builtin(cmd->args[0]))
-			return ;
+		// if (cmd->next == NULL && is_builtin(cmd->args[0]))
+		// 	return ;
 		child_pids[i++] = execute_piped_cmd(cmd, envp, input_fd);
 		close(cmd->pipe_fd[1]);
 		if (*input_fd != 0)
@@ -118,7 +135,7 @@ char	**execute_cmd(t_command *cmd, char **envp)
 	exec_pipes(cmd, envp, child_pids, &input_fd);
 	if (cmd && is_builtin(cmd->args[0]))
 	{
-		cmd->last_envp = handle_builtin_cmd(cmd, envp);
+		cmd->last_envp = handle_built_out(cmd, envp);
 		envp = f_update_envp(envp, cmd->last_envp);
 	}
 	close(input_fd);
@@ -127,3 +144,13 @@ char	**execute_cmd(t_command *cmd, char **envp)
 	signal(SIGINT, sigint_handler);
 	return (envp);
 }
+	// if (cmd && is_builtin(cmd->args[0]))
+	// 	{
+	// 		// Execute the built-in command (inside the child process)
+	// 		cmd->last_envp = handle_builtin_cmd(cmd, envp);
+	// 		// Update the environment inside the child process (if needed)
+	// 		envp = f_update_envp(envp, cmd->last_envp);
+	// 		// Exit after handling the built-in command
+	// 		// cmd->ex = manage_exit_status()
+	// 		exit(0); 
+	// 	}

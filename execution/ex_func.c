@@ -1,22 +1,32 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_expand.c                                        :+:      :+:    :+:   */
+/*   ex_func.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: kahmada <kahmada@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/09/15 13:53:28 by chourri           #+#    #+#             */
-/*   Updated: 2024/09/15 14:13:48 by kahmada          ###   ########.fr       */
+/*   Created: 2024/09/29 17:47:43 by kahmada           #+#    #+#             */
+/*   Updated: 2024/09/29 17:48:08 by kahmada          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../minishell.h"
 
-void	ft_expand(t_token *token, char **envp)
+void	handle_parent_signals(t_command *cmd)
 {
-	while (token && token->data)
-	{
-		handle_token_expansion(token, envp);
-		token = token->next;
-	}
+	if(cmd->fd_in != 0)
+		close(cmd->fd_in);
+	signal(SIGINT, SIG_IGN);
+	cmd->ex = manage_exit_status(127, 1);
+	free(cmd->ex);
+	signal(SIGQUIT, SIG_IGN);
+}
+
+char	**handle_builtin_cmd(t_command *cmd, char **envp)
+{
+	handle_redirects(cmd);
+	envp = handle_builtin(cmd, envp);
+	cmd->ex = manage_exit_status(0, 1);
+	free(cmd->ex);
+	return (envp);
 }

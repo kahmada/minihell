@@ -6,7 +6,7 @@
 /*   By: kahmada <kahmada@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/09 14:52:44 by kahmada           #+#    #+#             */
-/*   Updated: 2024/09/17 15:08:39 by kahmada          ###   ########.fr       */
+/*   Updated: 2024/09/30 16:48:34 by kahmada          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,6 +29,7 @@ void	bult_pwd(t_command *cmd)
 	free(cmd->ex);
 	free(cwd);
 }
+
 
 int	unset_variable(t_env **env, const char *key)
 {

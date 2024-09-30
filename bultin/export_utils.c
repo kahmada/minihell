@@ -6,7 +6,7 @@
 /*   By: kahmada <kahmada@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/26 16:20:58 by kahmada           #+#    #+#             */
-/*   Updated: 2024/09/17 15:08:09 by kahmada          ###   ########.fr       */
+/*   Updated: 2024/09/29 16:27:30 by kahmada          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,20 +44,18 @@ void	print_export(t_env *env)
 {
 	while (env)
 	{
-		printf("declare -x %s", env->key);
+		printf("declare -x %s", env->key);//declare -x PATH
 		if (env->value && env->value[0])
-			printf("=\"%s\"\n", env->value);
-		else
-			printf("\n");
+			printf("=\"%s\"\n", env->value);//="/usr/local/bin:/usr/bin:/bin:/usr/sbin
+		printf("\n");//pour passer l star tani
 		env = env->next;
 	}
 }
 
-void	update_environment(t_env **env, char *key, char *value, int append_mode)
+void	update_environment(t_env **env, char *key, char *value)
 {
 	t_env	*existing;
 
-	(void)append_mode;
 	existing = find_env(*env, key);
 	if (existing)
 	{

@@ -1,32 +1,40 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   tool_ex.c                                          :+:      :+:    :+:   */
+/*   func_help.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: kahmada <kahmada@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/09/16 10:00:24 by kahmada           #+#    #+#             */
-/*   Updated: 2024/09/29 17:47:02 by kahmada          ###   ########.fr       */
+/*   Created: 2024/09/29 17:33:30 by kahmada           #+#    #+#             */
+/*   Updated: 2024/09/29 17:33:45 by kahmada          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../minishell.h"
 
-int	count_commands(t_command *cmd)
+void	free_env(t_env *env)
 {
-	int	count;
+	t_env	*tmp;
 
-	count = 0;
-	while (cmd)
+	while (env)
 	{
-		count++;
-		cmd = cmd->next;
+		tmp = env->next;
+		free(env->key);
+		free(env->value);
+		free(env);
+		env = tmp;
 	}
-	return (count);
 }
 
-void	wrerror(char *str)
+void	free_2d_array(char **array)
 {
-	if (str)
-		write(2, str, ft_strlen(str));
+	int	i;
+
+	i = 0;
+	while (array[i])
+	{
+		free(array[i]);
+		i++;
+	}
+	free(array);
 }
