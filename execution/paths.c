@@ -3,15 +3,33 @@
 /*                                                        :::      ::::::::   */
 /*   paths.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: kahmada <kahmada@student.42.fr>            +#+  +:+       +#+        */
+/*   By: chourri <chourri@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/27 11:55:39 by kahmada           #+#    #+#             */
-/*   Updated: 2024/09/30 16:34:49 by kahmada          ###   ########.fr       */
+/*   Updated: 2024/10/02 09:10:47 by chourri          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../minishell.h"
 
+
+// static char	**extract_paths_from_envp(char **envp)
+// {
+// 	int		i;
+// 	// char	**error;
+
+// 	i = 0;
+// 	// error = malloc(sizeof(char *));
+// 	// *error = "3";
+// 	while (envp[i] && ft_strnstr(envp[i], "PATH", 4) == NULL)
+// 		i++;
+// 	if (!envp[i])
+// 	{
+// 		return (NULL);
+// 	}
+
+// 	return (ft_split_lib(envp[i] + 5, ':'));
+// }
 static char	**extract_paths_from_envp(char **envp)
 {
 	int		i;
@@ -103,7 +121,7 @@ char	*find_commande(char *cmd, char **envp)
 	{
 		fprintf(stderr, "%s: no such file or directory\n", cmd);
 		exit(1);
-	}	
+	}
 	path = find_command_in_paths(cmd, paths);
 	while (paths[i])
 		free(paths[i++]);

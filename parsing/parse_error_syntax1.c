@@ -6,7 +6,7 @@
 /*   By: chourri <chourri@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/12 19:01:10 by chourri           #+#    #+#             */
-/*   Updated: 2024/09/18 16:43:53 by chourri          ###   ########.fr       */
+/*   Updated: 2024/10/02 09:08:08 by chourri          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,7 +50,7 @@ int	redirect_in_parsing(t_token *lst)
 			curr = curr->next;
 			while (curr && (curr->type == TAAB || curr->type == SPAACE))
 				curr = curr->next;
-			if (lst->sig_flag)
+			if (lst->sig_flag == 1)
 				return (1);
 			if (!curr)
 				return (parse_error("near unexpected token `newline'\n"), 1);
@@ -79,7 +79,7 @@ int	redirect_out_parsing(t_token *lst)
 			curr = curr->next;
 			while (curr && (curr->type == TAAB || curr->type == SPAACE))
 				curr = curr->next;
-			if (lst->sig_flag)
+			if (lst->sig_flag == 1)
 				return (1);
 			if (!curr)
 				return (parse_error("near unexpected token `newline'\n"), 1);
@@ -108,7 +108,7 @@ int	redirect_append(t_token *lst)
 			curr = curr->next;
 			while (curr && (curr->type == TAAB || curr->type == SPAACE))
 				curr = curr->next;
-			if (lst->sig_flag)
+			if (lst->sig_flag == 1)
 				return (1);
 			if (!curr)
 				return (parse_error("near unexpected token newline'\n"), 1);

@@ -6,7 +6,7 @@
 /*   By: chourri <chourri@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/12 13:11:25 by chourri           #+#    #+#             */
-/*   Updated: 2024/09/19 14:14:55 by chourri          ###   ########.fr       */
+/*   Updated: 2024/10/02 09:47:34 by chourri          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -82,7 +82,7 @@ static void	handle_heredoc_input(int tmp_fd, const char *ql, t_token *lst)
 	while (1)
 	{
 		line = readline("> ");
-		if (sig_received)
+		if (sig_received == 1)
 		{
 			ex = manage_exit_status(1, 1);
 			free(ex);

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   handle_redirections.c                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: kahmada <kahmada@student.42.fr>            +#+  +:+       +#+        */
+/*   By: chourri <chourri@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/13 19:03:35 by kahmada           #+#    #+#             */
-/*   Updated: 2024/09/15 12:44:15 by kahmada          ###   ########.fr       */
+/*   Updated: 2024/10/02 10:56:45 by chourri          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,6 +57,7 @@ void	handle_redirects(t_command *cmd)
 	i = 0;
 	while (i < num_args - 1)
 	{
+		// puts("heeey\n");
 		if (ft_strcmp(cmd->args[i], ">") == 0
 			|| ft_strcmp(cmd->args[i], "<") == 0
 			|| ft_strcmp(cmd->args[i], ">>") == 0

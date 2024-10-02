@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: kahmada <kahmada@student.42.fr>            +#+  +:+       +#+        */
+/*   By: chourri <chourri@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/12 15:51:23 by chourri           #+#    #+#             */
-/*   Updated: 2024/09/30 16:48:48 by kahmada          ###   ########.fr       */
+/*   Updated: 2024/10/02 11:55:51 by chourri          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -221,7 +221,7 @@ char	**ft_split_cmd_quote(char const *s);
 void	free_word_array(char **array);
 
 t_token* build_token_list(char *output);
-void print_list(t_token *lst);
+// void print_list(t_token *lst);
 void free_token_list(t_token *lst);
 //old
 // void ft_lstadd_back(t_token **lst, t_type type, char *data);
@@ -275,7 +275,7 @@ t_token *free_list(t_token *list);
 void	free_command_list(t_command *cmd_list);
 char	*ft_itoa(int n);
 void child_process_execution(t_command *cmd, char **envp, int *input_fd);
-//herdoc 
+//herdoc
 char *handle_expansion(char *quoted_limiter, char *line, int flag, char **envp);
 char *remove_quotes_limiter(const char *arg);
 void signal_handler_heredoc(int signal);

@@ -6,7 +6,7 @@
 /*   By: chourri <chourri@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/19 19:01:00 by chourri           #+#    #+#             */
-/*   Updated: 2024/09/19 19:11:04 by chourri          ###   ########.fr       */
+/*   Updated: 2024/10/02 11:56:10 by chourri          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -88,58 +88,58 @@ void	ft_lstadd_back(t_token **lst, t_token *new)
 	new->previous = p;
 }
 
-// const char*	get_token_type_name(t_type type)
-// {
-// 	switch (type)
-// 	{
-// 		case COMMAND:
-// 			return "COMMAND";
-// 		case ARGUMENT:
-// 			return "ARGUMENT";
-// 		case PIPE:
-// 			return "PIPE";
-// 		case REDIRECT_IN:
-// 			return "REDIRECT_IN";
-// 		case REDIRECT_OUT:
-// 			return "REDIRECT_OUT";
-// 		case REDIRECT_APPEND:
-// 			return "REDIRECT_APPEND";
-// 		case HEREDOC:
-// 			return "HEREDOC";
-// 		case ENV_VAR:
-// 			return "ENV_VAR";
-// 		case EXIT_STATUS:
-// 			return "EXIT_STATUS";
-// 		case INSIDE_SINGLE_QUOTE:
-// 			return "INSIDE_SINGLE_QUOTE";
-// 		case INSIDE_DOUBLE_QUOTE:
-// 			return "INSIDE_DOUBLE_QUOTE";
-// 		case WORD:
-// 			return "WORD";
-// 		// case END:
-// 		// 	return "END";
-// 		// case ERROR:
-// 		// 	return "ERROR";
-// 		case DS:
-// 			return "DS";
-// 		case SPAACE :
-// 			return "SPACE";
-// 		case TAAB :
-// 			return "TAB";
-// 		default:
-// 			return "UNKNOWN";
-// 	}
-// }
+const char*	get_token_type_name(t_type type)
+{
+	switch (type)
+	{
+		case COMMAND:
+			return "COMMAND";
+		case ARGUMENT:
+			return "ARGUMENT";
+		case PIPE:
+			return "PIPE";
+		case REDIRECT_IN:
+			return "REDIRECT_IN";
+		case REDIRECT_OUT:
+			return "REDIRECT_OUT";
+		case REDIRECT_APPEND:
+			return "REDIRECT_APPEND";
+		case HEREDOC:
+			return "HEREDOC";
+		case ENV_VAR:
+			return "ENV_VAR";
+		case EXIT_STATUS:
+			return "EXIT_STATUS";
+		case INSIDE_SINGLE_QUOTE:
+			return "INSIDE_SINGLE_QUOTE";
+		case INSIDE_DOUBLE_QUOTE:
+			return "INSIDE_DOUBLE_QUOTE";
+		case WORD:
+			return "WORD";
+		// case END:
+		// 	return "END";
+		// case ERROR:
+		// 	return "ERROR";
+		case DS:
+			return "DS";
+		case SPAACE :
+			return "SPACE";
+		case TAAB :
+			return "TAB";
+		default:
+			return "UNKNOWN";
+	}
+}
 
-// void	print_list(t_token *lst)
-// {
-// 	t_token	*current;
+void	print_list(t_token *lst)
+{
+	t_token	*current;
 
-// 	current = lst;
-// 	while (current && current->data && current->type)
-// 	{
-// 		printf("Type: %s, Data: {%s}\n",
-// 			get_token_type_name(current->type), current->data);
-// 		current = current->next;
-// 	}
-// }
+	current = lst;
+	while (current && current->data && current->type)
+	{
+		printf("Type: %s, Data: {%s}\n",
+			get_token_type_name(current->type), current->data);
+		current = current->next;
+	}
+}

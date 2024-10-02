@@ -6,7 +6,7 @@
 /*   By: chourri <chourri@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/31 15:34:41 by chourri           #+#    #+#             */
-/*   Updated: 2024/09/19 14:15:29 by chourri          ###   ########.fr       */
+/*   Updated: 2024/10/02 09:08:18 by chourri          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -78,7 +78,7 @@ int	parsing(t_token *lst)
 			|| redirect_append(lst) || redirect_in_parsing(lst)
 			|| redirect_out_parsing(lst)))
 	{
-		if (!lst->sig_flag)
+		if (lst->sig_flag == 0)
 		{
 			ex = manage_exit_status(258, 1);
 			free(ex);

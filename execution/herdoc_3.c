@@ -3,54 +3,92 @@
 /*                                                        :::      ::::::::   */
 /*   herdoc_3.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: kahmada <kahmada@student.42.fr>            +#+  +:+       +#+        */
+/*   By: chourri <chourri@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/29 17:45:10 by kahmada           #+#    #+#             */
-/*   Updated: 2024/09/29 17:45:47 by kahmada          ###   ########.fr       */
+/*   Updated: 2024/10/02 10:19:11 by chourri          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../minishell.h"
 
+//<<p cat >p | <<m cat >m
+// int process_input_her(int tmp_fd, char *quoted_limiter, int flag, char **envp)
+// {
+// 	char *line;
+// 	char *expanded_line;
+
+// 	while (1)
+// 	{
+// 		line = readline("> ");
+// 		if (!line)
+// 			return 0;
+// 		expanded_line = handle_expansion(quoted_limiter, line, flag, envp);
+// 		line = expanded_line;
+// 		if (ft_strcmp(line, quoted_limiter) == 0)
+// 			return (free(line), 1);
+// 		write(tmp_fd, line, ft_strlen(line));
+// 		write(tmp_fd, "\n", 1);
+// 		free(line);
+// 	}
+// }
+
 int process_input_her(int tmp_fd, char *quoted_limiter, int flag, char **envp)
 {
-    char *line;
-    char *expanded_line;
+	char *line;
+	char *expanded_line;
 
-    while (1)
-    {
-        line = readline("> ");
-        if (!line)
-            return 0;
-        expanded_line = handle_expansion(quoted_limiter, line, flag, envp);
-        line = expanded_line;
-        if (ft_strcmp(line, quoted_limiter) == 0)
-        {
-            free(line);
-            return 1;
-        }
-        write(tmp_fd, line, ft_strlen(line));
-        write(tmp_fd, "\n", 1);
-        free(line);
-    }
+	while (1)
+	{
+		line = readline("> ");
+		if (!line)
+			return 0;
+		expanded_line = handle_expansion(quoted_limiter, line, flag, envp);
+		line = expanded_line;
+		if (ft_strcmp(line, quoted_limiter) == 0)
+		{
+			free(line);
+			break;
+		}
+		write(tmp_fd, line, ft_strlen(line));
+		write(tmp_fd, "\n", 1);
+		free(line);
+	}
+	return 1;
 }
+
+// void handle_child(const char *limiter, int tmp_fd, char **envp)
+// {
+// 	char *quoted_limiter;
+// 	int flag = 0;
+
+// 	if (ft_strchr((char *)limiter, '"') || ft_strchr((char *)limiter, '\''))
+// 		flag = 1;
+// 	if (limiter[0] == '$' && limiter[1] != '$' && (ft_strchr((char *)limiter, '"') || ft_strchr((char *)limiter, '\'')))
+// 		limiter++;
+// 	quoted_limiter = remove_quotes_limiter((char *)limiter);
+// 	 signal(SIGINT, signal_handler_heredoc);
+// 	if (!process_input_her(tmp_fd, quoted_limiter, flag, envp))
+// 		free(quoted_limiter);
+// 	free(quoted_limiter); //segfault with signal
+// 	close(tmp_fd);
+// }
 
 void handle_child(const char *limiter, int tmp_fd, char **envp)
 {
-    char *quoted_limiter;
-    int flag = 0;
+	char *quoted_limiter;
+	int flag = 0;
 
-    if (ft_strchr((char *)limiter, '"') || ft_strchr((char *)limiter, '\''))
-        flag = 1;
-    if (limiter[0] == '$' && limiter[1] != '$' && (ft_strchr((char *)limiter, '"') || ft_strchr((char *)limiter, '\'')))
-        limiter++;
-    quoted_limiter = remove_quotes_limiter((char *)limiter);
-     signal(SIGINT, signal_handler_heredoc);
-    if (!process_input_her(tmp_fd, quoted_limiter, flag, envp))
-        free(quoted_limiter);
-    close(tmp_fd);
+	if (ft_strchr((char *)limiter, '"') || ft_strchr((char *)limiter, '\''))
+		flag = 1;
+	if (limiter[0] == '$' && limiter[1] != '$' && (ft_strchr((char *)limiter, '"') || ft_strchr((char *)limiter, '\'')))
+		limiter++;
+	quoted_limiter = remove_quotes_limiter((char *)limiter);
+	signal(SIGINT, signal_handler_heredoc);
+	process_input_her(tmp_fd, quoted_limiter, flag, envp);
+	free(quoted_limiter);
+	close(tmp_fd);
 }
-
 
 int create_tempfile(char *temp_filename, int file_counter)
 {

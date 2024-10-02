@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   herdoc_ex_second.c                                 :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: kahmada <kahmada@student.42.fr>            +#+  +:+       +#+        */
+/*   By: chourri <chourri@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/29 17:42:36 by kahmada           #+#    #+#             */
-/*   Updated: 2024/09/29 17:51:14 by kahmada          ###   ########.fr       */
+/*   Updated: 2024/10/02 09:21:43 by chourri          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,12 +52,12 @@ char *remove_quotes_limiter(const char *arg)
 }
 char *handle_expansion(char *quoted_limiter, char *line, int flag, char **envp)
 {
-    char *expanded_line = line;
+	char *expanded_line = line; //not the reason of the leak
 
-    if (!flag && (ft_strchr(line, '$') || ft_strchr(line, '~')) && ft_strcmp(quoted_limiter, line))
-    {
-        expanded_line = expand_variable(line, envp);
-        free(line);
-    }
-    return expanded_line;
+	if (!flag && (ft_strchr(line, '$') || ft_strchr(line, '~')) && ft_strcmp(quoted_limiter, line))
+	{
+		expanded_line = expand_variable(line, envp);
+		free(line);
+	}
+	return expanded_line;
 }
