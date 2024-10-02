@@ -6,7 +6,7 @@
 /*   By: kahmada <kahmada@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/20 17:29:48 by kahmada           #+#    #+#             */
-/*   Updated: 2024/09/30 17:22:22 by kahmada          ###   ########.fr       */
+/*   Updated: 2024/10/01 10:11:21 by kahmada          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,7 +54,6 @@ void	process_export_argument(t_command *cmd, t_env **env, char *arg)
 		free(cmd->ex);
 		return ;
 	}
-	// printf("======%s\n", key);
 	handle_export_modes(env, key, value, append_mode);
 	free(key);
 }

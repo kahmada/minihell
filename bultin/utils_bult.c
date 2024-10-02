@@ -6,7 +6,7 @@
 /*   By: kahmada <kahmada@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/25 15:38:03 by kahmada           #+#    #+#             */
-/*   Updated: 2024/09/17 15:10:44 by kahmada          ###   ########.fr       */
+/*   Updated: 2024/10/02 18:38:12 by kahmada          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -66,10 +66,10 @@ void	parse_env_string(const char *env_str, char **key, char **value)
 		return ;
 	}
 	*key = malloc((j + 1) * sizeof(char));
-	strncpy(*key, env_str, j);
+	ft_strncpy(*key, env_str, j);
 	(*key)[j] = '\0';
 	*value = malloc((strlen(env_str) - j) * sizeof(char));
-	strcpy(*value, env_str + j + 1);
+	ft_strcpy(*value, env_str + j + 1);
 }
 
 t_env	*get_env(char ***envp, t_env *env)

@@ -6,7 +6,7 @@
 /*   By: kahmada <kahmada@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/29 17:36:56 by kahmada           #+#    #+#             */
-/*   Updated: 2024/09/30 19:54:19 by kahmada          ###   ########.fr       */
+/*   Updated: 2024/10/02 16:17:39 by kahmada          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,31 +20,6 @@ void	handle_invalid_identifier(char **key, char **value)
 	*value = NULL;
 }
 
-// void	valid_and_prs_exprt(const char *arg, char **ky, char **val, int *ap_md)
-// {
-// 	*ap_md = 0;
-// 	*ky = ft_strdup(arg);
-// 	if ((*ky)[0] == '=' || (*ky)[0] == '$' || ft_strchr(*ky, '=') == *ky)
-// 	{
-// 		handle_invalid_identifier(ky, val);
-// 		return ;
-// 	}
-// 	*val = ft_strchr(*ky, '=');//=......
-// 	if (!*val || *(*val + 1) == '\0')
-// 	{
-// 		*val = NULL;
-// 		return ;
-// 	}
-// 	**val = '\0';//\0
-// 	(*val)++;//value
-// 	if ((*ky)[ft_strlen(*ky) - 1] == '+')
-// 	{
-// 		*ap_md = 1;
-// 		(*ky)[ft_strlen(*ky) - 1] = '\0';
-// 	}
-// 	if (!is_valid_variable_name(*ky))
-// 		handle_invalid_identifier(ky, val);
-// }
 char	*ft_substr(char const *s, unsigned int start, size_t len)
 {
 	size_t	i;
@@ -68,37 +43,42 @@ char	*ft_substr(char const *s, unsigned int start, size_t len)
 	return (kast);
 }
 
-void	valid_and_prs_exprt(const char *arg, char **ky, char **val, int *ap_md)
+void	extract_key_value(const char *arg, char **ky, char **val)
 {
-    *ap_md = 0;
-    *val = ft_strchr(arg, '=');
-    if (*val)
-    {
-        *ky = ft_substr(arg, 0, *val - arg);
-        (*val)++; // Move past the '=' to get the value
+	*val = ft_strchr(arg, '=');
+	if (*val)
+	{
+		*ky = ft_substr(arg, 0, *val - arg);
+		(*val)++;
 		if (*val && **val == '\0')
 			*val = ft_strdup(" ");
-    }
-    else
-    {
-        *ky = ft_strdup(arg);
-        *val = NULL;
-    }
-    if ((*ky)[0] == '=' || (*ky)[0] == '$' || ft_strchr(*ky, '=') == *ky)
-    {
-        handle_invalid_identifier(ky, val);
-        return;
-    }
-    if ((*ky)[ft_strlen(*ky) - 1] == '+')
-    {
-        *ap_md = 1;
-        (*ky)[ft_strlen(*ky) - 1] = '\0'; // Remove the '+' from the key
-    }
-    if (!is_valid_variable_name(*ky))
-    {
-        handle_invalid_identifier(ky, val);
-        return;
-    }
-    if (*val && **val == '\0')
-        *val = NULL;
+	}
+	else
+	{
+		*ky = ft_strdup(arg);
+		*val = NULL;
+	}
+}
+
+void	valid_and_prs_exprt(const char *arg, char **ky, char **val, int *ap_md)
+{
+	*ap_md = 0;
+	extract_key_value(arg, ky, val);
+	if ((*ky)[0] == '=' || (*ky)[0] == '$' || ft_strchr(*ky, '=') == *ky)
+	{
+		handle_invalid_identifier(ky, val);
+		return ;
+	}
+	if ((*ky)[ft_strlen(*ky) - 1] == '+')
+	{
+		*ap_md = 1;
+		(*ky)[ft_strlen(*ky) - 1] = '\0';
+	}
+	if (!is_valid_variable_name(*ky))
+	{
+		handle_invalid_identifier(ky, val);
+		return ;
+	}
+	if (*val && **val == '\0')
+		*val = NULL;
 }

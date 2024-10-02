@@ -3,61 +3,88 @@
 /*                                                        :::      ::::::::   */
 /*   herdoc_ex_second.c                                 :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: chourri <chourri@student.42.fr>            +#+  +:+       +#+        */
+/*   By: kahmada <kahmada@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/29 17:42:36 by kahmada           #+#    #+#             */
-/*   Updated: 2024/10/02 09:21:43 by chourri          ###   ########.fr       */
+/*   Updated: 2024/10/01 15:30:50 by kahmada          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../minishell.h"
 
-void signal_handler_heredoc(int signal)
+void	signal_handler_heredoc(int signal)
 {
 	if (signal == SIGINT)
 	{
 		sig_received = 1;
 		close(0);
-		return;
+		return ;
 	}
 }
 
-char *remove_quotes_limiter(const char *arg)
+char	*remove_quotes_limiter(const char *arg)
 {
-	int	i;
-	int	j;
-	char *new_arg;
-	char quote_char;
-	int in_quotes;
+	int		i;
+	int		j;
+	char	*new_arg;
+	char	quote;
 
-	i = -1;
+	i = 0;
 	j = 0;
-	in_quotes = 0;
 	new_arg = (char *)malloc(strlen(arg) + 1);
-	if (!new_arg) return NULL;
-	while (arg[++i])
+	if (!new_arg)
+		return (NULL);
+	while (arg[i])
 	{
-		if (!in_quotes && (arg[i] == '\'' || arg[i] == '\"'))
+		if (arg[i] == '\'' || arg[i] == '\"')
 		{
-			in_quotes = 1;
-			quote_char = arg[i];
+			quote = arg[i++];
+			while (arg[i] && arg[i] != quote)
+				new_arg[j++] = arg[i++];
 		}
-		else if (in_quotes && arg[i] == quote_char)
-			in_quotes = 0;
 		else
-			new_arg[j++] = arg[i];
+			new_arg[j++] = arg[i++];
 	}
 	new_arg[j] = '\0';
 	return (new_arg);
 }
-char *handle_expansion(char *quoted_limiter, char *line, int flag, char **envp)
-{
-	char *expanded_line = line; //not the reason of the leak
 
+void	ft_remove_quotes(char **str)
+{
+	char	*src;
+	char	*dst;
+	char	*dst_start;
+
+	src = *str;
+	dst = (char *)malloc(ft_strlen(src) + 1);
+	if (dst == NULL)
+	{
+		perror("malloc");
+		return ;
+	}
+	dst_start = dst;
+	while (*src != '\0')
+	{
+		if (*src != '\'' && *src != '\"')
+		{
+			*dst++ = *src;
+		}
+		src++;
+	}
+	*dst = '\0';
+	free(*str);
+	*str = dst_start;
+}
+
+char	*handle_expansion(char *quoted_limiter, char *line, int flag, char **envp)
+{
+	char	*expanded_line;
+
+	expanded_line = line;
 	if (!flag && (ft_strchr(line, '$') || ft_strchr(line, '~')) && ft_strcmp(quoted_limiter, line))
 	{
 		expanded_line = expand_variable(line, envp);
 		free(line);
 	}
-	return expanded_line;
+	return (expanded_line);
 }

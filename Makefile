@@ -3,17 +3,16 @@
 #                                                         :::      ::::::::    #
 #    Makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: chourri <chourri@student.42.fr>            +#+  +:+       +#+         #
+#    By: kahmada <kahmada@student.42.fr>            +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/06/12 15:51:05 by chourri           #+#    #+#              #
-#    Updated: 2024/10/02 12:10:31 by chourri          ###   ########.fr        #
+#    Updated: 2024/10/01 15:45:09 by kahmada          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
 NAME   = minishell
 HEADER = minishell.h
 CC     = cc
-
 # CFLAGS = -Wall -Wextra -Werror -fsanitize=address -g\
 #  -I $(shell brew --prefix readline)/include
 
@@ -49,7 +48,6 @@ SRC = main.c \
  execution/split_lib.c\
  execution/redirect.c\
  execution/herdoc_ex.c\
- execution/herdoc_utils.c\
  execution/handle_redirections.c\
  execution/ex_func.c\
  execution/herdoc_3.c\

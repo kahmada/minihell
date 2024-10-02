@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   redirect.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: chourri <chourri@student.42.fr>            +#+  +:+       +#+        */
+/*   By: kahmada <kahmada@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/26 20:39:02 by kahmada           #+#    #+#             */
-/*   Updated: 2024/10/02 12:21:48 by chourri          ###   ########.fr       */
+/*   Updated: 2024/09/03 10:40:18 by kahmada          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -63,16 +63,8 @@ void	handle_here_doc_redirect(t_command *cmd)
 void	handle_redirect_out(char *filename)
 {
 	int	fd;
-	// char	*ex;
 
 	ft_remove_quotes(&filename);
-	// if (filename[0] == '$')
-	// {
-	// 	ex = manage_exit_status(1, 1);
-	// 	printf("%s : ambiguous redirect\n", filename);
-	// 	free(ex);
-	// 	return ;
-	// }
 	fd = open(filename, O_WRONLY | O_CREAT | O_TRUNC, 0644);
 	if (fd == -1)
 	{

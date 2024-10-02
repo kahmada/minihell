@@ -3,33 +3,15 @@
 /*                                                        :::      ::::::::   */
 /*   paths.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: chourri <chourri@student.42.fr>            +#+  +:+       +#+        */
+/*   By: kahmada <kahmada@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/27 11:55:39 by kahmada           #+#    #+#             */
-/*   Updated: 2024/10/02 09:10:47 by chourri          ###   ########.fr       */
+/*   Updated: 2024/10/01 16:16:20 by kahmada          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../minishell.h"
 
-
-// static char	**extract_paths_from_envp(char **envp)
-// {
-// 	int		i;
-// 	// char	**error;
-
-// 	i = 0;
-// 	// error = malloc(sizeof(char *));
-// 	// *error = "3";
-// 	while (envp[i] && ft_strnstr(envp[i], "PATH", 4) == NULL)
-// 		i++;
-// 	if (!envp[i])
-// 	{
-// 		return (NULL);
-// 	}
-
-// 	return (ft_split_lib(envp[i] + 5, ':'));
-// }
 static char	**extract_paths_from_envp(char **envp)
 {
 	int		i;
@@ -38,9 +20,7 @@ static char	**extract_paths_from_envp(char **envp)
 	while (envp[i] && ft_strnstr(envp[i], "PATH", 4) == NULL)
 		i++;
 	if (!envp[i])
-	{
 		return (NULL);
-	}
 	return (ft_split_lib(envp[i] + 5, ':'));
 }
 
@@ -70,37 +50,41 @@ static char	*find_command_in_paths(char *cmd, char **paths)
 	return (NULL);
 }
 
-char *check_absolute_path(char *cmd)
+char	*check_access_rights(char *cmd)
 {
-    DIR *dir = opendir(cmd);
+	if (access(cmd, F_OK) == 0)
+	{
+		if (access(cmd, X_OK) == 0)
+			return (cmd);
+		else
+		{
+			fprintf(stderr, "%s: permission denied\n", cmd);
+			cmd = "2";
+			return (cmd);
+		}
+	}
+	else
+	{
+		fprintf(stderr, "%s: no such file or directory\n", cmd);
+		cmd = "2";
+		return (cmd);
+	}
+}
 
-    if (dir)
-    {
-        fprintf(stderr, "%s: is a directory\n", cmd);
-        closedir(dir);
-        cmd = "1";
-        return (cmd);
-    }
-    else
-    {
-        if (access(cmd, F_OK) == 0)
-        {
-            if (access(cmd, X_OK) == 0)
-                return (cmd);
-            else
-            {
-                fprintf(stderr, "%s: no such file or directory\n", cmd);
-                cmd = "2";
-                return (cmd);
-            }
-        }
-        else
-        {
-            fprintf(stderr, "%s: no such file or directory\n", cmd);
-            cmd = "2";
-            return (cmd);
-        }
-    }
+char	*check_absolute_path(char *cmd)
+{
+	DIR	*dir;
+
+	dir = opendir(cmd);
+	if (dir)
+	{
+		fprintf(stderr, "%s: is a directory\n", cmd);
+		closedir(dir);
+		cmd = "1";
+		return (cmd);
+	}
+	else
+		return (check_access_rights(cmd));
 }
 
 char	*find_commande(char *cmd, char **envp)

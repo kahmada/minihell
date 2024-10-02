@@ -6,13 +6,13 @@
 /*   By: kahmada <kahmada@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/28 18:28:18 by kahmada           #+#    #+#             */
-/*   Updated: 2024/09/30 16:56:19 by kahmada          ###   ########.fr       */
+/*   Updated: 2024/10/01 10:16:54 by kahmada          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../minishell.h"
 
-char **handle_built_out(t_command *cmd, char **envp)
+char	**handle_built_out(t_command *cmd, char **envp)
 {
 	t_env	*env;
 
@@ -32,6 +32,7 @@ char **handle_built_out(t_command *cmd, char **envp)
 	free_env(env);
 	return (envp);
 }
+
 char	**handle_builtin(t_command *cmd, char **envp)
 {
 	t_env	*env;

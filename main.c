@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: chourri <chourri@student.42.fr>            +#+  +:+       +#+        */
+/*   By: kahmada <kahmada@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/12 16:02:24 by chourri           #+#    #+#             */
-/*   Updated: 2024/10/02 12:11:36 by chourri          ###   ########.fr       */
+/*   Updated: 2024/10/02 18:46:06 by kahmada          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,7 +51,6 @@ char **process_command(char *input, char **envp)
 				if(parsing(lst))
 					return (free_token_list(lst),free(output), envp);
 				ft_expand(lst, envp); //no leaks
-				// print_list(lst);
 				new_lst = build_new_tokens_pipe(lst); //leaks here
 				t_command *cmd = build_cmd(new_lst);
 				if(her(cmd, envp))
@@ -121,7 +120,7 @@ int main(int ac, char **av, char **envp)
 {
 	char *input;
 	char **envp_copy;
-	rl_catch_signals = 0; //to not print ^C in the prompt
+	//rl_catch_signals = 0; //to not print ^C in the prompt
 	signal(SIGQUIT, SIG_IGN);
 	signal(SIGINT, sigint_handler);
 	envp_copy = ft_envp_copy(envp);
@@ -140,5 +139,6 @@ int main(int ac, char **av, char **envp)
 		input = readline("minihell$ ");
 	}
 	free(envp_copy);
+
 	return (write(2, "exit\n", 5), 0);
 }

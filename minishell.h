@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: chourri <chourri@student.42.fr>            +#+  +:+       +#+        */
+/*   By: kahmada <kahmada@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/12 15:51:23 by chourri           #+#    #+#             */
-/*   Updated: 2024/10/02 11:55:51 by chourri          ###   ########.fr       */
+/*   Updated: 2024/10/02 18:37:52 by kahmada          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -86,6 +86,7 @@ typedef struct s_here_doc
     t_command *cmd;
     char **envp;
 } t_here_doc;
+
 typedef struct s_redirect_fds
 {
     int input_fd;
@@ -221,7 +222,7 @@ char	**ft_split_cmd_quote(char const *s);
 void	free_word_array(char **array);
 
 t_token* build_token_list(char *output);
-// void print_list(t_token *lst);
+void print_list(t_token *lst);
 void free_token_list(t_token *lst);
 //old
 // void ft_lstadd_back(t_token **lst, t_type type, char *data);
@@ -276,6 +277,7 @@ void	free_command_list(t_command *cmd_list);
 char	*ft_itoa(int n);
 void child_process_execution(t_command *cmd, char **envp, int *input_fd);
 //herdoc
+int	not_last(t_command *first, int i);
 char *handle_expansion(char *quoted_limiter, char *line, int flag, char **envp);
 char *remove_quotes_limiter(const char *arg);
 void signal_handler_heredoc(int signal);
@@ -311,9 +313,11 @@ char **handle_builtin(t_command *cmd, char **envp);
 //env
 char **ft_envp_copy(char **envp);
 //bultin
+char	**handle_builtin_cmd_out(t_command *cmd, char **envp);
 char **handle_built_out(t_command *cmd, char **envp);
 void	valid_and_prs_exprt(const char *arg, char **ky, char **val, int *ap_md);
 void	free_env(t_env *env);
+char	*ft_strncpy(char *dest, const char *src, size_t n);
 int is_builtin(char *cmd);
 void bult_env(t_env *env, t_command *cmd);
 t_env *get_env(char ***envp, t_env *env);

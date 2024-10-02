@@ -6,7 +6,7 @@
 /*   By: kahmada <kahmada@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/26 16:20:58 by kahmada           #+#    #+#             */
-/*   Updated: 2024/09/29 16:27:30 by kahmada          ###   ########.fr       */
+/*   Updated: 2024/10/01 10:11:08 by kahmada          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,10 +44,10 @@ void	print_export(t_env *env)
 {
 	while (env)
 	{
-		printf("declare -x %s", env->key);//declare -x PATH
+		printf("declare -x %s", env->key);
 		if (env->value && env->value[0])
-			printf("=\"%s\"\n", env->value);//="/usr/local/bin:/usr/bin:/bin:/usr/sbin
-		printf("\n");//pour passer l star tani
+			printf("=\"%s\"\n", env->value);
+		printf("\n");
 		env = env->next;
 	}
 }
