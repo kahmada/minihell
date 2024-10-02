@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: kahmada <kahmada@student.42.fr>            +#+  +:+       +#+        */
+/*   By: chourri <chourri@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/12 16:02:24 by chourri           #+#    #+#             */
-/*   Updated: 2024/10/02 18:46:06 by kahmada          ###   ########.fr       */
+/*   Updated: 2024/10/02 19:42:55 by chourri          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,6 +51,7 @@ char **process_command(char *input, char **envp)
 				if(parsing(lst))
 					return (free_token_list(lst),free(output), envp);
 				ft_expand(lst, envp); //no leaks
+				// print_list(lst);
 				new_lst = build_new_tokens_pipe(lst); //leaks here
 				t_command *cmd = build_cmd(new_lst);
 				if(her(cmd, envp))
