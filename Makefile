@@ -6,7 +6,7 @@
 #    By: chourri <chourri@student.42.fr>            +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/06/12 15:51:05 by chourri           #+#    #+#              #
-#    Updated: 2024/10/02 19:26:23 by chourri          ###   ########.fr        #
+#    Updated: 2024/10/03 15:09:40 by chourri          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -32,6 +32,7 @@ SRC = main.c \
  parsing/split_tokens.c \
  parsing/build_token_list1.c \
  parsing/build_token_list2.c \
+ parsing/is_syntax_error.c \
  parsing/parse_error_syntax1.c \
  parsing/parse_error_syntax2.c \
  parsing/open_heredoc_errors.c \

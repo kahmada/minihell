@@ -6,7 +6,7 @@
 /*   By: chourri <chourri@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/12 19:01:10 by chourri           #+#    #+#             */
-/*   Updated: 2024/10/02 09:08:08 by chourri          ###   ########.fr       */
+/*   Updated: 2024/10/03 15:49:27 by chourri          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,7 +17,8 @@ int	handle_heredoc(t_token *current, t_token *lst)
 	const char	*limiter;
 
 	if (current->type == HEREDOC && lst->flag == 0
-		&& ft_linked_list_search_redirect_symbols(lst))
+		&& ft_linked_list_search_redirect_symbols(lst)
+		&& should_open_heredoc(lst))
 	{
 		current = current->next;
 		while (current && current->data

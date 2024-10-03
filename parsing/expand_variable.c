@@ -6,7 +6,7 @@
 /*   By: chourri <chourri@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/14 11:05:14 by chourri           #+#    #+#             */
-/*   Updated: 2024/09/20 12:23:49 by chourri          ###   ########.fr       */
+/*   Updated: 2024/10/03 15:46:15 by chourri          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,7 +53,7 @@ static void	expand_variable_value(char **data, char **ptr, char **envp)
 {
 	if (**data == '0')
 	{
-		ft_strcpy(*ptr, "bash"); 
+		ft_strcpy(*ptr, "bash");
 		*ptr += 4;
 		(*data)++;
 	}

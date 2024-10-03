@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: kahmada <kahmada@student.42.fr>            +#+  +:+       +#+        */
+/*   By: chourri <chourri@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/12 15:51:23 by chourri           #+#    #+#             */
-/*   Updated: 2024/10/02 18:37:52 by kahmada          ###   ########.fr       */
+/*   Updated: 2024/10/03 15:11:49 by chourri          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -174,6 +174,7 @@ int redirect_in_parsing(t_token *lst);
 int	redirect_out_parsing(t_token *lst);
 int	redirect_append(t_token *lst);
 int	parse_quotes(char *s);
+int	should_open_heredoc(t_token *lst);
 
 //build_token_list
 t_token* build_token_list(char *output);
