@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   tools3.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: chourri <chourri@student.42.fr>            +#+  +:+       +#+        */
+/*   By: kahmada <kahmada@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/03 10:45:28 by kahmada           #+#    #+#             */
-/*   Updated: 2024/09/19 19:27:23 by chourri          ###   ########.fr       */
+/*   Updated: 2024/10/04 21:06:12 by kahmada          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,8 +49,16 @@ int	ft_strcmp(const char *s1, const char *s2)
 {
 	int	i;
 
+	if (!s1 || !s2)
+		return (1);
 	i = 0;
-	while (s1[i] == s2[i] && s1[i] != '\0' && s2[i] != '\0')
+	while (s1[i] && s2[i])
+	{
+		if (s1[i] != s2[i])
+			return (1);
 		i++;
-	return (s1[i] - s2[i]);
+	}
+	if (s1[i] == '\0' && s2[i] == '\0')
+		return (0);
+	return (1);
 }
