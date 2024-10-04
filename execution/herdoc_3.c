@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   herdoc_3.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: chourri <chourri@student.42.fr>            +#+  +:+       +#+        */
+/*   By: kahmada <kahmada@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/29 17:45:10 by kahmada           #+#    #+#             */
-/*   Updated: 2024/10/03 15:12:49 by chourri          ###   ########.fr       */
+/*   Updated: 2024/10/03 17:42:33 by kahmada          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,7 +22,7 @@ int	process_input_her(int tmp_fd, char *quoted_limiter, int flag, char **envp)
 		line = readline("> ");
 		if (!line)
 			return (0);
-		expanded_line = handle_expansion(quoted_limiter, line, flag, envp);
+		expanded_line = handle_exp(quoted_limiter, line, flag, envp);
 		line = expanded_line;
 		if (ft_strcmp(line, quoted_limiter) == 0)
 		{
@@ -48,6 +48,7 @@ void	handle_child(const char *limiter, int tmp_fd, char **envp)
 			|| ft_strchr((char *)limiter, '\'')))
 		limiter++;
 	quoted_limiter = remove_quotes_limiter((char *)limiter);
+	// rl_catch_signals = 1;
 	signal(SIGINT, signal_handler_heredoc);
 	if (!process_input_her(tmp_fd, quoted_limiter, flag, envp))
 	{

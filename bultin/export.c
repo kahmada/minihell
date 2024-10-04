@@ -6,7 +6,7 @@
 /*   By: kahmada <kahmada@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/20 17:29:48 by kahmada           #+#    #+#             */
-/*   Updated: 2024/10/01 10:11:21 by kahmada          ###   ########.fr       */
+/*   Updated: 2024/10/04 18:09:08 by kahmada          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -75,6 +75,4 @@ void	bult_export(t_command *cmd, t_env **env)
 		process_export_argument(cmd, env, cmd->args[i]);
 		i++;
 	}
-	cmd->ex = manage_exit_status(EXIT_SUCCESS, 1);
-	free(cmd->ex);
 }

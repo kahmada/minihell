@@ -6,7 +6,7 @@
 /*   By: kahmada <kahmada@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/29 17:42:36 by kahmada           #+#    #+#             */
-/*   Updated: 2024/10/01 15:30:50 by kahmada          ###   ########.fr       */
+/*   Updated: 2024/10/03 17:41:59 by kahmada          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,6 +16,7 @@ void	signal_handler_heredoc(int signal)
 {
 	if (signal == SIGINT)
 	{
+		// rl_catch_signals = 0;
 		sig_received = 1;
 		close(0);
 		return ;
@@ -76,7 +77,7 @@ void	ft_remove_quotes(char **str)
 	*str = dst_start;
 }
 
-char	*handle_expansion(char *quoted_limiter, char *line, int flag, char **envp)
+char	*handle_exp(char *quoted_limiter, char *line, int flag, char **envp)
 {
 	char	*expanded_line;
 

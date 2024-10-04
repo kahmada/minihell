@@ -1,8 +1,0 @@
-minihell$ ./bultin/
-execve: Permission denied
-minihell$ $?
-Command not found: 1
-minihell$ /bultin
-/bultin: no such file or directory
-minihell$ $?
-Command not found: 0

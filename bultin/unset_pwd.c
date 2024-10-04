@@ -6,7 +6,7 @@
 /*   By: kahmada <kahmada@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/09 14:52:44 by kahmada           #+#    #+#             */
-/*   Updated: 2024/10/01 10:11:37 by kahmada          ###   ########.fr       */
+/*   Updated: 2024/10/03 15:48:57 by kahmada          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -72,11 +72,6 @@ void	bult_unset(t_command *cmd, t_env **env)
 		if (unset_variable(env, cmd->args[i]))
 		{
 			cmd->ex = manage_exit_status(0, 1);
-			free(cmd->ex);
-		}
-		else
-		{
-			cmd->ex = manage_exit_status(1, 1);
 			free(cmd->ex);
 		}
 		i++;

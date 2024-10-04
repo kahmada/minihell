@@ -6,7 +6,7 @@
 /*   By: kahmada <kahmada@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/27 11:53:32 by kahmada           #+#    #+#             */
-/*   Updated: 2024/10/02 18:06:45 by kahmada          ###   ########.fr       */
+/*   Updated: 2024/10/04 18:30:37 by kahmada          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,13 +19,17 @@ void	handle_command_path(char *cmd_path, char *cmd_name)
 	if (!cmd_path)
 	{
 		if (cmd_name)
-			fprintf(stderr, "Command not found: %s\n", cmd_name);
+		{
+			ft_putstr_fd("Command not found: ", 2);
+			ft_putstr_fd(cmd_name, 2);
+			write(2, "\n", 1);
+		}
 		ex = manage_exit_status(127, 1);
 		free(ex);
 		exit(127);
 	}
 	else if (ft_strcmp(cmd_path, "1") == 0 || ft_strcmp(cmd_path, "2") == 0)
-		exit(0);
+		exit(127);
 }
 
 void	child_process_execution(t_command *cmd, char **envp, int *input_fd)
@@ -111,12 +115,12 @@ char	**execute_cmd(t_command *cmd, char **envp)
 	child_pids = (int *)malloc(sizeof(int) * count);
 	if (ft_strcmp(cmd->args[0], "exit") == 0 && cmd->next == NULL)
 		bult_exit(cmd);
-	exec_pipes(cmd, envp, child_pids, &input_fd);
-	if (cmd && is_builtin(cmd->args[0]))
+	if (cmd && is_builtin_out(cmd->args[0]))
 	{
 		cmd->last_envp = handle_builtin_cmd_out(cmd, envp);
 		envp = f_update_envp(envp, cmd->last_envp);
 	}
+	exec_pipes(cmd, envp, child_pids, &input_fd);
 	close(input_fd);
 	wait_for_children(child_pids, count);
 	free(child_pids);

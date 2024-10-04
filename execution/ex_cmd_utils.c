@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ex_cmd_utils.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: chourri <chourri@student.42.fr>            +#+  +:+       +#+        */
+/*   By: kahmada <kahmada@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/16 09:59:58 by kahmada           #+#    #+#             */
-/*   Updated: 2024/10/03 15:57:40 by chourri          ###   ########.fr       */
+/*   Updated: 2024/10/04 18:19:44 by kahmada          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,13 +26,11 @@ void	handle_signal_termination(int status)
 
 	if (WTERMSIG(status) == SIGQUIT)
 	{
-		// write(1, "QUIT: 3\n", 8);
 		ex = manage_exit_status(131, 1);
 		free(ex);
 	}
 	else if (WTERMSIG(status) == SIGINT)
 	{
-		// write(1, "\n", 1);
 		ex = manage_exit_status(130, 1);
 		free(ex);
 	}

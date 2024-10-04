@@ -6,7 +6,7 @@
 /*   By: kahmada <kahmada@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/27 11:55:39 by kahmada           #+#    #+#             */
-/*   Updated: 2024/10/01 16:16:20 by kahmada          ###   ########.fr       */
+/*   Updated: 2024/10/03 20:36:15 by kahmada          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,27 +58,30 @@ char	*check_access_rights(char *cmd)
 			return (cmd);
 		else
 		{
-			fprintf(stderr, "%s: permission denied\n", cmd);
+			ft_putstr_fd(cmd, 2);
+			ft_putstr_fd(": permission denied\n", 2);
 			cmd = "2";
 			return (cmd);
 		}
 	}
 	else
 	{
-		fprintf(stderr, "%s: no such file or directory\n", cmd);
+		ft_putstr_fd(cmd, 2);
+		ft_putstr_fd(": no such file or directory\n", 2);
 		cmd = "2";
 		return (cmd);
 	}
 }
 
-char	*check_absolute_path(char *cmd)
+char	*check_absolute_relativ_path(char *cmd)
 {
 	DIR	*dir;
 
 	dir = opendir(cmd);
 	if (dir)
 	{
-		fprintf(stderr, "%s: is a directory\n", cmd);
+		ft_putstr_fd(cmd, 2);
+		ft_putstr_fd(": is a directory\n", 2);
 		closedir(dir);
 		cmd = "1";
 		return (cmd);
@@ -97,13 +100,14 @@ char	*find_commande(char *cmd, char **envp)
 	if (!cmd || !cmd[0])
 		return (NULL);
 	if (cmd[0] == '.')
-		return (cmd);
+		return (check_absolute_relativ_path(cmd));
 	else if (cmd[0] == '/')
-		return (check_absolute_path(cmd));
+		return (check_absolute_relativ_path(cmd));
 	paths = extract_paths_from_envp(envp);
 	if (!paths)
 	{
-		fprintf(stderr, "%s: no such file or directory\n", cmd);
+		ft_putstr_fd(cmd, 2);
+		ft_putstr_fd(": no such file or directory\n", 2);
 		exit(1);
 	}
 	path = find_command_in_paths(cmd, paths);

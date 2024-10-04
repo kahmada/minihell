@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: chourri <chourri@student.42.fr>            +#+  +:+       +#+        */
+/*   By: kahmada <kahmada@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/12 15:51:23 by chourri           #+#    #+#             */
-/*   Updated: 2024/10/03 15:11:49 by chourri          ###   ########.fr       */
+/*   Updated: 2024/10/03 18:04:06 by kahmada          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -168,13 +168,12 @@ void add_npc_to_cmd(char *input, char **new_input);
 
 //parse_error_syntax
 void handle_child_error(const char *limiter, t_token *lst);
-
+int	should_open_heredoc(t_token *lst);
 int handle_heredoc(t_token *current, t_token *lst);
 int redirect_in_parsing(t_token *lst);
 int	redirect_out_parsing(t_token *lst);
 int	redirect_append(t_token *lst);
 int	parse_quotes(char *s);
-int	should_open_heredoc(t_token *lst);
 
 //build_token_list
 t_token* build_token_list(char *output);
@@ -279,7 +278,7 @@ char	*ft_itoa(int n);
 void child_process_execution(t_command *cmd, char **envp, int *input_fd);
 //herdoc
 int	not_last(t_command *first, int i);
-char *handle_expansion(char *quoted_limiter, char *line, int flag, char **envp);
+char *handle_exp(char *quoted_limiter, char *line, int flag, char **envp);
 char *remove_quotes_limiter(const char *arg);
 void signal_handler_heredoc(int signal);
 int create_tempfile(char *temp_filename, int file_counter);
@@ -314,6 +313,8 @@ char **handle_builtin(t_command *cmd, char **envp);
 //env
 char **ft_envp_copy(char **envp);
 //bultin
+void	ft_putstr_fd(char *s, int fd);
+int	is_builtin_out(char *cmd);
 char	**handle_builtin_cmd_out(t_command *cmd, char **envp);
 char **handle_built_out(t_command *cmd, char **envp);
 void	valid_and_prs_exprt(const char *arg, char **ky, char **val, int *ap_md);

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   redirect.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: chourri <chourri@student.42.fr>            +#+  +:+       +#+        */
+/*   By: kahmada <kahmada@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/26 20:39:02 by kahmada           #+#    #+#             */
-/*   Updated: 2024/10/02 19:46:13 by chourri          ###   ########.fr       */
+/*   Updated: 2024/10/03 17:41:16 by kahmada          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,7 @@
 
 void	handle_redirect_in(char *filename)
 {
-	int	fd;
+	int		fd;
 	char	*ex;
 
 	if (filename[0] == '$')
@@ -22,7 +22,7 @@ void	handle_redirect_in(char *filename)
 		ex = manage_exit_status(1, 1);
 		printf("%s: ambiguous redirect\n", filename);
 		free(ex);
-		exit(1) ;
+		exit(1);
 	}
 	ft_remove_quotes(&filename);
 	fd = open(filename, O_RDONLY);
@@ -70,7 +70,7 @@ void	handle_here_doc_redirect(t_command *cmd)
 
 void	handle_redirect_out(char *filename)
 {
-	int	fd;
+	int		fd;
 	char	*ex;
 
 	if (filename[0] == '$')
@@ -78,7 +78,7 @@ void	handle_redirect_out(char *filename)
 		ex = manage_exit_status(1, 1);
 		printf("%s: ambiguous redirect\n", filename);
 		free(ex);
-		exit(1) ;
+		exit(1);
 	}
 	ft_remove_quotes(&filename);
 	fd = open(filename, O_WRONLY | O_CREAT | O_TRUNC, 0644);
@@ -98,7 +98,7 @@ void	handle_redirect_out(char *filename)
 
 void	handle_redirect_append(char *filename)
 {
-	int	fd;
+	int		fd;
 	char	*ex;
 
 	if (filename[0] == '$')
@@ -106,7 +106,7 @@ void	handle_redirect_append(char *filename)
 		ex = manage_exit_status(1, 1);
 		printf("%s: ambiguous redirect\n", filename);
 		free(ex);
-		exit(1) ;
+		exit(1);
 	}
 	ft_remove_quotes(&filename);
 	fd = open(filename, O_WRONLY | O_CREAT | O_APPEND, 0644);

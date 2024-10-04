@@ -6,7 +6,7 @@
 /*   By: kahmada <kahmada@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/29 17:36:56 by kahmada           #+#    #+#             */
-/*   Updated: 2024/10/02 16:17:39 by kahmada          ###   ########.fr       */
+/*   Updated: 2024/10/04 17:59:15 by kahmada          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,9 @@
 
 void	handle_invalid_identifier(char **key, char **value)
 {
-	fprintf(stderr, "minishell: export: `%s`:not a valid identifier\n", *key);
+	ft_putstr_fd("minishell: export: ", 2);
+	ft_putstr_fd(*key , 2);
+	ft_putstr_fd(":not a valid identifier\n", 2);
 	free(*key);
 	*key = NULL;
 	*value = NULL;
@@ -51,7 +53,7 @@ void	extract_key_value(const char *arg, char **ky, char **val)
 		*ky = ft_substr(arg, 0, *val - arg);
 		(*val)++;
 		if (*val && **val == '\0')
-			*val = ft_strdup(" ");
+			*val = NULL;
 	}
 	else
 	{
@@ -62,11 +64,14 @@ void	extract_key_value(const char *arg, char **ky, char **val)
 
 void	valid_and_prs_exprt(const char *arg, char **ky, char **val, int *ap_md)
 {
+	char	*ex;
+
 	*ap_md = 0;
 	extract_key_value(arg, ky, val);
 	if ((*ky)[0] == '=' || (*ky)[0] == '$' || ft_strchr(*ky, '=') == *ky)
 	{
 		handle_invalid_identifier(ky, val);
+		ex = manage_exit_status(1, 1);
 		return ;
 	}
 	if ((*ky)[ft_strlen(*ky) - 1] == '+')
@@ -77,6 +82,7 @@ void	valid_and_prs_exprt(const char *arg, char **ky, char **val, int *ap_md)
 	if (!is_valid_variable_name(*ky))
 	{
 		handle_invalid_identifier(ky, val);
+		ex = manage_exit_status(1, 1);
 		return ;
 	}
 	if (*val && **val == '\0')
