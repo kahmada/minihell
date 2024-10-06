@@ -3,10 +3,10 @@
 #                                                         :::      ::::::::    #
 #    Makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: kahmada <kahmada@student.42.fr>            +#+  +:+       +#+         #
+#    By: chourri <chourri@student.42.fr>            +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/06/12 15:51:05 by chourri           #+#    #+#              #
-#    Updated: 2024/10/03 17:24:07 by kahmada          ###   ########.fr        #
+#    Updated: 2024/10/06 21:19:50 by chourri          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -24,6 +24,7 @@ LDFLAGS = -lreadline \
 RM     = rm -f
 
 SRC = main.c \
+ process_command.c \
  parsing/add_npc1.c \
  parsing/add_npc2.c \
  parsing/add_npc3.c \
@@ -32,13 +33,14 @@ SRC = main.c \
  parsing/split_tokens.c \
  parsing/build_token_list1.c \
  parsing/build_token_list2.c \
+ parsing/is_syntax_error.c \
  parsing/parse_error_syntax1.c \
  parsing/parse_error_syntax2.c \
  parsing/open_heredoc_errors.c \
  parsing/calculate_expanded_len.c \
  parsing/expand_variable.c \
- parsing/is_syntax_error.c \
  parsing/expanding.c \
+ parsing/expand_home.c \
  parsing/ft_expand.c \
  parsing/build_cmd.c \
  parsing/remove_quotes_before_exec.c \

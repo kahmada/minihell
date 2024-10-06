@@ -6,7 +6,7 @@
 /*   By: chourri <chourri@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/30 10:23:50 by chourri           #+#    #+#             */
-/*   Updated: 2024/10/02 11:41:58 by chourri          ###   ########.fr       */
+/*   Updated: 2024/10/06 18:32:29 by chourri          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,8 +32,24 @@ static void	expand_special_vars(t_token *token)
 		|| ft_strcmp(token->data, "\"$!\"") == 0)
 	{
 		free(token->data);
-		token->data = strdup("\n");
+		token->data = strdup("");
 	}
+}
+
+int	is_ambiguous_redirect(t_token *token, char *expanded)
+{
+	t_token	*curr;
+
+	if (ft_strcmp(expanded, "") == 0)
+	{
+		curr = token->previous;
+		while (curr && (curr->type == SPAACE || curr->type == TAAB))
+			curr = curr->previous;
+		if (curr && (curr->type == REDIRECT_APPEND
+				|| curr->type == REDIRECT_IN || curr->type == REDIRECT_OUT))
+			return (1);
+	}
+	return (0);
 }
 
 static void	expand_dollar_sign(t_token *token, char **envp)
@@ -43,8 +59,13 @@ static void	expand_dollar_sign(t_token *token, char **envp)
 	if (ft_strchr(token->data, '$'))
 	{
 		expanded = expand_variable(token->data, envp);
-		free(token->data);
-		token->data = expanded;
+		if (!is_ambiguous_redirect(token, expanded))
+		{
+			free(token->data);
+			token->data = expanded;
+		}
+		else
+			free(expanded);
 	}
 }
 
@@ -55,6 +76,7 @@ void	handle_token_expansion(t_token *token, char **envp)
 	{
 		expand_exit_status(token);
 		expand_special_vars(token);
+		expand_home(token);
 		if (token->data[0] != '"' && token->data[0] != '\'')
 			expand_dollar_sign(token, envp);
 		else if (token->data[0] == '"')

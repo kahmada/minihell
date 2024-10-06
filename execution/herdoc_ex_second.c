@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   herdoc_ex_second.c                                 :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: kahmada <kahmada@student.42.fr>            +#+  +:+       +#+        */
+/*   By: chourri <chourri@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/29 17:42:36 by kahmada           #+#    #+#             */
-/*   Updated: 2024/10/03 17:41:59 by kahmada          ###   ########.fr       */
+/*   Updated: 2024/10/06 15:40:59 by chourri          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,8 +16,8 @@ void	signal_handler_heredoc(int signal)
 {
 	if (signal == SIGINT)
 	{
-		// rl_catch_signals = 0;
-		sig_received = 1;
+		rl_catch_signals = 0;
+		g_sig_received = 1;
 		close(0);
 		return ;
 	}
@@ -77,12 +77,13 @@ void	ft_remove_quotes(char **str)
 	*str = dst_start;
 }
 
-char	*handle_exp(char *quoted_limiter, char *line, int flag, char **envp)
+char	*handle_exp(char *limiter, char *line, int flag, char **envp)
 {
 	char	*expanded_line;
 
 	expanded_line = line;
-	if (!flag && (ft_strchr(line, '$') || ft_strchr(line, '~')) && ft_strcmp(quoted_limiter, line))
+	if (!flag && (ft_strchr(line, '$')
+			|| ft_strchr(line, '~')) && ft_strcmp(limiter, line))
 	{
 		expanded_line = expand_variable(line, envp);
 		free(line);

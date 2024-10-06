@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ex_cmd.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: kahmada <kahmada@student.42.fr>            +#+  +:+       +#+        */
+/*   By: chourri <chourri@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/27 11:53:32 by kahmada           #+#    #+#             */
-/*   Updated: 2024/10/06 19:02:54 by kahmada          ###   ########.fr       */
+/*   Updated: 2024/10/06 20:44:22 by chourri          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,10 +23,13 @@ void	handle_command_path(char *cmd_path, char *cmd_name)
 			ft_putstr_fd("Command not found: ", 2);
 			ft_putstr_fd(cmd_name, 2);
 			write(2, "\n", 1);
+			ex = manage_exit_status(127, 1);
+			free(ex);
+			exit(127);
 		}
-		ex = manage_exit_status(127, 1);
+		ex = manage_exit_status(0, 1);
 		free(ex);
-		exit(127);
+		exit(0);
 	}
 	else if (ft_strcmp(cmd_path, "1") == 0)
 		exit(126);

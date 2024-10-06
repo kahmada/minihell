@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   export_utils.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: kahmada <kahmada@student.42.fr>            +#+  +:+       +#+        */
+/*   By: chourri <chourri@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/26 16:20:58 by kahmada           #+#    #+#             */
-/*   Updated: 2024/10/01 10:11:08 by kahmada          ###   ########.fr       */
+/*   Updated: 2024/10/06 20:36:39 by chourri          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,15 +17,9 @@ int	is_valid_variable_name(char *key)
 	int	i;
 
 	i = 0;
-	if (!key[i] || !ft_isalpha(key[i]) || key[i] == '_')
+	if (!key[i] || !ft_isalpha(key[i]))
 		return (0);
 	i++;
-	while (key[i])
-	{
-		if (!ft_isalnum(key[i]) && key[i] != '-' && key[i] != '+')
-			return (0);
-		i++;
-	}
 	return (1);
 }
 

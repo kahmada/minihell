@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   exp_handle.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: kahmada <kahmada@student.42.fr>            +#+  +:+       +#+        */
+/*   By: chourri <chourri@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/29 17:36:56 by kahmada           #+#    #+#             */
-/*   Updated: 2024/10/06 19:03:57 by kahmada          ###   ########.fr       */
+/*   Updated: 2024/10/06 21:49:06 by chourri          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -60,13 +60,30 @@ void	extract_key_value(const char *arg, char **ky, char **val)
 	}
 }
 
+int	key_notvalid(const char *key)
+{
+	char	*invalid_chars;
+	size_t	i;
+
+	i = 0;
+	invalid_chars = "-%%$?~@!#^*/";
+	while (i < ft_strlen(key))
+	{
+		if (ft_strchr(invalid_chars, key[i]) != NULL)
+			return (1);
+		i++;
+	}
+	return (0);
+}
+
 void	valid_and_prs_exprt(const char *arg, char **ky, char **val, int *ap_md)
 {
 	char	*ex;
 
 	*ap_md = 0;
 	extract_key_value(arg, ky, val);
-	if ((*ky)[0] == '=' || (*ky)[0] == '$' || ft_strchr(*ky, '=') == *ky)
+	if ((*ky)[0] == '=' || (*ky)[0] == '$'
+		|| ft_strchr(*ky, '=') == *ky || key_notvalid(*ky))
 	{
 		handle_invalid_identifier(ky, val);
 		ex = manage_exit_status(1, 1);

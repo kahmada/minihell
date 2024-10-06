@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   redirect.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: kahmada <kahmada@student.42.fr>            +#+  +:+       +#+        */
+/*   By: chourri <chourri@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/26 20:39:02 by kahmada           #+#    #+#             */
-/*   Updated: 2024/10/03 17:41:16 by kahmada          ###   ########.fr       */
+/*   Updated: 2024/10/06 21:34:48 by chourri          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,7 +17,7 @@ void	handle_redirect_in(char *filename)
 	int		fd;
 	char	*ex;
 
-	if (filename[0] == '$')
+	if (filename[0] == '$' && filename[1] != '\0')
 	{
 		ex = manage_exit_status(1, 1);
 		printf("%s: ambiguous redirect\n", filename);
@@ -29,13 +29,13 @@ void	handle_redirect_in(char *filename)
 	if (fd == -1)
 	{
 		perror("open");
-		exit(0);
+		exit(1);
 	}
 	if (dup2(fd, STDIN_FILENO) == -1)
 	{
 		perror("dup2");
 		close(fd);
-		exit(0);
+		exit(1);
 	}
 	close(fd);
 }
@@ -73,7 +73,7 @@ void	handle_redirect_out(char *filename)
 	int		fd;
 	char	*ex;
 
-	if (filename[0] == '$')
+	if (filename[0] == '$' && filename[1] != '\0')
 	{
 		ex = manage_exit_status(1, 1);
 		printf("%s: ambiguous redirect\n", filename);
@@ -101,7 +101,7 @@ void	handle_redirect_append(char *filename)
 	int		fd;
 	char	*ex;
 
-	if (filename[0] == '$')
+	if (filename[0] == '$' && filename[1] != '\0')
 	{
 		ex = manage_exit_status(1, 1);
 		printf("%s: ambiguous redirect\n", filename);

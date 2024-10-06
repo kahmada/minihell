@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   bult.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: kahmada <kahmada@student.42.fr>            +#+  +:+       +#+        */
+/*   By: chourri <chourri@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/28 18:28:18 by kahmada           #+#    #+#             */
-/*   Updated: 2024/10/06 19:03:29 by kahmada          ###   ########.fr       */
+/*   Updated: 2024/10/06 21:50:10 by chourri          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,7 +31,12 @@ char	**handle_built_out(t_command *cmd, char **envp)
 		bult_cd(cmd, &env);
 	else if (ft_strcmp(cmd->args[0], "unset") == 0)
 		bult_unset(cmd, &env);
-	else if (ft_strcmp(cmd->args[0], "export") == 0)
+	else if (ft_strcmp(cmd->args[0], "export") == 0 && cmd->next != NULL)
+	{
+		cmd->ex = manage_exit_status(1, 1);
+		free(cmd->ex);
+	}
+	else if (ft_strcmp(cmd->args[0], "export") == 0 && cmd->next == NULL)
 		bult_export(cmd, &env);
 	envp = env_to_envp(env);
 	free_env(env);

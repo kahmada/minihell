@@ -6,7 +6,7 @@
 /*   By: chourri <chourri@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/19 19:01:00 by chourri           #+#    #+#             */
-/*   Updated: 2024/09/19 19:11:04 by chourri          ###   ########.fr       */
+/*   Updated: 2024/10/06 13:21:21 by chourri          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -141,5 +141,22 @@ void	ft_lstadd_back(t_token **lst, t_token *new)
 // 		printf("Type: %s, Data: {%s}\n",
 // 			get_token_type_name(current->type), current->data);
 // 		current = current->next;
+// 	}
+// }
+
+// void print_command(t_command *cmd)
+// {
+// 	int i = 0;
+// 	while (cmd)
+// 	{
+// 		i = 0;
+// 		while (cmd->args[i])
+// 		{
+// 			printf("{%s} ->", cmd->args[i]);
+// 			//printf("%d\n",cmd->fd_in);
+// 			i++;
+// 		}
+// 		printf("NULL\n\n");
+// 		cmd = cmd->next;
 // 	}
 // }
