@@ -6,7 +6,7 @@
 /*   By: kahmada <kahmada@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/12 15:51:23 by chourri           #+#    #+#             */
-/*   Updated: 2024/10/03 18:04:06 by kahmada          ###   ########.fr       */
+/*   Updated: 2024/10/06 18:08:51 by kahmada          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -313,6 +313,7 @@ char **handle_builtin(t_command *cmd, char **envp);
 //env
 char **ft_envp_copy(char **envp);
 //bultin
+int	count_env_vars(t_env *env);
 void	ft_putstr_fd(char *s, int fd);
 int	is_builtin_out(char *cmd);
 char	**handle_builtin_cmd_out(t_command *cmd, char **envp);

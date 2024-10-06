@@ -6,7 +6,7 @@
 /*   By: kahmada <kahmada@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/28 18:28:18 by kahmada           #+#    #+#             */
-/*   Updated: 2024/10/04 18:14:48 by kahmada          ###   ########.fr       */
+/*   Updated: 2024/10/06 19:03:29 by kahmada          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,7 +21,12 @@ char	**handle_built_out(t_command *cmd, char **envp)
 		return (envp);
 	env = get_env(&envp, env);
 	if (!env)
-		return (envp);
+	{
+		add_env(&env, "PWD", getcwd(NULL, 0));
+		add_env(&env, "SHLVL", "1");
+		add_env(&env, "_", "/usr/bin/env");
+		add_env(&env, "PATH", "/usr/gnu/bin:/usr/local/bin:/bin:/usr/bin:.");
+	}
 	if (ft_strcmp(cmd->args[0], "cd") == 0)
 		bult_cd(cmd, &env);
 	else if (ft_strcmp(cmd->args[0], "unset") == 0)
@@ -42,7 +47,12 @@ char	**handle_builtin(t_command *cmd, char **envp)
 		return (envp);
 	env = get_env(&envp, env);
 	if (!env)
-		return (envp);
+	{
+		add_env(&env, "PWD", getcwd(NULL, 0));
+		add_env(&env, "SHLVL", "1");
+		add_env(&env, "_", "/usr/bin/env");
+		add_env(&env, "PATH", "/usr/gnu/bin:/usr/local/bin:/bin:/usr/bin:.");
+	}
 	if (ft_strcmp(cmd->args[0], "env") == 0)
 		bult_env(env, cmd);
 	else if (ft_strcmp(cmd->args[0], "echo") == 0)

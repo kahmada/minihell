@@ -6,7 +6,7 @@
 /*   By: kahmada <kahmada@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/12 16:02:24 by chourri           #+#    #+#             */
-/*   Updated: 2024/10/04 18:09:53 by kahmada          ###   ########.fr       */
+/*   Updated: 2024/10/06 17:34:30 by kahmada          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -123,6 +123,14 @@ int main(int ac, char **av, char **envp)
 	//rl_catch_signals = 0; //to not print ^C in the prompt
 	signal(SIGQUIT, SIG_IGN);
 	signal(SIGINT, sigint_handler);
+	if(envp[0] == NULL)
+	{
+		envp[0] = "PWD=/Users";
+		envp[1] = "SHLVL=1";
+		envp[2] = "_=/usr/bin/env";
+		envp[3] = "PATH=/usr/gnu/bin:/usr/local/bin:/bin:/usr/bin:.";
+		envp[4] = NULL;
+	}
 	envp_copy = ft_envp_copy(envp);
 	(void)ac;
 	(void)av;

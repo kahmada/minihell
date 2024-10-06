@@ -6,7 +6,7 @@
 /*   By: kahmada <kahmada@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/27 11:55:39 by kahmada           #+#    #+#             */
-/*   Updated: 2024/10/03 20:36:15 by kahmada          ###   ########.fr       */
+/*   Updated: 2024/10/05 18:44:53 by kahmada          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -108,7 +108,7 @@ char	*find_commande(char *cmd, char **envp)
 	{
 		ft_putstr_fd(cmd, 2);
 		ft_putstr_fd(": no such file or directory\n", 2);
-		exit(1);
+		exit(127);
 	}
 	path = find_command_in_paths(cmd, paths);
 	while (paths[i])

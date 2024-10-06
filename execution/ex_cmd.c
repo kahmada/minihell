@@ -6,7 +6,7 @@
 /*   By: kahmada <kahmada@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/27 11:53:32 by kahmada           #+#    #+#             */
-/*   Updated: 2024/10/04 18:30:37 by kahmada          ###   ########.fr       */
+/*   Updated: 2024/10/06 19:02:54 by kahmada          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,7 +28,9 @@ void	handle_command_path(char *cmd_path, char *cmd_name)
 		free(ex);
 		exit(127);
 	}
-	else if (ft_strcmp(cmd_path, "1") == 0 || ft_strcmp(cmd_path, "2") == 0)
+	else if (ft_strcmp(cmd_path, "1") == 0)
+		exit(126);
+	else if (ft_strcmp(cmd_path, "2") == 0)
 		exit(127);
 }
 
@@ -119,6 +121,7 @@ char	**execute_cmd(t_command *cmd, char **envp)
 	{
 		cmd->last_envp = handle_builtin_cmd_out(cmd, envp);
 		envp = f_update_envp(envp, cmd->last_envp);
+		return (free(child_pids), envp);
 	}
 	exec_pipes(cmd, envp, child_pids, &input_fd);
 	close(input_fd);
