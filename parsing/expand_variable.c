@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   expand_variable.c                                  :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: chourri <chourri@student.42.fr>            +#+  +:+       +#+        */
+/*   By: kahmada <kahmada@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/14 11:05:14 by chourri           #+#    #+#             */
-/*   Updated: 2024/10/03 15:46:15 by chourri          ###   ########.fr       */
+/*   Updated: 2024/10/08 17:16:28 by kahmada          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,7 +45,7 @@ static void	expand_env_variable(char **data, char **ptr, char **envp)
 		mydata.i++;
 	}
 	ft_strcpy(*ptr, mydata.value);
-	*ptr += strlen(mydata.value);
+	*ptr += ft_strlen(mydata.value);
 	free(mydata.var);
 }
 

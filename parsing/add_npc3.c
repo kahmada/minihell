@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   add_npc3.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: chourri <chourri@student.42.fr>            +#+  +:+       +#+        */
+/*   By: kahmada <kahmada@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/12 12:47:17 by chourri           #+#    #+#             */
-/*   Updated: 2024/09/19 14:07:08 by chourri          ###   ########.fr       */
+/*   Updated: 2024/10/08 17:13:16 by kahmada          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -65,7 +65,7 @@ void	add_npc_to_cmd(char *input, char **new_input)
 	int	len_to_add;
 
 	len_to_add = calculate_len(input);
-	*new_input = malloc(len_to_add + strlen(input) + 1);
+	*new_input = malloc(len_to_add + ft_strlen(input) + 1);
 	if (!new_input)
 		return ;
 	create_new_string(input, new_input);

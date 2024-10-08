@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   split_cmd_quote.c                                  :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: chourri <chourri@student.42.fr>            +#+  +:+       +#+        */
+/*   By: kahmada <kahmada@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/12 16:13:45 by chourri           #+#    #+#             */
-/*   Updated: 2024/09/17 12:56:11 by chourri          ###   ########.fr       */
+/*   Updated: 2024/10/08 17:15:28 by kahmada          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,7 +39,7 @@ static char	*allocate_copy_word(char const *s, size_t len)
 	word = (char *)malloc(len + 1);
 	if (!word)
 		return (NULL);
-	strncpy(word, s, len);
+	ft_strncpy(word, s, len);
 	word[len] = '\0';
 	return (word);
 }

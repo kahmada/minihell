@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   tools8.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: chourri <chourri@student.42.fr>            +#+  +:+       +#+        */
+/*   By: kahmada <kahmada@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/17 11:19:15 by chourri           #+#    #+#             */
-/*   Updated: 2024/09/19 19:47:16 by chourri          ###   ########.fr       */
+/*   Updated: 2024/10/08 17:17:18 by kahmada          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,7 +48,7 @@ void	ft_lstadd_back_new(t_token **lst, t_type type, const char *data)
 	new_token = malloc(sizeof(t_token));
 	if (new_token == NULL)
 		return ;
-	new_token->data = strdup(data);
+	new_token->data = ft_strdup(data);
 	if (new_token->data == NULL)
 	{
 		free(new_token);

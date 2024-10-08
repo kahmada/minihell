@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   split_tokens.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: chourri <chourri@student.42.fr>            +#+  +:+       +#+        */
+/*   By: kahmada <kahmada@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/11 20:18:22 by chourri           #+#    #+#             */
-/*   Updated: 2024/09/13 12:49:02 by chourri          ###   ########.fr       */
+/*   Updated: 2024/10/08 17:15:38 by kahmada          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,7 +32,7 @@ static char	*allocate_copy_word(char const *s, char c)
 	if (!word)
 		return (NULL);
 	if (word)
-		strlcpy(word, s, len + 1);
+		ft_strlcpy(word, s, len + 1);
 	return (word);
 }
 

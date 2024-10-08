@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   build_token_list2.c                                :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: chourri <chourri@student.42.fr>            +#+  +:+       +#+        */
+/*   By: kahmada <kahmada@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/12 19:07:13 by chourri           #+#    #+#             */
-/*   Updated: 2024/09/19 14:09:52 by chourri          ###   ########.fr       */
+/*   Updated: 2024/10/08 17:16:21 by kahmada          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,7 +34,7 @@ static void	process_token(t_token **lst, char **tokens, int *i)
 		handle_combined_tokens(lst, tokens, i);
 		return ;
 	}
-	ft_lstadd_back(lst, ft_lstnew(strdup(tokens[*i]), type));
+	ft_lstadd_back(lst, ft_lstnew(ft_strdup(tokens[*i]), type));
 }
 
 t_token	*build_token_list(char *output)

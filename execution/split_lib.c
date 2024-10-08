@@ -6,7 +6,7 @@
 /*   By: kahmada <kahmada@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/27 12:06:08 by kahmada           #+#    #+#             */
-/*   Updated: 2024/09/30 16:58:37 by kahmada          ###   ########.fr       */
+/*   Updated: 2024/10/08 17:14:43 by kahmada          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,6 +16,8 @@ size_t	ft_strlcpy(char *dst, const char *src, size_t dstsize)
 {
 	size_t	src_len;
 
+	if (!src || !dst)
+		return (0);
 	src_len = ft_strlen(src);
 	if (src_len + 1 < dstsize)
 		ft_memcpy(dst, src, src_len + 1);

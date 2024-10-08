@@ -6,7 +6,7 @@
 /*   By: kahmada <kahmada@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/12 15:51:23 by chourri           #+#    #+#             */
-/*   Updated: 2024/10/08 16:31:54 by kahmada          ###   ########.fr       */
+/*   Updated: 2024/10/08 17:18:12 by kahmada          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,7 +16,6 @@
 # include <stdio.h>
 # include <unistd.h>
 # include <stdlib.h>
-# include <string.h>
 # include <ctype.h>
 # include <fcntl.h>
 # include <limits.h>
@@ -278,6 +277,7 @@ void		update_envp(t_env **envp, char *key, char *value);
 void		update_environment(t_env **env, char *key, char *value);
 void		print_export(t_env *env);
 int			her(t_command *cmd, char **envp);
+size_t		ft_strlcpy(char *dst, const char *src, size_t dstsize);
 // void		handle_child(const char *limiter, int tmp_fd, char **envp);
 //signals
 void		sigint_handler(int s);

@@ -6,7 +6,7 @@
 /*   By: kahmada <kahmada@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/29 17:34:37 by kahmada           #+#    #+#             */
-/*   Updated: 2024/09/29 17:34:52 by kahmada          ###   ########.fr       */
+/*   Updated: 2024/10/08 17:17:06 by kahmada          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,10 +25,10 @@ char	*create_env_string(t_env *env)
 	env_str = (char *)malloc((var_len + value_len + 2) * sizeof(char));
 	if (!env_str)
 		return (NULL);
-	strcpy(env_str, env->key);
-	strcat(env_str, "=");
+	ft_strcpy(env_str, env->key);
+	ft_strcat(env_str, "=");
 	if (env->value)
-		strcat(env_str, env->value);
+		ft_strcat(env_str, env->value);
 	return (env_str);
 }
 

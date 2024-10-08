@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   process_command.c                                  :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: chourri <chourri@student.42.fr>            +#+  +:+       +#+        */
+/*   By: kahmada <kahmada@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/05 12:10:16 by chourri           #+#    #+#             */
-/*   Updated: 2024/10/06 13:24:46 by chourri          ###   ########.fr       */
+/*   Updated: 2024/10/08 17:13:38 by kahmada          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,6 +50,7 @@ char	**process_command(char *input, char **envp)
 	t_token		*lst;
 	t_command	*cmd;
 
+	cmd = NULL;
 	envp = initialize_it(&output, &new_lst, input, envp);
 	add_npc_to_cmd(input, &output);
 	if (output)

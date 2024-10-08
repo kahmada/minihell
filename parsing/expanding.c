@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   expanding.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: chourri <chourri@student.42.fr>            +#+  +:+       +#+        */
+/*   By: kahmada <kahmada@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/30 10:23:50 by chourri           #+#    #+#             */
-/*   Updated: 2024/10/06 18:32:29 by chourri          ###   ########.fr       */
+/*   Updated: 2024/10/08 17:16:35 by kahmada          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,7 +32,7 @@ static void	expand_special_vars(t_token *token)
 		|| ft_strcmp(token->data, "\"$!\"") == 0)
 	{
 		free(token->data);
-		token->data = strdup("");
+		token->data = ft_strdup("");
 	}
 }
 

@@ -6,7 +6,7 @@
 /*   By: kahmada <kahmada@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/29 17:42:36 by kahmada           #+#    #+#             */
-/*   Updated: 2024/10/07 15:59:49 by kahmada          ###   ########.fr       */
+/*   Updated: 2024/10/08 17:16:43 by kahmada          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,7 +32,7 @@ char	*remove_quotes_limiter(const char *arg)
 
 	i = 0;
 	j = 0;
-	new_arg = (char *)malloc(strlen(arg) + 1);
+	new_arg = (char *)malloc(ft_strlen(arg) + 1);
 	if (!new_arg)
 		return (NULL);
 	while (arg[i])

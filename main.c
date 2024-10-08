@@ -6,7 +6,7 @@
 /*   By: kahmada <kahmada@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/12 16:02:24 by chourri           #+#    #+#             */
-/*   Updated: 2024/10/08 16:32:16 by kahmada          ###   ########.fr       */
+/*   Updated: 2024/10/08 17:13:07 by kahmada          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,7 +17,7 @@ char	**process_input(char *input, char **envp)
 	int	stdin_in;
 	int	stdout_out;
 
-	if (strlen(input) > 0)
+	if (ft_strlen(input) > 0)
 	{
 		add_history(input);
 		stdin_in = dup(0);
