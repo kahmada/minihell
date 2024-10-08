@@ -6,7 +6,7 @@
 /*   By: chourri <chourri@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/03 15:08:40 by chourri           #+#    #+#             */
-/*   Updated: 2024/10/03 15:49:07 by chourri          ###   ########.fr       */
+/*   Updated: 2024/10/08 19:42:51 by chourri          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,7 +24,7 @@ static int	redirect_in_parsing_bool(t_token *lst)
 			curr = curr->next;
 			while (curr && (curr->type == TAAB || curr->type == SPAACE))
 				curr = curr->next;
-			if (lst->sig_flag)
+			if (lst->sig_flag == 1)
 				return (1);
 			if (!curr)
 				return (1);
@@ -51,7 +51,7 @@ static int	redirect_out_parsing_bool(t_token *lst)
 			curr = curr->next;
 			while (curr && (curr->type == TAAB || curr->type == SPAACE))
 				curr = curr->next;
-			if (lst->sig_flag)
+			if (lst->sig_flag == 1)
 				return (1);
 			if (!curr)
 				return (1);
@@ -78,7 +78,7 @@ static int	redirect_append_bool(t_token *lst)
 			curr = curr->next;
 			while (curr && (curr->type == TAAB || curr->type == SPAACE))
 				curr = curr->next;
-			if (lst->sig_flag)
+			if (lst->sig_flag == 1)
 				return (1);
 			if (!curr)
 				return (1);

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ex_cmd.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: kahmada <kahmada@student.42.fr>            +#+  +:+       +#+        */
+/*   By: chourri <chourri@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/27 11:53:32 by kahmada           #+#    #+#             */
-/*   Updated: 2024/10/07 15:58:51 by kahmada          ###   ########.fr       */
+/*   Updated: 2024/10/08 19:46:45 by chourri          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -118,7 +118,8 @@ char	**execute_cmd(t_command *cmd, char **envp)
 		return (envp);
 	count = count_commands(cmd);
 	child_pids = (int *)malloc(sizeof(int) * count);
-	if (ft_strcmp(cmd->args[0], "exit") == 0 && cmd->args[1] && (!cmd->args[2]) && cmd->next == NULL)
+	if (ft_strcmp(cmd->args[0], "exit") == 0
+		&& cmd->args[1] && (!cmd->args[2]) && cmd->next == NULL)
 		bult_exit(cmd);
 	if (cmd && is_builtin_out(cmd->args[0]))
 	{

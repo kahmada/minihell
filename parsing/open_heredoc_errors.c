@@ -6,7 +6,7 @@
 /*   By: chourri <chourri@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/12 13:11:25 by chourri           #+#    #+#             */
-/*   Updated: 2024/10/06 15:15:22 by chourri          ###   ########.fr       */
+/*   Updated: 2024/10/08 19:42:26 by chourri          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -125,3 +125,4 @@ void	handle_child_error(const char *limiter, t_token *lst)
 	close(tmp_fd);
 	unlink(temp_filename);
 }
+//  <<p cat >p | <<m cat >m

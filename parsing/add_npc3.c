@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   add_npc3.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: kahmada <kahmada@student.42.fr>            +#+  +:+       +#+        */
+/*   By: chourri <chourri@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/12 12:47:17 by chourri           #+#    #+#             */
-/*   Updated: 2024/10/08 17:13:16 by kahmada          ###   ########.fr       */
+/*   Updated: 2024/10/08 20:37:36 by chourri          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,7 +20,7 @@ static void	handle_pid(char *input, char **new, int	*i)
 	*(*new)++ = NON_PRINTABLE_CHAR;
 }
 
-static void	handle_input_chars(char *input, char **new_input, int *i)
+static int	process_special_chars(char *input, char **new_input, int *i)
 {
 	char	*new;
 
@@ -44,6 +44,19 @@ static void	handle_input_chars(char *input, char **new_input, int *i)
 		&& input[*i - 1] != '$')
 		handle_star(input, &new, i);
 	else
+		return (0);
+	*new_input = new;
+	return (1);
+}
+
+static void	handle_input_chars(char *input, char **new_input, int *i)
+{
+	char	*new;
+
+	new = *new_input;
+	if (!new)
+		return ;
+	if (!process_special_chars(input, &new, i))
 		*new++ = input[*i];
 	*new_input = new;
 }
@@ -53,8 +66,10 @@ static void	create_new_string(char *input, char **new_input)
 	int		i;
 	char	*new;
 
-	i = -1;
 	new = *new_input;
+	if (!new)
+		return ;
+	i = -1;
 	while (input[++i])
 		handle_input_chars(input, &new, &i);
 	*new = '\0';
