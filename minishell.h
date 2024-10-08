@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: chourri <chourri@student.42.fr>            +#+  +:+       +#+        */
+/*   By: kahmada <kahmada@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/12 15:51:23 by chourri           #+#    #+#             */
-/*   Updated: 2024/10/06 19:16:51 by chourri          ###   ########.fr       */
+/*   Updated: 2024/10/08 16:31:54 by kahmada          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -200,7 +200,7 @@ void		*ft_memcpy(void *dst, const void *src, size_t n);
 char		*ft_strnstr(const char *haystack, const char *needle, size_t len);
 size_t		ft_strlen(const char *s);
 char		*ft_strdup(const char *s1);
-char		*ft_strjoin(char const *s1, char const *s2);
+char		*ft_strjoin(char *s1, char *s2);
 long		ft_atoi(char *s);
 int			is_alphabet(char c);
 int			redirection_symbols(int type_symbol);

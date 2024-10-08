@@ -6,7 +6,7 @@
 /*   By: kahmada <kahmada@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/12 16:02:24 by chourri           #+#    #+#             */
-/*   Updated: 2024/10/07 15:59:29 by kahmada          ###   ########.fr       */
+/*   Updated: 2024/10/08 16:32:16 by kahmada          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,14 +55,19 @@ char	**ft_envp_copy(char **envp)
 
 void	fill_empty_envp(char **envp)
 {
+	char	*cwd;
+
+	cwd = getcwd(NULL, 0);
 	if (envp[0] == NULL)
 	{
-		envp[0] = "PWD=/Users";
+		envp[0] = "PWD=";
+		envp[0] = ft_strjoin(envp[0], cwd);
 		envp[1] = "SHLVL=1";
 		envp[2] = "_=/usr/bin/env";
 		envp[3] = "PATH=/usr/gnu/bin:/usr/local/bin:/bin:/usr/bin:.";
 		envp[4] = NULL;
 	}
+	free(cwd);
 }
 
 int	main(int ac, char **av, char **envp)
