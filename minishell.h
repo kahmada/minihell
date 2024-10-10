@@ -6,7 +6,7 @@
 /*   By: chourri <chourri@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/12 15:51:23 by chourri           #+#    #+#             */
-/*   Updated: 2024/10/08 20:41:01 by chourri          ###   ########.fr       */
+/*   Updated: 2024/10/09 19:27:53 by chourri          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -284,5 +284,6 @@ void		signal_handler_heredoc(int signal);
 char		*manage_exit_status(int status, int set_flag);
 void		wrerror(char *str);
 char		**process_command(char *input, char **envp);
+void		free_all(t_token **lst, t_token **new, t_command **cmd, int flg);
 
 #endif
