@@ -3,41 +3,44 @@
 /*                                                        :::      ::::::::   */
 /*   process_command.c                                  :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: chourri <chourri@student.42.fr>            +#+  +:+       +#+        */
+/*   By: kahmada <kahmada@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/05 12:10:16 by chourri           #+#    #+#             */
-/*   Updated: 2024/10/10 18:49:58 by chourri          ###   ########.fr       */
+/*   Updated: 2024/10/10 19:01:41 by kahmada          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-static void	exp_cmd(t_token **lst, char **envp, t_token **new, t_command **cmd)
+void	free_all(t_token **lst, t_token **new, t_command **cmd, int flg)
 {
-	ft_expand(*lst, envp);
-	*new = build_new_tokens_pipe(*lst);
-	*cmd = build_cmd(*new);
+	free_token_list(*lst);
+	free_token_list(*new);
+	free_command_list(*cmd);
+	if (flg)
+		lst = NULL;
 }
 
-static void	build_tokens_and_flag(t_token **lst, char *output)
+void	exp_cmd(t_token **lst, char **envp, t_token **new_lst, t_command **cmd)
+{
+	ft_expand(*lst, envp);
+	*new_lst = build_new_tokens_pipe(*lst);
+	*cmd = build_cmd(*new_lst);
+}
+
+void	build_tokens_and_flag(t_token **lst, char *output)
 {
 	*lst = build_token_list(output);
 	(*lst)->flag = 0;
 }
 
-static void	initialize_it(char **output, t_token **new, t_command **cmd)
+char	**initialize_it(char **output, t_token **new, char *input, char **envp)
 {
 	*output = NULL;
 	*new = NULL;
-	*cmd = NULL;
-}
-
-static void	free_errors(t_token *lst, char *output)
-{
-	if (lst)
-		free_token_list(lst);
-	if (output)
-		free(output);
+	if (parse_quotes(input))
+		return (envp);
+	return (envp);
 }
 
 char	**process_command(char *input, char **envp)
@@ -47,15 +50,16 @@ char	**process_command(char *input, char **envp)
 	t_token		*lst;
 	t_command	*cmd;
 
-	initialize_it(&output, &new_lst, &cmd);
+	cmd = NULL;
+	envp = initialize_it(&output, &new_lst, input, envp);
 	add_npc_to_cmd(input, &output);
 	if (output)
 	{
 		build_tokens_and_flag(&lst, output);
 		if (lst)
 		{
-			if (parse_quotes(input) || parsing(lst))
-				return (free_errors(lst, output), envp);
+			if (parsing(lst))
+				return (free_token_list(lst), free(output), envp);
 			exp_cmd(&lst, envp, &new_lst, &cmd);
 			if (her(cmd, envp))
 				return (free_all(&lst, &new_lst, &cmd, 0), free(output), envp);

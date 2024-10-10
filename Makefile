@@ -3,10 +3,10 @@
 #                                                         :::      ::::::::    #
 #    Makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: chourri <chourri@student.42.fr>            +#+  +:+       +#+         #
+#    By: kahmada <kahmada@student.42.fr>            +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/06/12 15:51:05 by chourri           #+#    #+#              #
-#    Updated: 2024/10/08 20:41:34 by chourri          ###   ########.fr        #
+#    Updated: 2024/10/10 16:09:52 by kahmada          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -21,7 +21,7 @@ CFLAGS = -Wall -Wextra -Werror \
 
 LDFLAGS = -lreadline \
 -L $(shell brew --prefix readline)/lib
-RM  = rm -f
+RM     = rm -f
 
 SRC = main.c \
  process_command.c \

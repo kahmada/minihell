@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   herdoc_3.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: chourri <chourri@student.42.fr>            +#+  +:+       +#+        */
+/*   By: kahmada <kahmada@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/29 17:45:10 by kahmada           #+#    #+#             */
-/*   Updated: 2024/10/09 21:37:19 by chourri          ###   ########.fr       */
+/*   Updated: 2024/10/07 15:59:42 by kahmada          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,14 +17,12 @@ int	process_input_her(int tmp_fd, char *limiter, int flag, char **envp)
 	char	*line;
 	char	*expanded_line;
 
+	// rl_catch_signals = 0;
 	while (1)
 	{
 		line = readline("> ");
 		if (!line)
-		{
-			rl_catch_signals = 0;
 			return (0);
-		}
 		expanded_line = handle_exp(limiter, line, flag, envp);
 		line = expanded_line;
 		if (ft_strcmp(line, limiter) == 0)
@@ -49,8 +47,8 @@ void	handle_child(const char *limiter, int tmp_fd, char **envp)
 	if (limiter[0] == '$' && limiter[1] == '"')
 		limiter++;
 	quoted_limiter = remove_quotes_limiter((char *)limiter);
+	// rl_catch_signals = 1;
 	signal(SIGINT, signal_handler_heredoc);
-	rl_catch_signals = 1;
 	if (!process_input_her(tmp_fd, quoted_limiter, flag, envp))
 		free(quoted_limiter);
 	else

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   herdoc_ex.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: chourri <chourri@student.42.fr>            +#+  +:+       +#+        */
+/*   By: kahmada <kahmada@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/28 16:33:51 by kahmada           #+#    #+#             */
-/*   Updated: 2024/10/06 15:15:14 by chourri          ###   ########.fr       */
+/*   Updated: 2024/10/10 14:29:19 by kahmada          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,10 +32,7 @@ static void	heredoc(const char *lim, t_command *cmd, int filecount, char **envp)
 	t_here_doc	here_doc_info;
 
 	if (lim == NULL || cmd == NULL)
-	{
-		perror("Invalid arguments");
 		return ;
-	}
 	tmp_fd = create_tempfile(temp_filename, filecount);
 	if (tmp_fd == -1)
 		return ;
@@ -92,10 +89,7 @@ int	her(t_command *cmd, char **envp)
 
 	file_counter = 0;
 	if (cmd == NULL)
-	{
-		perror("Invalid command");
 		return (0);
-	}
 	start = cmd;
 	while (start != NULL)
 	{

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: chourri <chourri@student.42.fr>            +#+  +:+       +#+        */
+/*   By: kahmada <kahmada@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/12 15:51:23 by chourri           #+#    #+#             */
-/*   Updated: 2024/10/09 19:27:53 by chourri          ###   ########.fr       */
+/*   Updated: 2024/10/10 15:58:51 by kahmada          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -248,6 +248,7 @@ char		**handle_builtin(t_command *cmd, char **envp);
 //env
 char		**ft_envp_copy(char **envp);
 //bultin
+char		**handle_exit(t_command *cmd, char **envp);
 void		ft_putstr_fd(char *s, int fd);
 int			count_env_vars(t_env *env);
 int			is_builtin_out(char *cmd);
@@ -284,6 +285,5 @@ void		signal_handler_heredoc(int signal);
 char		*manage_exit_status(int status, int set_flag);
 void		wrerror(char *str);
 char		**process_command(char *input, char **envp);
-void		free_all(t_token **lst, t_token **new, t_command **cmd, int flg);
 
 #endif

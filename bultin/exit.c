@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   exit.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: chourri <chourri@student.42.fr>            +#+  +:+       +#+        */
+/*   By: kahmada <kahmada@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/02 13:31:20 by kahmada           #+#    #+#             */
-/*   Updated: 2024/10/06 21:47:08 by chourri          ###   ########.fr       */
+/*   Updated: 2024/10/10 14:10:54 by kahmada          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,8 +56,8 @@ void	handle_invalid_argument(char *arg)
 {
 	char	*ex;
 
-	if (arg && (arg[0] == '\0' || (!ft_strcmp(arg, "+")
-				|| !ft_strcmp(arg, "-"))))
+	if (arg && (!ft_strcmp(arg, "+")
+				|| !ft_strcmp(arg, "-")))
 	{
 		ft_putstr_fd("exit\n", 2);
 		ft_putstr_fd("minishell: exit: ", 2);

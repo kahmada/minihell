@@ -6,7 +6,7 @@
 /*   By: kahmada <kahmada@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/28 18:28:18 by kahmada           #+#    #+#             */
-/*   Updated: 2024/10/08 17:19:15 by kahmada          ###   ########.fr       */
+/*   Updated: 2024/10/10 16:12:52 by kahmada          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -67,5 +67,11 @@ char	**handle_builtin(t_command *cmd, char **envp)
 		bult_pwd(cmd);
 	envp = env_to_envp(env);
 	free_env(env);
+	return (envp);
+}
+
+char	**handle_exit(t_command *cmd, char **envp)
+{
+	bult_exit(cmd);
 	return (envp);
 }
