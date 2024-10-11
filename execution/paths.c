@@ -6,7 +6,7 @@
 /*   By: chourri <chourri@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/27 11:55:39 by kahmada           #+#    #+#             */
-/*   Updated: 2024/10/06 21:34:16 by chourri          ###   ########.fr       */
+/*   Updated: 2024/10/11 19:09:58 by chourri          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -60,14 +60,14 @@ char	*check_access_rights(char *cmd)
 		{
 			ft_putstr_fd(cmd, 2);
 			ft_putstr_fd(": permission denied\n", 2);
-			cmd = "2";
+			cmd = "3";
 			return (cmd);
 		}
 	}
 	else
 	{
 		ft_putstr_fd(cmd, 2);
-		ft_putstr_fd(": no such file or directory\n", 2);
+		ft_putstr_fd(": No such file or directory\n", 2);
 		cmd = "2";
 		return (cmd);
 	}
@@ -106,8 +106,10 @@ char	*find_commande(char *cmd, char **envp)
 	paths = extract_paths_from_envp(envp);
 	if (!paths)
 	{
+		if(access(cmd, F_OK) == 0)
+			return (check_absolute_relativ_path(cmd));
 		ft_putstr_fd(cmd, 2);
-		ft_putstr_fd(": no such file or directory\n", 2);
+		ft_putstr_fd(": No such file or directory\n", 2);
 		exit(127);
 	}
 	path = find_command_in_paths(cmd, paths);

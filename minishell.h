@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: kahmada <kahmada@student.42.fr>            +#+  +:+       +#+        */
+/*   By: chourri <chourri@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/12 15:51:23 by chourri           #+#    #+#             */
-/*   Updated: 2024/10/10 15:58:51 by kahmada          ###   ########.fr       */
+/*   Updated: 2024/10/11 10:13:23 by chourri          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -128,7 +128,6 @@ typedef struct s_data
 	char		*combined;
 }				t_data;
 
-//parsing :
 void		handle_quotes(char *input, char **new, int *i);
 void		handle_dollar_sign(char *input, char **new, int *i);
 void		handle_heredoc_append(char *input, char **new, int *i);
@@ -151,29 +150,23 @@ void		handle_combined_tokens(t_token **lst, char **tokens, int *i);
 t_type		determine_redirect_or_special(char *token);
 t_type		determine_quote_type(char *token, int *in_quotes);
 int			parsing(t_token *lst);
-//expanding
 size_t		expanded_len(char *data, char **envp);
 char		*expand_variable(char *data, char **envp);
 void		handle_token_expansion(t_token *token, char **envp);
 void		ft_expand(t_token *token, char **envp);
 void		expand_home(t_token *token);
-//build_cmd
 t_token		*build_new_tokens_pipe(t_token *token);
 t_command	*build_cmd(t_token *new_token);
 void		remove_quotes_end(t_command *cmd);
-//signals
 void		sigint_handler(int s);
 void		signal_handler_heredoc(int signal);
-//parsing end
 char		**f_update_envp(char **envp, char **last_envp);
 void		free_2d_array(char **array);
-void		print_command(t_command *cmd);
 char		**ft_split_tokens(char const *s, char c);
 char		**ft_split_cmd(char const *s);
 char		**ft_split_cmd_quote(char const *s);
 void		free_word_array(char **array);
 t_token		*build_token_list(char *output);
-void		print_list(t_token *lst);
 void		free_token_list(t_token *lst);
 void		ft_lstadd_back(t_token **lst, t_token *new);
 t_token		*ft_lstnew(char *data, t_type type);
@@ -181,13 +174,11 @@ t_token		*last_token(t_token *head);
 int			parse_quotes(char *input);
 int			is_alphabet(char c);
 void		print_env(char **envp);
-//libft
 char		*ft_strcat(char *dest, const char *src);
 char		*ft_strcpy(char *dest, const char *src);
 t_token		*last_token(t_token *head);
 t_token		*ft_lstnew(char *data, t_type type);
 void		ft_lstadd_back(t_token **lst, t_token *new);
-void		print_list(t_token *lst); //should be deleted later !!!!!!!!!!!!!
 void		free_token_list(t_token *lst);
 int			ft_isalnum(int c);
 int			ft_isalpha(int c);
@@ -217,7 +208,6 @@ t_token		*free_list(t_token *list);
 void		free_command_list(t_command *cmd_list);
 char		*ft_itoa(int n);
 void		child_process_execution(t_command *cmd, char **envp, int *input_fd);
-//herdoc
 int			not_last(t_command *first, int i);
 char		*handle_exp(char *limiter, char *line, int flag, char **envp);
 char		*remove_quotes_limiter(const char *arg);
@@ -225,7 +215,6 @@ void		signal_handler_heredoc(int signal);
 int			create_tempfile(char *temp_filename, int file_counter);
 void		handle_child(const char *limiter, int tmp_fd, char **envp);
 int			process_input_her(int tmp_fd, char *limiter, int flag, char **envp);
-// execution
 char		**execute_cmd(t_command *cmd, char **envp);
 char		*find_commande(char *cmd, char **envp);
 char		**ft_split_lib(char const *s, char c);
@@ -235,7 +224,6 @@ char		**handle_builtin_cmd(t_command *cmd, char **envp);
 char		**f_update_envp(char **envp, char **last_envp);
 void		handle_signal_termination(int status);
 void		wait_for_children(int *child_pids, int count);
-//redirect
 void		handle_redirect_append(char *filename);
 void		handle_redirect_out(char *filename);
 void		handle_redirect_in(char *filename);
@@ -245,9 +233,7 @@ void		handle_here_doc_redirect(t_command *cmd);
 void		error(void);
 void		cleanup_2darray(char **cmd_args1, char **cmd_args2);
 char		**handle_builtin(t_command *cmd, char **envp);
-//env
 char		**ft_envp_copy(char **envp);
-//bultin
 char		**handle_exit(t_command *cmd, char **envp);
 void		ft_putstr_fd(char *s, int fd);
 int			count_env_vars(t_env *env);
@@ -278,8 +264,6 @@ void		update_environment(t_env **env, char *key, char *value);
 void		print_export(t_env *env);
 int			her(t_command *cmd, char **envp);
 size_t		ft_strlcpy(char *dst, const char *src, size_t dstsize);
-// void		handle_child(const char *limiter, int tmp_fd, char **envp);
-//signals
 void		sigint_handler(int s);
 void		signal_handler_heredoc(int signal);
 char		*manage_exit_status(int status, int set_flag);

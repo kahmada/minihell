@@ -3,14 +3,25 @@
 /*                                                        :::      ::::::::   */
 /*   bult.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: kahmada <kahmada@student.42.fr>            +#+  +:+       +#+        */
+/*   By: chourri <chourri@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/28 18:28:18 by kahmada           #+#    #+#             */
-/*   Updated: 2024/10/10 16:12:52 by kahmada          ###   ########.fr       */
+/*   Updated: 2024/10/11 10:36:34 by chourri          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../minishell.h"
+
+static void	empty_env(t_env *env)
+{
+	if (!env)
+	{
+		add_env(&env, "PWD", getcwd(NULL, 0));
+		add_env(&env, "SHLVL", "1");
+		add_env(&env, "_", "/usr/bin/env");
+		add_env(&env, "PATH", "/usr/gnu/bin:/usr/local/bin:/bin:/usr/bin:.");
+	}
+}
 
 char	**handle_built_out(t_command *cmd, char **envp)
 {
@@ -20,13 +31,7 @@ char	**handle_built_out(t_command *cmd, char **envp)
 	if (cmd == NULL || cmd->args == NULL || cmd->args[0] == NULL)
 		return (envp);
 	env = get_env(&envp, env);
-	if (!env)
-	{
-		add_env(&env, "PWD", getcwd(NULL, 0));
-		add_env(&env, "SHLVL", "1");
-		add_env(&env, "_", "/usr/bin/env");
-		add_env(&env, "PATH", "/usr/gnu/bin:/usr/local/bin:/bin:/usr/bin:.");
-	}
+	empty_env(env);
 	if (ft_strcmp(cmd->args[0], "cd") == 0)
 		bult_cd(cmd, &env);
 	else if (ft_strcmp(cmd->args[0], "unset") == 0)

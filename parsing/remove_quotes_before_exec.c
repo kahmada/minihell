@@ -6,7 +6,7 @@
 /*   By: chourri <chourri@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/17 11:28:12 by chourri           #+#    #+#             */
-/*   Updated: 2024/10/08 20:40:51 by chourri          ###   ########.fr       */
+/*   Updated: 2024/10/11 10:08:25 by chourri          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,32 +22,39 @@ static void	ft_initialize(t_data *mydata, char *arg)
 		return ;
 }
 
+static void	update_args(char **args, t_data *mydata)
+{
+	(mydata->new_arg)[mydata->k] = '\0';
+	free(args[mydata->i]);
+	args[mydata->i] = mydata->new_arg;
+}
+
 static void	remove_quotes(char **args)
 {
-	t_data	mydata;
+	t_data	dt;
 
-	mydata.i = -1;
-	while (args[++(mydata.i)])
+	dt.i = -1;
+	while (args[++(dt.i)])
 	{
-		ft_initialize(&mydata, args[mydata.i]);
-		while (args[mydata.i][mydata.j])
+		if (ft_strlen(args[dt.i]) == 1 && (args[dt.i][0] == '"'
+			|| args[dt.i][0] == '\''))
+			return ;
+		ft_initialize(&dt, args[dt.i]);
+		while (args[dt.i][dt.j])
 		{
-			if (!(mydata.in_quotes) && (args[mydata.i][mydata.j] == '\''
-				|| args[mydata.i][mydata.j] == '\"'))
+			if (!(dt.in_quotes) && (args[dt.i][dt.j] == '\''
+				|| args[dt.i][dt.j] == '\"'))
 			{
-				mydata.in_quotes = 1;
-				mydata.quote_char = args[mydata.i][mydata.j];
+				dt.in_quotes = 1;
+				dt.quote_char = args[dt.i][dt.j];
 			}
-			else if (mydata.in_quotes
-				&& args[mydata.i][mydata.j] == mydata.quote_char)
-				mydata.in_quotes = 0;
+			else if (dt.in_quotes && args[dt.i][dt.j] == dt.quote_char)
+				dt.in_quotes = 0;
 			else
-				(mydata.new_arg)[(mydata.k)++] = args[mydata.i][mydata.j];
-			mydata.j++;
+				(dt.new_arg)[(dt.k)++] = args[dt.i][dt.j];
+			dt.j++;
 		}
-		(mydata.new_arg)[mydata.k] = '\0';
-		free(args[mydata.i]);
-		args[mydata.i] = mydata.new_arg;
+		update_args(args, &dt);
 	}
 }
 

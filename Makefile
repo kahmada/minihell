@@ -3,20 +3,18 @@
 #                                                         :::      ::::::::    #
 #    Makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: kahmada <kahmada@student.42.fr>            +#+  +:+       +#+         #
+#    By: chourri <chourri@student.42.fr>            +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/06/12 15:51:05 by chourri           #+#    #+#              #
-#    Updated: 2024/10/10 16:09:52 by kahmada          ###   ########.fr        #
+#    Updated: 2024/10/11 18:37:38 by chourri          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
 NAME   = minishell
 HEADER = minishell.h
 CC     = cc
-# CFLAGS = -Wall -Wextra -Werror -fsanitize=address -g\
-#  -I $(shell brew --prefix readline)/include
 
-CFLAGS = -Wall -Wextra -Werror \
+CFLAGS = -Wall -Wextra -Werror -fsanitize=address -g \
  -I $(shell brew --prefix readline)/include
 
 LDFLAGS = -lreadline \
@@ -94,6 +92,6 @@ clean:
 fclean: clean
 	$(RM) $(NAME)
 
-re: fclean
-	$(MAKE) all
+re: fclean all
 
+.PHONY: all clean fclean re

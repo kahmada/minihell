@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ex_cmd_utils.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: kahmada <kahmada@student.42.fr>            +#+  +:+       +#+        */
+/*   By: chourri <chourri@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/16 09:59:58 by kahmada           #+#    #+#             */
-/*   Updated: 2024/10/04 18:19:44 by kahmada          ###   ########.fr       */
+/*   Updated: 2024/10/11 09:44:54 by chourri          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,7 +55,7 @@ void	wait_for_children(int *child_pids, int count)
 			handle_signal_termination(status);
 	}
 	if (WTERMSIG(status) == SIGQUIT)
-		write(1, "QUIT: 3\n", 8);
+		write(1, "Quit: 3\n", 8);
 	else if (WTERMSIG(status) == SIGINT)
 		write(1, "\n", 1);
 }

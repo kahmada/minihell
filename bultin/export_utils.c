@@ -6,7 +6,7 @@
 /*   By: chourri <chourri@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/26 16:20:58 by kahmada           #+#    #+#             */
-/*   Updated: 2024/10/06 20:36:39 by chourri          ###   ########.fr       */
+/*   Updated: 2024/10/11 18:59:12 by chourri          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,7 +41,6 @@ void	print_export(t_env *env)
 		printf("declare -x %s", env->key);
 		if (env->value && env->value[0])
 			printf("=\"%s\"\n", env->value);
-		printf("\n");
 		env = env->next;
 	}
 }

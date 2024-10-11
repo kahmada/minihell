@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   cd.c                                               :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: kahmada <kahmada@student.42.fr>            +#+  +:+       +#+        */
+/*   By: chourri <chourri@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/25 14:27:16 by kahmada           #+#    #+#             */
-/*   Updated: 2024/10/03 17:33:22 by kahmada          ###   ########.fr       */
+/*   Updated: 2024/10/11 19:01:45 by chourri          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,6 +36,8 @@ void	bult_cd(t_command *cmd, t_env **envp)
 	char	*oldpath;
 	char	*new_path;
 
+	if(cmd->args[1] && ft_strlen(cmd->args[1]) == 0)
+		return ;
 	oldpath = getenv("PWD");
 	if (cmd->args[1] == NULL)
 		path = getenv("HOME");

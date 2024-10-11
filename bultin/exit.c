@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   exit.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: kahmada <kahmada@student.42.fr>            +#+  +:+       +#+        */
+/*   By: chourri <chourri@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/02 13:31:20 by kahmada           #+#    #+#             */
-/*   Updated: 2024/10/10 14:10:54 by kahmada          ###   ########.fr       */
+/*   Updated: 2024/10/11 18:20:57 by chourri          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,8 +38,6 @@ void	validate_numeric_argument(char *arg)
 	{
 		if (!ft_isdigit(arg[i]))
 		{
-			ft_putstr_fd(arg, 2);
-			write(2, "\n", 1);
 			ft_putstr_fd("exit\n", 2);
 			ft_putstr_fd("minishell: exit: ", 2);
 			ft_putstr_fd(arg, 2);
@@ -57,7 +55,7 @@ void	handle_invalid_argument(char *arg)
 	char	*ex;
 
 	if (arg && (!ft_strcmp(arg, "+")
-				|| !ft_strcmp(arg, "-")))
+			|| !ft_strcmp(arg, "-")))
 	{
 		ft_putstr_fd("exit\n", 2);
 		ft_putstr_fd("minishell: exit: ", 2);
@@ -99,7 +97,7 @@ void	bult_exit(t_command *cmd)
 		ft_putstr_fd("exit\n", 1);
 		cmd->ex = manage_exit_status(atoi(cmd->args[1]), 1);
 		free(cmd->ex);
-		exit(atoi(cmd->args[1]));
+		exit(ft_atoi(cmd->args[1]));
 	}
 	ft_putstr_fd("exit\n", 1);
 	cmd->ex = manage_exit_status(0, 1);

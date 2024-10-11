@@ -6,7 +6,7 @@
 /*   By: chourri <chourri@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/09 14:52:44 by kahmada           #+#    #+#             */
-/*   Updated: 2024/10/06 20:48:44 by chourri          ###   ########.fr       */
+/*   Updated: 2024/10/11 18:46:37 by chourri          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -69,7 +69,15 @@ void	bult_unset(t_command *cmd, t_env **env)
 	}
 	while (cmd->args[i])
 	{
-		if (unset_variable(env, cmd->args[i]))
+		if (!is_valid_variable_name(cmd->args[i]))
+		{
+			ft_putstr_fd("minishell: unset: ", 2);
+			ft_putstr_fd(cmd->args[i], 2);
+			ft_putstr_fd(":not a valid identifier\n", 2);
+			cmd->ex = manage_exit_status(1, 1);
+			free(cmd->ex);
+		}
+		else if(unset_variable(env, cmd->args[i]))
 		{
 			cmd->ex = manage_exit_status(0, 1);
 			free(cmd->ex);

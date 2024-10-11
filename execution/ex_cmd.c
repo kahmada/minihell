@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ex_cmd.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: kahmada <kahmada@student.42.fr>            +#+  +:+       +#+        */
+/*   By: chourri <chourri@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/27 11:53:32 by kahmada           #+#    #+#             */
-/*   Updated: 2024/10/10 16:15:31 by kahmada          ###   ########.fr       */
+/*   Updated: 2024/10/11 19:10:50 by chourri          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,7 +31,7 @@ void	handle_command_path(char *cmd_path, char *cmd_name)
 		free(ex);
 		exit(0);
 	}
-	else if (ft_strcmp(cmd_path, "1") == 0)
+	else if (ft_strcmp(cmd_path, "1") == 0 || ft_strcmp(cmd_path, "3") == 0)
 		exit(126);
 	else if (ft_strcmp(cmd_path, "2") == 0)
 		exit(127);
@@ -72,7 +72,6 @@ pid_t	execute_piped_cmd(t_command *cmd, char **envp, int *input_fd)
 		perror("pipe");
 		cmd->ex = manage_exit_status(EXIT_FAILURE, 1);
 		free(cmd->ex);
-		exit(EXIT_FAILURE);
 	}
 	pid = fork();
 	if (pid < 0)
@@ -82,7 +81,6 @@ pid_t	execute_piped_cmd(t_command *cmd, char **envp, int *input_fd)
 		perror("mini: fork");
 		cmd->ex = manage_exit_status(EXIT_FAILURE, 1);
 		free(cmd->ex);
-		exit(EXIT_FAILURE);
 	}
 	else if (pid == 0)
 		child_process_execution(cmd, envp, input_fd);
