@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   process_command.c                                  :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: chourri <chourri@student.42.fr>            +#+  +:+       +#+        */
+/*   By: kahmada <kahmada@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/05 12:10:16 by chourri           #+#    #+#             */
-/*   Updated: 2024/10/11 11:20:06 by chourri          ###   ########.fr       */
+/*   Updated: 2024/10/13 14:36:57 by kahmada          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -108,41 +108,36 @@ void	build_tokens_and_flag(t_token **lst, char *output)
 	(*lst)->flag = 0;
 }
 
-char	**initialize_it(char **output, t_token **new, char *input, char **envp)
+void	initialize_it(char **output, t_token **new, t_command **cmd)
 {
 	*output = NULL;
 	*new = NULL;
-	if (parse_quotes(input))
-		return (envp);
-	return (envp);
+	*cmd = NULL;
 }
 
 char	**process_command(char *input, char **envp)
 {
-	char		*output;
-	t_token		*new_lst;
-	t_token		*lst;
-	t_command	*cmd;
+	t_process_cmd	dt;
 
-	cmd = NULL;
-	envp = initialize_it(&output, &new_lst, input, envp);
-	add_npc_to_cmd(input, &output);
-	if (output)
+	if (parse_quotes(input))
+		return (envp);
+	initialize_it(&(dt.output), &(dt.new_lst), &(dt.cmd));
+	add_npc_to_cmd(input, &(dt.output));
+	if (dt.output)
 	{
-		build_tokens_and_flag(&lst, output);
-		// print_list(lst);
-		if (lst)
+		build_tokens_and_flag(&(dt.lst), (dt.output));
+		if (dt.lst)
 		{
-			if (parsing(lst))
-				return (free_token_list(lst), free(output), envp);
-			exp_cmd(&lst, envp, &new_lst, &cmd);
-			if (her(cmd, envp))
-				return (free_all(&lst, &new_lst, &cmd, 0), free(output), envp);
-			remove_quotes_end(cmd);
-			envp = execute_cmd(cmd, envp);
-			free_all(&lst, &new_lst, &cmd, 1);
+			if (parsing(dt.lst))
+				return (free_token_list(dt.lst), free((dt.output)), envp);
+			exp_cmd(&(dt.lst), envp, &(dt.new_lst), &(dt.cmd));
+			if (her(dt.cmd, envp))
+				return (free_all(&(dt.lst), &(dt.new_lst), &(dt.cmd), 0), free((dt.output)), envp);
+			remove_quotes_end(dt.cmd);
+			envp = execute_cmd(dt.cmd, envp);
+			free_all(&(dt.lst), &(dt.new_lst), &(dt.cmd), 1);
 		}
-		free(output);
+		free(dt.output);
 	}
 	return (envp);
 }

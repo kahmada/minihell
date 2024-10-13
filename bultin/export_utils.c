@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   export_utils.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: chourri <chourri@student.42.fr>            +#+  +:+       +#+        */
+/*   By: kahmada <kahmada@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/26 16:20:58 by kahmada           #+#    #+#             */
-/*   Updated: 2024/10/11 18:59:12 by chourri          ###   ########.fr       */
+/*   Updated: 2024/10/13 17:25:59 by kahmada          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,8 +40,9 @@ void	print_export(t_env *env)
 	{
 		printf("declare -x %s", env->key);
 		if (env->value && env->value[0])
-			printf("=\"%s\"\n", env->value);
+			printf("=%s", env->value);
 		env = env->next;
+		printf("\n");
 	}
 }
 

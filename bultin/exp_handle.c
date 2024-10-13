@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   exp_handle.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: chourri <chourri@student.42.fr>            +#+  +:+       +#+        */
+/*   By: kahmada <kahmada@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/29 17:36:56 by kahmada           #+#    #+#             */
-/*   Updated: 2024/10/11 18:54:29 by chourri          ###   ########.fr       */
+/*   Updated: 2024/10/13 17:15:33 by kahmada          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -84,7 +84,7 @@ void	valid_and_prs_exprt(const char *arg, char **ky, char **val, int *ap_md)
 	extract_key_value(arg, ky, val);
 	// printf("**************[%s]\n",*ky);
 	// exit(1);
-	if ((*ky)[0] == '=' || (*ky)[0] == '$'
+	if ((*ky)[0] == '=' || (*ky)[0] == '$' || (*ky)[0] == '\0'
 			|| ft_strchr(*ky, '=') == *ky || key_notvalid(*ky)
 			|| ((*ky)[ft_strlen(*ky) - 1] == '+' && !val[0]) || ((*ky)[ft_strlen(*ky) - 1] == '+' && (*ky)[ft_strlen(*ky) - 2] == '+'))
 	{

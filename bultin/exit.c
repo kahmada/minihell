@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   exit.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: chourri <chourri@student.42.fr>            +#+  +:+       +#+        */
+/*   By: kahmada <kahmada@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/02 13:31:20 by kahmada           #+#    #+#             */
-/*   Updated: 2024/10/11 18:20:57 by chourri          ###   ########.fr       */
+/*   Updated: 2024/10/12 18:48:10 by kahmada          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -94,12 +94,14 @@ void	bult_exit(t_command *cmd)
 		}
 		if (cmd->args[1] && (ft_atoi(cmd->args[1]) > LONG_MAX))
 			handle_numeric_error(cmd);
-		ft_putstr_fd("exit\n", 1);
-		cmd->ex = manage_exit_status(atoi(cmd->args[1]), 1);
+		if(cmd->count_exit == 1)
+			ft_putstr_fd("exit\n", 1);
+		cmd->ex = manage_exit_status(ft_atoi(cmd->args[1]), 1);
 		free(cmd->ex);
 		exit(ft_atoi(cmd->args[1]));
 	}
-	ft_putstr_fd("exit\n", 1);
+	if(cmd->count_exit == 1)
+			ft_putstr_fd("exit\n", 1);
 	cmd->ex = manage_exit_status(0, 1);
 	free(cmd->ex);
 	exit(0);

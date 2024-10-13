@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ex_cmd_utils.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: chourri <chourri@student.42.fr>            +#+  +:+       +#+        */
+/*   By: kahmada <kahmada@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/16 09:59:58 by kahmada           #+#    #+#             */
-/*   Updated: 2024/10/11 09:44:54 by chourri          ###   ########.fr       */
+/*   Updated: 2024/10/13 17:30:57 by kahmada          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,4 +58,32 @@ void	wait_for_children(int *child_pids, int count)
 		write(1, "Quit: 3\n", 8);
 	else if (WTERMSIG(status) == SIGINT)
 		write(1, "\n", 1);
+}
+
+int ft_count_exit(t_command *cmd)
+{
+	int count;
+
+	count = 0;
+	while (cmd)
+	{
+		if (ft_strcmp(cmd->args[0], "exit") == 0)
+			count++;
+		cmd = cmd->next;
+	}
+	return (count);
+}
+
+void handle_fork_failure(t_command *cmd, int *has_printed_error)
+{
+    close(cmd->pipe_fd[0]);
+    close(cmd->pipe_fd[1]);
+    close(STDOUT_FILENO);
+    if (!(*has_printed_error))
+    {
+        ft_putstr_fd("minishell: fork: Resource temporarily unavailable\n", STDERR_FILENO);
+        *has_printed_error = 1;
+    }
+    cmd->ex = manage_exit_status(EXIT_FAILURE, 1);
+    free(cmd->ex);
 }

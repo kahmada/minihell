@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: chourri <chourri@student.42.fr>            +#+  +:+       +#+        */
+/*   By: kahmada <kahmada@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/12 15:51:23 by chourri           #+#    #+#             */
-/*   Updated: 2024/10/11 10:13:23 by chourri          ###   ########.fr       */
+/*   Updated: 2024/10/13 17:29:31 by kahmada          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -71,6 +71,7 @@ typedef struct s_command
 	char				*outfile;
 	int					pipe_fd[2];
 	char				*file_name;
+	int count_exit;
 }						t_command;
 
 typedef struct s_here_doc
@@ -127,6 +128,14 @@ typedef struct s_data
 	t_token		*new;
 	char		*combined;
 }				t_data;
+
+typedef struct s_process_cmd
+{
+	char		*output;
+	t_token		*new_lst;
+	t_token		*lst;
+	t_command	*cmd;
+}				t_process_cmd;
 
 void		handle_quotes(char *input, char **new, int *i);
 void		handle_dollar_sign(char *input, char **new, int *i);
@@ -218,6 +227,8 @@ int			process_input_her(int tmp_fd, char *limiter, int flag, char **envp);
 char		**execute_cmd(t_command *cmd, char **envp);
 char		*find_commande(char *cmd, char **envp);
 char		**ft_split_lib(char const *s, char c);
+void		handle_fork_failure(t_command *cmd, int *has_printed_error);
+int			ft_count_exit(t_command *cmd);
 int			count_commands(t_command *cmd);
 void		handle_parent_signals(t_command *cmd);
 char		**handle_builtin_cmd(t_command *cmd, char **envp);
@@ -269,5 +280,5 @@ void		signal_handler_heredoc(int signal);
 char		*manage_exit_status(int status, int set_flag);
 void		wrerror(char *str);
 char		**process_command(char *input, char **envp);
-
+void		handle_hero(t_command *cmd);
 #endif
