@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   unset_pwd.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: chourri <chourri@student.42.fr>            +#+  +:+       +#+        */
+/*   By: kahmada <kahmada@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/09 14:52:44 by kahmada           #+#    #+#             */
-/*   Updated: 2024/10/11 18:46:37 by chourri          ###   ########.fr       */
+/*   Updated: 2024/10/13 20:42:41 by kahmada          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -63,8 +63,7 @@ void	bult_unset(t_command *cmd, t_env **env)
 	i = 1;
 	if (!cmd->args[i])
 	{
-		cmd->ex = manage_exit_status(0, 1);
-		free(cmd->ex);
+		free(manage_exit_status(0, 1));
 		return ;
 	}
 	while (cmd->args[i])
@@ -73,15 +72,11 @@ void	bult_unset(t_command *cmd, t_env **env)
 		{
 			ft_putstr_fd("minishell: unset: ", 2);
 			ft_putstr_fd(cmd->args[i], 2);
-			ft_putstr_fd(":not a valid identifier\n", 2);
-			cmd->ex = manage_exit_status(1, 1);
-			free(cmd->ex);
+			ft_putstr_fd(": not a valid identifier\n", 2);
+			free(manage_exit_status(1, 1));
 		}
-		else if(unset_variable(env, cmd->args[i]))
-		{
-			cmd->ex = manage_exit_status(0, 1);
-			free(cmd->ex);
-		}
+		else if (unset_variable(env, cmd->args[i]))
+			free(manage_exit_status(0, 1));
 		i++;
 	}
 }

@@ -6,39 +6,52 @@
 /*   By: kahmada <kahmada@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/20 17:29:48 by kahmada           #+#    #+#             */
-/*   Updated: 2024/10/13 14:57:58 by kahmada          ###   ########.fr       */
+/*   Updated: 2024/10/13 20:31:31 by kahmada          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../minishell.h"
 
+int	concatenate_values(char **existing_value, char *new_part)
+{
+	char	*new_value;
+
+	new_value = malloc(ft_strlen(*existing_value) + ft_strlen(new_part) + 1);
+	if (!new_value)
+	{
+		perror("malloc");
+		return (0);
+	}
+	ft_strcpy(new_value, *existing_value);
+	ft_strcat(new_value, new_part);
+	free(*existing_value);
+	*existing_value = new_value;
+	return (1);
+}
+
 void	handle_export_modes(t_env **env, char *key, char *value, int ap_md)
 {
 	t_env	*existing;
-	char	*new_value;
 
 	if (ap_md)
 	{
 		existing = find_env(*env, key);
 		if (existing)
 		{
-			new_value = malloc(ft_strlen(existing->value)
-					+ ft_strlen(value) + 1);
-			if (!new_value)
-			{
-				perror("malloc");
+			if (value != NULL && !concatenate_values(&existing->value, value))
 				return ;
-			}
-			ft_strcpy(new_value, existing->value);
-			ft_strcat(new_value, value);
-			free(existing->value);
-			existing->value = new_value;
 		}
 		else
-			add_env(env, key, value);
+		{
+			if (value != NULL)
+				add_env(env, key, value);
+		}
 	}
 	else
-		update_environment(env, key, value);
+	{
+		if (value != NULL)
+			update_environment(env, key, value);
+	}
 }
 
 void	process_export_argument(t_command *cmd, t_env **env, char *arg)

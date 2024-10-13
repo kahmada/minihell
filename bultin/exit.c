@@ -6,7 +6,7 @@
 /*   By: kahmada <kahmada@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/02 13:31:20 by kahmada           #+#    #+#             */
-/*   Updated: 2024/10/12 18:48:10 by kahmada          ###   ########.fr       */
+/*   Updated: 2024/10/13 20:48:37 by kahmada          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -88,20 +88,19 @@ void	bult_exit(t_command *cmd)
 		if (cmd->args[2])
 		{
 			ft_putstr_fd("exit\nminishell: exit: too many arguments\n", 2);
-			cmd->ex = manage_exit_status(1, 1);
-			free(cmd->ex);
+			free(manage_exit_status(1, 1));
 			return ;
 		}
 		if (cmd->args[1] && (ft_atoi(cmd->args[1]) > LONG_MAX))
 			handle_numeric_error(cmd);
-		if(cmd->count_exit == 1)
+		if (cmd->count_exit == 1)
 			ft_putstr_fd("exit\n", 1);
 		cmd->ex = manage_exit_status(ft_atoi(cmd->args[1]), 1);
 		free(cmd->ex);
 		exit(ft_atoi(cmd->args[1]));
 	}
-	if(cmd->count_exit == 1)
-			ft_putstr_fd("exit\n", 1);
+	if (cmd->count_exit == 1)
+		ft_putstr_fd("exit\n", 1);
 	cmd->ex = manage_exit_status(0, 1);
 	free(cmd->ex);
 	exit(0);

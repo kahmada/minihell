@@ -6,7 +6,7 @@
 /*   By: kahmada <kahmada@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/12 16:02:24 by chourri           #+#    #+#             */
-/*   Updated: 2024/10/13 16:42:35 by kahmada          ###   ########.fr       */
+/*   Updated: 2024/10/13 17:45:29 by kahmada          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -76,13 +76,12 @@ int	main(int ac, char **av, char **envp)
 	char			**envp_copy;
 	struct termios	termios_p;
 
-	if (!isatty(0) || ac!= 1)
+	if (!isatty(0) || ac != 1)
 		exit(1);
 	(void)ac;
 	(void)av;
 	// rl_catch_signals = 0;
-	g_sig_received = 0;
-	signal(SIGQUIT, SIG_IGN);
+	(1) && (g_sig_received = 0, signal(SIGQUIT, SIG_IGN));
 	signal(SIGINT, sigint_handler);
 	fill_empty_envp(envp);
 	envp_copy = ft_envp_copy(envp);
@@ -97,6 +96,5 @@ int	main(int ac, char **av, char **envp)
 		free(input);
 		input = readline("minihell$ ");
 	}
-	free(envp_copy);
-	return (write(2, "exit\n", 5), 0);
+	return (free(envp_copy), write(2, "exit\n", 5), 0);
 }

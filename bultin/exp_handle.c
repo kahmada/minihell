@@ -6,7 +6,7 @@
 /*   By: kahmada <kahmada@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/29 17:36:56 by kahmada           #+#    #+#             */
-/*   Updated: 2024/10/13 17:15:33 by kahmada          ###   ########.fr       */
+/*   Updated: 2024/10/13 20:46:52 by kahmada          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -78,19 +78,15 @@ int	key_notvalid(const char *key)
 
 void	valid_and_prs_exprt(const char *arg, char **ky, char **val, int *ap_md)
 {
-	char	*ex;
-
 	*ap_md = 0;
 	extract_key_value(arg, ky, val);
-	// printf("**************[%s]\n",*ky);
-	// exit(1);
 	if ((*ky)[0] == '=' || (*ky)[0] == '$' || (*ky)[0] == '\0'
-			|| ft_strchr(*ky, '=') == *ky || key_notvalid(*ky)
-			|| ((*ky)[ft_strlen(*ky) - 1] == '+' && !val[0]) || ((*ky)[ft_strlen(*ky) - 1] == '+' && (*ky)[ft_strlen(*ky) - 2] == '+'))
+		|| ft_strchr(*ky, '=') == *ky || key_notvalid(*ky)
+		|| ((*ky)[ft_strlen(*ky) - 1] == '+' && !val[0]) ||
+		((*ky)[ft_strlen(*ky) - 1] == '+' && (*ky)[ft_strlen(*ky) - 2] == '+'))
 	{
 		handle_invalid_identifier(ky, val);
-		ex = manage_exit_status(1, 1);
-		free(ex);
+		free(manage_exit_status(1, 1));
 		return ;
 	}
 	if ((*ky)[ft_strlen(*ky) - 1] == '+' && val[0])
@@ -101,8 +97,7 @@ void	valid_and_prs_exprt(const char *arg, char **ky, char **val, int *ap_md)
 	if (!is_valid_variable_name(*ky))
 	{
 		handle_invalid_identifier(ky, val);
-		ex = manage_exit_status(1, 1);
-		free(ex);
+		free(manage_exit_status(1, 1));
 		return ;
 	}
 	if (*val && **val == '\0')
