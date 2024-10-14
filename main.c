@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: chourri <chourri@student.42.fr>            +#+  +:+       +#+        */
+/*   By: kahmada <kahmada@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/12 16:02:24 by chourri           #+#    #+#             */
-/*   Updated: 2024/10/14 14:54:56 by chourri          ###   ########.fr       */
+/*   Updated: 2024/10/14 16:17:23 by kahmada          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -80,7 +80,7 @@ int	main(int ac, char **av, char **envp)
 		exit(1);
 	(void)ac;
 	(void)av;
-	rl_catch_signals = 0;
+	// rl_catch_signals = 0;
 	(1) && (g_sig_received = 0, signal(SIGQUIT, SIG_IGN));
 	signal(SIGINT, sigint_handler);
 	fill_empty_envp(envp);

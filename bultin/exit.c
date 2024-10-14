@@ -6,7 +6,7 @@
 /*   By: kahmada <kahmada@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/02 13:31:20 by kahmada           #+#    #+#             */
-/*   Updated: 2024/10/13 20:48:37 by kahmada          ###   ########.fr       */
+/*   Updated: 2024/10/14 18:25:51 by kahmada          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,24 +26,24 @@ int	just_spaces(char *str)
 	return (1);
 }
 
-void	validate_numeric_argument(char *arg)
+void validate_numeric_argument(t_command *cmd)
 {
-	int		i;
-	char	*ex;
+	int	i;
 
 	i = 0;
-	if (arg[0] == '-' || arg[0] == '+')
+	if (cmd->args[1][0] == '-' || cmd->args[1][0] == '+') 
 		i++;
-	while (arg[i])
+    while (cmd->args[1][i])
 	{
-		if (!ft_isdigit(arg[i]))
+		if (!ft_isdigit(cmd->args[1][i]))
 		{
-			ft_putstr_fd("exit\n", 2);
+			if (cmd->count_exit == 1)
+				ft_putstr_fd("exit\n", 2);
 			ft_putstr_fd("minishell: exit: ", 2);
-			ft_putstr_fd(arg, 2);
+			ft_putstr_fd(cmd->args[1], 2);
 			ft_putstr_fd(": numeric argument required\n", 2);
-			ex = manage_exit_status(255, 1);
-			free(ex);
+			cmd->ex = manage_exit_status(255, 1);
+			free(cmd->ex);
 			exit(255);
 		}
 		i++;
@@ -55,7 +55,7 @@ void	handle_invalid_argument(char *arg)
 	char	*ex;
 
 	if (arg && (!ft_strcmp(arg, "+")
-			|| !ft_strcmp(arg, "-")))
+			|| !ft_strcmp(arg, "-") || arg[0] == '\0'))
 	{
 		ft_putstr_fd("exit\n", 2);
 		ft_putstr_fd("minishell: exit: ", 2);
@@ -84,24 +84,24 @@ void	bult_exit(t_command *cmd)
 		cmd->args[1] = ft_strtrim(cmd->args[1], " ");
 	if (cmd->args[1])
 	{
-		validate_numeric_argument(cmd->args[1]);
+		validate_numeric_argument(cmd);
 		if (cmd->args[2])
 		{
-			ft_putstr_fd("exit\nminishell: exit: too many arguments\n", 2);
+			if(cmd->count_exit == 1)
+				ft_putstr_fd("exit\n", 2);
+			ft_putstr_fd("minishell: exit: too many arguments\n", 2);
 			free(manage_exit_status(1, 1));
 			return ;
 		}
-		if (cmd->args[1] && (ft_atoi(cmd->args[1]) > LONG_MAX))
+		if (cmd->args[1] && (ft_atoi(cmd->args[1]) > INT_MAX))
 			handle_numeric_error(cmd);
 		if (cmd->count_exit == 1)
 			ft_putstr_fd("exit\n", 1);
-		cmd->ex = manage_exit_status(ft_atoi(cmd->args[1]), 1);
-		free(cmd->ex);
+		free(manage_exit_status(ft_atoi(cmd->args[1]), 1));
 		exit(ft_atoi(cmd->args[1]));
 	}
 	if (cmd->count_exit == 1)
 		ft_putstr_fd("exit\n", 1);
-	cmd->ex = manage_exit_status(0, 1);
-	free(cmd->ex);
+	free(manage_exit_status(0, 1));
 	exit(0);
 }

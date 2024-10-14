@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   exp_handle.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: chourri <chourri@student.42.fr>            +#+  +:+       +#+        */
+/*   By: kahmada <kahmada@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/29 17:36:56 by kahmada           #+#    #+#             */
-/*   Updated: 2024/10/14 16:01:52 by chourri          ###   ########.fr       */
+/*   Updated: 2024/10/14 18:22:32 by kahmada          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -103,21 +103,5 @@ void	valid_and_prs_exprt(const char *arg, char **ky, char **val, int *ap_md)
 	if (*val && **val == '\0')
 		*val = " ";
 }
-//exit ""
-// exit LONG_MAX
-
-//unset HOME
-//cd
-
-//exit a | exit 3 2
-
-//minihell$ exit | exit | exit a
-// exit
-// minishell: exit: a: numeric argument required
-
-// minihell$ unset __a
-// minishell: unset: __a: not a valid identifier
-// minihell$ export __s=a
-// minishell: export: __s:not a valid identifier
 
 

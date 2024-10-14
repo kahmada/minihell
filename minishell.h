@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: chourri <chourri@student.42.fr>            +#+  +:+       +#+        */
+/*   By: kahmada <kahmada@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/12 15:51:23 by chourri           #+#    #+#             */
-/*   Updated: 2024/10/14 15:22:52 by chourri          ###   ########.fr       */
+/*   Updated: 2024/10/14 17:49:19 by kahmada          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -72,6 +72,7 @@ typedef struct s_command
 	int					pipe_fd[2];
 	char				*file_name;
 	int					count_exit;
+	int					ret;
 }						t_command;
 
 typedef struct s_here_doc
@@ -263,7 +264,7 @@ void		bult_cd(t_command *cmd, t_env **envp);
 char		**ft_envp_copy(char **envp);
 void		bult_echo(t_command *cmd);
 void		bult_pwd(t_command *cmd);
-t_env		*find_env(t_env *env, const char *key);
+t_env		*find_env(t_env *env, char *key);
 void		bult_exit(t_command *cmd);
 void		bult_unset(t_command *cmd, t_env **env);
 void		bult_export(t_command *cmd, t_env **env);
