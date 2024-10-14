@@ -1,0 +1,16 @@
+Makefile
+bultin
+d
+execution
+k
+l
+libft_tools
+main.c
+main.o
+minishell
+minishell.h
+p
+parsing
+process_command.c
+process_command.o
+signals

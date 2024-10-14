@@ -6,7 +6,7 @@
 /*   By: chourri <chourri@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/19 19:01:00 by chourri           #+#    #+#             */
-/*   Updated: 2024/10/11 11:19:18 by chourri          ###   ########.fr       */
+/*   Updated: 2024/10/14 14:53:48 by chourri          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -91,5 +91,3 @@ void	ft_lstadd_back(t_token **lst, t_token *new)
 	p->next = new;
 	new->previous = p;
 }
-
-
