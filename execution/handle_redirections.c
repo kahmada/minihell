@@ -6,7 +6,7 @@
 /*   By: kahmada <kahmada@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/13 19:03:35 by kahmada           #+#    #+#             */
-/*   Updated: 2024/10/13 17:30:45 by kahmada          ###   ########.fr       */
+/*   Updated: 2024/10/14 13:52:29 by kahmada          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -63,6 +63,7 @@ void	handle_redirects(t_command *cmd)
 		i++;
 	}
 }
+
 void	process_redirect_hero(t_command *cmd, int i)
 {
 	int	j;
@@ -80,7 +81,8 @@ void	process_redirect_hero(t_command *cmd, int i)
 	}
 	cmd->args[count_args(cmd->args) - 2] = NULL;
 }
-void handle_hero(t_command *cmd)
+
+void	handle_hero(t_command *cmd)
 {
 	int	num_args;
 	int	i;
@@ -91,12 +93,12 @@ void handle_hero(t_command *cmd)
 	i = 0;
 	while (i < num_args - 1)
 	{
-	if (ft_strcmp(cmd->args[i], "<<") == 0)
-	{
-		process_redirect_hero(cmd, i);
-		num_args = count_args(cmd->args);
-		i--;
-	}
-	i++;
+		if (ft_strcmp(cmd->args[i], "<<") == 0)
+		{
+			process_redirect_hero(cmd, i);
+			num_args = count_args(cmd->args);
+			i--;
+		}
+		i++;
 	}
 }

@@ -6,7 +6,7 @@
 /*   By: kahmada <kahmada@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/16 09:59:58 by kahmada           #+#    #+#             */
-/*   Updated: 2024/10/13 17:30:57 by kahmada          ###   ########.fr       */
+/*   Updated: 2024/10/14 13:55:01 by kahmada          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -60,9 +60,9 @@ void	wait_for_children(int *child_pids, int count)
 		write(1, "\n", 1);
 }
 
-int ft_count_exit(t_command *cmd)
+int	ft_count_exit(t_command *cmd)
 {
-	int count;
+	int	count;
 
 	count = 0;
 	while (cmd)
@@ -74,16 +74,17 @@ int ft_count_exit(t_command *cmd)
 	return (count);
 }
 
-void handle_fork_failure(t_command *cmd, int *has_printed_error)
+void	handle_fork_failure(t_command *cmd, int *has_printed_error)
 {
-    close(cmd->pipe_fd[0]);
-    close(cmd->pipe_fd[1]);
-    close(STDOUT_FILENO);
-    if (!(*has_printed_error))
-    {
-        ft_putstr_fd("minishell: fork: Resource temporarily unavailable\n", STDERR_FILENO);
-        *has_printed_error = 1;
-    }
-    cmd->ex = manage_exit_status(EXIT_FAILURE, 1);
-    free(cmd->ex);
+	close(cmd->pipe_fd[0]);
+	close(cmd->pipe_fd[1]);
+	close(STDOUT_FILENO);
+	if (!(*has_printed_error))
+	{
+		ft_putstr_fd("minishell: fork: Resource temporarily\
+		unavailable\n", STDERR_FILENO);
+		*has_printed_error = 1;
+	}
+	cmd->ex = manage_exit_status(EXIT_FAILURE, 1);
+	free(cmd->ex);
 }

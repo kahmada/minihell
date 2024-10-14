@@ -6,7 +6,7 @@
 /*   By: kahmada <kahmada@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/29 17:45:10 by kahmada           #+#    #+#             */
-/*   Updated: 2024/10/11 19:35:14 by kahmada          ###   ########.fr       */
+/*   Updated: 2024/10/14 13:51:25 by kahmada          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,7 +50,7 @@ void	handle_child(const char *limiter, int tmp_fd, char **envp)
 		limiter++;
 	quoted_limiter = remove_quotes_limiter((char *)limiter);
 	signal(SIGINT, signal_handler_heredoc);
-	if(g_sig_received == 1)
+	if (g_sig_received == 1)
 		close(tmp_fd);
 	// rl_catch_signals = 1;
 	if (!process_input_her(tmp_fd, quoted_limiter, flag, envp))
