@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   exit.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: kahmada <kahmada@student.42.fr>            +#+  +:+       +#+        */
+/*   By: chourri <chourri@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/02 13:31:20 by kahmada           #+#    #+#             */
-/*   Updated: 2024/10/14 18:25:51 by kahmada          ###   ########.fr       */
+/*   Updated: 2024/10/14 18:29:15 by chourri          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,14 +26,14 @@ int	just_spaces(char *str)
 	return (1);
 }
 
-void validate_numeric_argument(t_command *cmd)
+void	validate_numeric_argument(t_command *cmd)
 {
 	int	i;
 
 	i = 0;
-	if (cmd->args[1][0] == '-' || cmd->args[1][0] == '+') 
+	if (cmd->args[1][0] == '-' || cmd->args[1][0] == '+')
 		i++;
-    while (cmd->args[1][i])
+	while (cmd->args[1][i])
 	{
 		if (!ft_isdigit(cmd->args[1][i]))
 		{
@@ -87,7 +87,7 @@ void	bult_exit(t_command *cmd)
 		validate_numeric_argument(cmd);
 		if (cmd->args[2])
 		{
-			if(cmd->count_exit == 1)
+			if (cmd->count_exit == 1)
 				ft_putstr_fd("exit\n", 2);
 			ft_putstr_fd("minishell: exit: too many arguments\n", 2);
 			free(manage_exit_status(1, 1));

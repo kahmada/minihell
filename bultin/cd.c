@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   cd.c                                               :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: kahmada <kahmada@student.42.fr>            +#+  +:+       +#+        */
+/*   By: chourri <chourri@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/25 14:27:16 by kahmada           #+#    #+#             */
-/*   Updated: 2024/10/14 18:26:25 by kahmada          ###   ########.fr       */
+/*   Updated: 2024/10/14 18:30:10 by chourri          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,19 +31,19 @@ void	update_envp(t_env **envp, char *key, char *value)
 
 char	*get_home(t_env **envp)
 {
-    t_env    *current;
+	t_env	*current;
 
-    current = *envp;
-    while (current)
-    {
-        if (ft_strcmp(current->key, "HOME") == 0)
-            return (current->value);
-        current = current->next;
-    }
-    return (NULL);
+	current = *envp;
+	while (current)
+	{
+		if (ft_strcmp(current->key, "HOME") == 0)
+			return (current->value);
+		current = current->next;
+	}
+	return (NULL);
 }
 
-char *get_home_path(t_command *cmd, t_env **envp)
+char	*get_home_path(t_command *cmd, t_env **envp)
 {
 	char	*path;
 
@@ -58,7 +58,7 @@ char *get_home_path(t_command *cmd, t_env **envp)
 	return (path);
 }
 
-void bult_cd(t_command *cmd, t_env **envp)
+void	bult_cd(t_command *cmd, t_env **envp)
 {
 	char	*path;
 	char	*oldpath;
@@ -79,7 +79,7 @@ void bult_cd(t_command *cmd, t_env **envp)
 		perror("minishell");
 		free(manage_exit_status(1, 1));
 		return ;
-    }
+	}
 	free(manage_exit_status(0, 1));
 	update_envp(envp, "OLDPWD", oldpath);
 	new_path = getcwd(NULL, 0);

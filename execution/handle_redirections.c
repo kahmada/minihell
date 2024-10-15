@@ -6,7 +6,7 @@
 /*   By: kahmada <kahmada@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/13 19:03:35 by kahmada           #+#    #+#             */
-/*   Updated: 2024/10/14 13:52:29 by kahmada          ###   ########.fr       */
+/*   Updated: 2024/10/15 16:59:15 by kahmada          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,6 +56,7 @@ void	handle_redirects(t_command *cmd)
 			|| ft_strcmp(cmd->args[i], "<") == 0
 			|| ft_strcmp(cmd->args[i], ">>") == 0)
 		{
+			free(cmd->args[i]);
 			process_redirect(cmd, i);
 			num_args = count_args(cmd->args);
 			i--;

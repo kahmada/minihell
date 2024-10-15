@@ -6,7 +6,7 @@
 /*   By: kahmada <kahmada@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/28 18:28:18 by kahmada           #+#    #+#             */
-/*   Updated: 2024/10/13 20:50:48 by kahmada          ###   ########.fr       */
+/*   Updated: 2024/10/15 17:41:18 by kahmada          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,6 +27,8 @@ char	**handle_built_out(t_command *cmd, char **envp)
 {
 	t_env	*env;
 
+	if (!envp || !(*envp))
+		return (NULL);
 	env = NULL;
 	if (cmd == NULL || cmd->args == NULL || cmd->args[0] == NULL)
 		return (envp);

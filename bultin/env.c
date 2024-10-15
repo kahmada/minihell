@@ -6,7 +6,7 @@
 /*   By: chourri <chourri@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/28 18:28:47 by kahmada           #+#    #+#             */
-/*   Updated: 2024/10/06 19:12:03 by chourri          ###   ########.fr       */
+/*   Updated: 2024/10/14 18:40:45 by chourri          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,8 +32,7 @@ void	print_env_until_path(t_env *env)
 	tmp = env;
 	while (tmp)
 	{
-		if ((tmp->key && ft_strcmp(tmp->key, "PATH") != 0) \
-			&& tmp->value && tmp->value[0])
+		if ((tmp->key) && tmp->value && tmp->value[0])
 			printf("%s=%s\n", tmp->key, tmp->value);
 		tmp = tmp->next;
 	}
