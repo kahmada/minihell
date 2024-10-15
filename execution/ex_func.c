@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ex_func.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: kahmada <kahmada@student.42.fr>            +#+  +:+       +#+        */
+/*   By: chourri <chourri@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/29 17:47:43 by kahmada           #+#    #+#             */
-/*   Updated: 2024/10/15 17:40:46 by kahmada          ###   ########.fr       */
+/*   Updated: 2024/10/15 18:18:23 by chourri          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,9 +31,8 @@ char	**handle_builtin_cmd(t_command *cmd, char **envp)
 
 char	**handle_builtin_cmd_out(t_command *cmd, char **envp)
 {
-	if(!envp || !(*envp))
+	if (!envp || !(*envp))
 		return (NULL);
-	
 	handle_redirects(cmd);
 	envp = handle_built_out(cmd, envp);
 	return (envp);

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ex_cmd.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: kahmada <kahmada@student.42.fr>            +#+  +:+       +#+        */
+/*   By: chourri <chourri@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/27 11:53:32 by kahmada           #+#    #+#             */
-/*   Updated: 2024/10/15 17:34:02 by kahmada          ###   ########.fr       */
+/*   Updated: 2024/10/15 18:20:22 by chourri          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,37 +37,37 @@ void	handle_command_path(char *cmd_path, char *cmd_name)
 		exit(127);
 }
 
-void child_process_execution(t_command *cmd, char **envp, int *input_fd)
+void	child_process_execution(t_command *cmd, char **envp, int *input_fd)
 {
-    char *cmd_path;
-	
-    signal(SIGINT, SIG_DFL);
-    signal(SIGQUIT, SIG_DFL);
-    dup2(*input_fd, STDIN_FILENO);
-    if (*input_fd != STDIN_FILENO)
-        close(*input_fd);
+	char	*cmd_path;
+
+	signal(SIGINT, SIG_DFL);
+	signal(SIGQUIT, SIG_DFL);
+	dup2(*input_fd, STDIN_FILENO);
+	if (*input_fd != STDIN_FILENO)
+		close(*input_fd);
 	if (cmd->args[0][0] == '.')
-    {
-        close(0);
-        close(1);
-    }
-    else if (cmd->next)
-        dup2(cmd->pipe_fd[1], STDOUT_FILENO);
-    close(cmd->pipe_fd[0]);
-    close(cmd->pipe_fd[1]);
-    handle_redirects(cmd);
-    handle_hero(cmd);
-    if (is_builtin(cmd->args[0]))
-    {
-        cmd->last_envp = handle_builtin_cmd(cmd, envp);
-        envp = f_update_envp(envp, cmd->last_envp);
-        exit(0);
-    }
-    cmd_path = find_commande(cmd->args[0], envp);
-    handle_command_path(cmd_path, cmd->args[0]);
-    execve(cmd_path, cmd->args, envp);
-    perror("execve");
-    exit(EXIT_FAILURE);
+	{
+		close(0);
+		close(1);
+	}
+	else if (cmd->next)
+		dup2(cmd->pipe_fd[1], STDOUT_FILENO);
+	close(cmd->pipe_fd[0]);
+	close(cmd->pipe_fd[1]);
+	handle_redirects(cmd);
+	handle_hero(cmd);
+	if (is_builtin(cmd->args[0]))
+	{
+		cmd->last_envp = handle_builtin_cmd(cmd, envp);
+		envp = f_update_envp(envp, cmd->last_envp);
+		exit(0);
+	}
+	cmd_path = find_commande(cmd->args[0], envp);
+	handle_command_path(cmd_path, cmd->args[0]);
+	execve(cmd_path, cmd->args, envp);
+	perror("execve");
+	exit(EXIT_FAILURE);
 }
 
 pid_t	execute_piped_cmd(t_command *cmd, char **envp, int *input_fd)
@@ -90,10 +90,7 @@ pid_t	execute_piped_cmd(t_command *cmd, char **envp, int *input_fd)
 		return (0);
 	}
 	if (pid == 0)
-	{
 		child_process_execution(cmd, envp, input_fd);
-	}
-		
 	else
 		handle_parent_signals(cmd);
 	return (pid);
@@ -131,7 +128,7 @@ char	**execute_cmd(t_command *cmd, char **envp)
 		return (free(child_pids), handle_exit(cmd, envp));
 	if (cmd && is_builtin_out(cmd->args[0]) && cmd->next == NULL)
 	{
-		if(!envp)
+		if (!envp)
 			return (free(child_pids), NULL);
 		cmd->last_envp = handle_builtin_cmd_out(cmd, envp);
 		envp = f_update_envp(envp, cmd->last_envp);
@@ -141,6 +138,5 @@ char	**execute_cmd(t_command *cmd, char **envp)
 	close(input_fd);
 	wait_for_children(child_pids, count);
 	free(child_pids);
-	signal(SIGINT, sigint_handler);
-	return (envp);
+	return (signal(SIGINT, sigint_handler), envp);
 }

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: kahmada <kahmada@student.42.fr>            +#+  +:+       +#+        */
+/*   By: chourri <chourri@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/12 15:51:23 by chourri           #+#    #+#             */
-/*   Updated: 2024/10/15 16:04:17 by kahmada          ###   ########.fr       */
+/*   Updated: 2024/10/15 18:02:30 by chourri          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -153,6 +153,7 @@ int			redirect_in_parsing(t_token *lst);
 int			redirect_out_parsing(t_token *lst);
 int			redirect_append(t_token *lst);
 int			parse_quotes(char *s);
+int			handle_heredoc(t_token *current, t_token *lst);
 t_token		*build_token_list(char *output);
 int			is_combined(char **tokens, int i);
 void		update_last_token_quotes(t_token *lst, int in_quotes);
