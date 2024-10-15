@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ex_cmd.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: kahmada <kahmada@student.42.fr>            +#+  +:+       +#+        */
+/*   By: chourri <chourri@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/27 11:53:32 by kahmada           #+#    #+#             */
-/*   Updated: 2024/10/15 20:20:40 by kahmada          ###   ########.fr       */
+/*   Updated: 2024/10/15 21:34:59 by chourri          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,7 +40,7 @@ void	handle_command_path(char *cmd_path, char *cmd_name)
 void child_process_execution(t_command *cmd, char **envp, int *input_fd)
 {
     char *cmd_path;
-	
+
     signal(SIGINT, SIG_DFL);
     signal(SIGQUIT, SIG_DFL);
     dup2(*input_fd, STDIN_FILENO);
@@ -93,7 +93,7 @@ pid_t	execute_piped_cmd(t_command *cmd, char **envp, int *input_fd)
 	{
 		child_process_execution(cmd, envp, input_fd);
 	}
-		
+
 	else
 		handle_parent_signals(cmd);
 	return (pid);
@@ -131,12 +131,6 @@ char	**execute_cmd(t_command *cmd, char **envp)
 		return (free(child_pids), handle_exit(cmd, envp));
 	if (cmd && is_builtin_out(cmd->args[0]) && cmd->next == NULL)
 	{
-		if (!envp || !(*envp))
-		{
-			envp = NULL;
-			free(child_pids);
-			return (envp);
-		}
 		cmd->last_envp = handle_builtin_cmd_out(cmd, envp);
 		envp = f_update_envp(envp, cmd->last_envp);
 		return (free(child_pids), envp);

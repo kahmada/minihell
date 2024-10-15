@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: kahmada <kahmada@student.42.fr>            +#+  +:+       +#+        */
+/*   By: chourri <chourri@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/12 15:51:23 by chourri           #+#    #+#             */
-/*   Updated: 2024/10/15 16:04:17 by kahmada          ###   ########.fr       */
+/*   Updated: 2024/10/15 21:30:33 by chourri          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -159,6 +159,7 @@ void		update_last_token_quotes(t_token *lst, int in_quotes);
 void		handle_combined_tokens(t_token **lst, char **tokens, int *i);
 t_type		determine_redirect_or_special(char *token);
 t_type		determine_quote_type(char *token, int *in_quotes);
+int			handle_heredoc(t_token *current, t_token *lst);
 int			parsing(t_token *lst);
 size_t		expanded_len(char *data, char **envp);
 char		*expand_variable(char *data, char **envp);

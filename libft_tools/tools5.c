@@ -6,7 +6,7 @@
 /*   By: chourri <chourri@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/03 10:51:25 by kahmada           #+#    #+#             */
-/*   Updated: 2024/09/19 19:36:05 by chourri          ###   ########.fr       */
+/*   Updated: 2024/10/15 21:29:18 by chourri          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,6 +44,7 @@ int	is_alphabet(char c)
 	return ((c >= 'a' && c <= 'z') || (c >= 'A' && c <= 'Z'));
 }
 
+
 int	redirection_symbols(int type_symbol)
 {
 	return ((type_symbol == WORD || type_symbol == HEREDOC
@@ -62,7 +63,8 @@ int	ft_linked_list_search_redirect_symbols(t_token *lst)
 	{
 		if (current->type == REDIRECT_APPEND
 			|| current->type == REDIRECT_IN
-			|| current->type == REDIRECT_OUT)
+			|| current->type == REDIRECT_OUT
+			|| current->type == HEREDOC)
 			return (1);
 		current = current->next;
 	}
