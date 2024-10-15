@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: chourri <chourri@student.42.fr>            +#+  +:+       +#+        */
+/*   By: kahmada <kahmada@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/12 16:02:24 by chourri           #+#    #+#             */
-/*   Updated: 2024/10/15 18:18:43 by chourri          ###   ########.fr       */
+/*   Updated: 2024/10/15 21:23:12 by kahmada          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,23 +53,6 @@ char	**ft_envp_copy(char **envp)
 	return (envp_copy);
 }
 
-void	fill_empty_envp(char **envp)
-{
-	char	*cwd;
-
-	cwd = getcwd(NULL, 0);
-	if (envp[0] == NULL)
-	{
-		envp[0] = "PWD=";
-		envp[0] = ft_strjoin(envp[0], cwd);
-		envp[1] = "SHLVL=1";
-		envp[2] = "_=/usr/bin/env";
-		envp[3] = "PATH=/usr/gnu/bin:/usr/local/bin:/bin:/usr/bin:.";
-		envp[4] = NULL;
-	}
-	free(cwd);
-}
-
 int	main(int ac, char **av, char **envp)
 {
 	char			*input;
@@ -80,10 +63,9 @@ int	main(int ac, char **av, char **envp)
 		exit(1);
 	(void)ac;
 	(void)av;
-	rl_catch_signals = 0;
+	// rl_catch_signals = 0;
 	(1) && (g_sig_received = 0, signal(SIGQUIT, SIG_IGN));
 	signal(SIGINT, sigint_handler);
-	fill_empty_envp(envp);
 	envp_copy = ft_envp_copy(envp);
 	input = readline("minihell$ ");
 	tcgetattr(0, &termios_p);

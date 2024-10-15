@@ -6,7 +6,7 @@
 /*   By: chourri <chourri@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/31 15:34:41 by chourri           #+#    #+#             */
-/*   Updated: 2024/10/15 18:05:26 by chourri          ###   ########.fr       */
+/*   Updated: 2024/10/14 18:56:37 by chourri          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,15 +52,11 @@ static int	heredoc_parsing(t_token *lst)
 	curr = lst;
 	while (curr)
 	{
-		if (handle_heredoc(curr, lst))
-			curr = curr->next;
 		if (curr->type == HEREDOC)
 		{
 			curr = curr->next;
 			while (curr && (curr->type == TAAB || curr->type == SPAACE))
 				curr = curr->next;
-			if (lst->sig_flag == 1)
-				return (1);
 			if (!curr)
 				return (parse_error("near unexpected token `newline'\n"), 1);
 			else if (curr->type != WORD && curr->type != INSIDE_DOUBLE_QUOTE

@@ -6,7 +6,7 @@
 /*   By: kahmada <kahmada@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/09 14:52:44 by kahmada           #+#    #+#             */
-/*   Updated: 2024/10/15 17:37:13 by kahmada          ###   ########.fr       */
+/*   Updated: 2024/10/13 20:42:41 by kahmada          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,7 +48,6 @@ int	unset_variable(t_env **env, const char *key)
 			free(tmp->key);
 			free(tmp->value);
 			free(tmp);
-			tmp = NULL;
 			return (1);
 		}
 		prev = tmp;

@@ -6,7 +6,7 @@
 /*   By: chourri <chourri@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/03 10:51:25 by kahmada           #+#    #+#             */
-/*   Updated: 2024/10/15 18:13:07 by chourri          ###   ########.fr       */
+/*   Updated: 2024/09/19 19:36:05 by chourri          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -62,8 +62,7 @@ int	ft_linked_list_search_redirect_symbols(t_token *lst)
 	{
 		if (current->type == REDIRECT_APPEND
 			|| current->type == REDIRECT_IN
-			|| current->type == REDIRECT_OUT
-			|| current->type == HEREDOC)
+			|| current->type == REDIRECT_OUT)
 			return (1);
 		current = current->next;
 	}
