@@ -6,7 +6,7 @@
 /*   By: kahmada <kahmada@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/26 16:20:58 by kahmada           #+#    #+#             */
-/*   Updated: 2024/10/14 17:55:22 by kahmada          ###   ########.fr       */
+/*   Updated: 2024/10/16 13:50:17 by kahmada          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,7 +42,7 @@ void	print_export(t_env *env)
 	{
 		printf("declare -x %s", env->key);
 		if (env->value && env->value[0])
-			printf("=%s", env->value);
+			printf("=\"%s\"", env->value);
 		env = env->next;
 		printf("\n");
 	}

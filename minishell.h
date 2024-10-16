@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: chourri <chourri@student.42.fr>            +#+  +:+       +#+        */
+/*   By: kahmada <kahmada@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/12 15:51:23 by chourri           #+#    #+#             */
-/*   Updated: 2024/10/15 21:30:33 by chourri          ###   ########.fr       */
+/*   Updated: 2024/10/16 15:57:09 by kahmada          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -230,6 +230,7 @@ char		**execute_cmd(t_command *cmd, char **envp);
 char		*find_commande(char *cmd, char **envp);
 char		**ft_split_lib(char const *s, char c);
 void		handle_fork_failure(t_command *cmd, int *has_printed_error);
+void		handle_inside_minishel(t_command *cmd);
 int			ft_count_exit(t_command *cmd);
 int			count_commands(t_command *cmd);
 void		handle_parent_signals(t_command *cmd);
@@ -241,10 +242,7 @@ void		handle_redirect_append(char *filename);
 void		handle_redirect_out(char *filename);
 void		handle_redirect_in(char *filename);
 void		handle_redirects(t_command *cmd);
-void		handle_here_doc_and_execute(t_command *cmd, char **envp);
 void		handle_here_doc_redirect(t_command *cmd);
-void		error(void);
-void		cleanup_2darray(char **cmd_args1, char **cmd_args2);
 char		**handle_builtin(t_command *cmd, char **envp);
 char		**ft_envp_copy(char **envp);
 char		**handle_exit(t_command *cmd, char **envp);

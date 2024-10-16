@@ -6,31 +6,40 @@
 /*   By: kahmada <kahmada@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/20 17:29:48 by kahmada           #+#    #+#             */
-/*   Updated: 2024/10/15 21:05:49 by kahmada          ###   ########.fr       */
+/*   Updated: 2024/10/16 15:45:21 by kahmada          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../minishell.h"
+
+char	*append_value(const char *existing_value, const char *new_value)
+{
+	char	*result;
+
+	result = malloc(ft_strlen(existing_value) + ft_strlen(new_value) + 1);
+	if (!result)
+	{
+		perror("malloc");
+		return (NULL);
+	}
+	ft_strcpy(result, existing_value);
+	ft_strcat(result, new_value);
+	return (result);
+}
 
 void	handle_export_modes(t_env **env, char *key, char *value, int ap_md)
 {
 	t_env	*existing;
 	char	*new_value;
 
+	existing = find_env(*env, key);
 	if (ap_md)
 	{
-		existing = find_env(*env, key);
 		if (existing)
 		{
-			new_value = malloc(ft_strlen(existing->value)
-					+ ft_strlen(value) + 1);
+			new_value = append_value(existing->value, value);
 			if (!new_value)
-			{
-				perror("malloc");
 				return ;
-			}
-			ft_strcpy(new_value, existing->value);
-			ft_strcat(new_value, value);
 			free(existing->value);
 			existing->value = new_value;
 		}
@@ -38,7 +47,12 @@ void	handle_export_modes(t_env **env, char *key, char *value, int ap_md)
 			add_env(env, key, value);
 	}
 	else
-		update_environment(env, key, value);
+	{
+		if (value && *value != '\0')
+			update_environment(env, key, value);
+		else if (!existing)
+			add_env(env, key, "");
+	}
 }
 
 void	process_export_argument(t_command *cmd, t_env **env, char *arg)

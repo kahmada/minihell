@@ -6,7 +6,7 @@
 /*   By: kahmada <kahmada@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/28 18:28:18 by kahmada           #+#    #+#             */
-/*   Updated: 2024/10/15 21:20:02 by kahmada          ###   ########.fr       */
+/*   Updated: 2024/10/16 15:46:14 by kahmada          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,10 +25,7 @@ char	**handle_built_out(t_command *cmd, char **envp)
 	else if (ft_strcmp(cmd->args[0], "unset") == 0)
 		bult_unset(cmd, &env);
 	else if (ft_strcmp(cmd->args[0], "export") == 0 && cmd->next != NULL)
-	{
-		cmd->ex = manage_exit_status(1, 1);
-		free(cmd->ex);
-	}
+		free(manage_exit_status(1, 1));
 	else if (ft_strcmp(cmd->args[0], "export") == 0 && cmd->next == NULL)
 		bult_export(cmd, &env);
 	if (env && env->key)

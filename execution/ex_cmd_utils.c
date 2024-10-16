@@ -6,7 +6,7 @@
 /*   By: kahmada <kahmada@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/16 09:59:58 by kahmada           #+#    #+#             */
-/*   Updated: 2024/10/14 13:55:01 by kahmada          ###   ########.fr       */
+/*   Updated: 2024/10/16 15:50:52 by kahmada          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -74,17 +74,15 @@ int	ft_count_exit(t_command *cmd)
 	return (count);
 }
 
-void	handle_fork_failure(t_command *cmd, int *has_printed_error)
+void	handle_fork_failure(t_command *cmd, int *resource_error_shown)
 {
 	close(cmd->pipe_fd[0]);
 	close(cmd->pipe_fd[1]);
-	close(STDOUT_FILENO);
-	if (!(*has_printed_error))
+	close(1);
+	if (!*resource_error_shown)
 	{
-		ft_putstr_fd("minishell: fork: Resource temporarily\
-		unavailable\n", STDERR_FILENO);
-		*has_printed_error = 1;
+		ft_putstr_fd("minishell: fork: Resource temporarily unavailable\n", 2);
+		*resource_error_shown = 1;
 	}
-	cmd->ex = manage_exit_status(EXIT_FAILURE, 1);
-	free(cmd->ex);
+	free(manage_exit_status(EXIT_FAILURE, 1));
 }
