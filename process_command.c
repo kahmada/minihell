@@ -6,7 +6,7 @@
 /*   By: kahmada <kahmada@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/05 12:10:16 by chourri           #+#    #+#             */
-/*   Updated: 2024/10/15 14:23:04 by kahmada          ###   ########.fr       */
+/*   Updated: 2024/10/17 17:30:45 by kahmada          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,10 +28,14 @@ void	exp_cmd(t_token **lst, char **envp, t_token **new_lst, t_command **cmd)
 	*cmd = build_cmd(*new_lst);
 }
 
-void	build_tokens_and_flag(t_token **lst, char *output)
+void build_tokens_and_flag(t_token **lst, char *output)
 {
-	*lst = build_token_list(output);
-	(*lst)->flag = 0;
+    if (lst == NULL || output == NULL)
+        return;
+    *lst = build_token_list(output);
+    if (*lst == NULL)
+        return;
+    (*lst)->flag = 0;
 }
 
 void	initialize_it(char **output, t_token **new, t_command **cmd)

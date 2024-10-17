@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   exp_handle.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: chourri <chourri@student.42.fr>            +#+  +:+       +#+        */
+/*   By: kahmada <kahmada@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/29 17:36:56 by kahmada           #+#    #+#             */
-/*   Updated: 2024/10/17 14:47:32 by chourri          ###   ########.fr       */
+/*   Updated: 2024/10/17 17:01:15 by kahmada          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -101,5 +101,5 @@ void	valid_and_prs_exprt(const char *arg, char **ky, char **val, int *ap_md)
 		return ;
 	}
 	if (*val && **val == '\0')
-		*val[0] = '\0';
+		*val = "";
 }

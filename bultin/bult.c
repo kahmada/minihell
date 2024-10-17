@@ -6,7 +6,7 @@
 /*   By: kahmada <kahmada@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/28 18:28:18 by kahmada           #+#    #+#             */
-/*   Updated: 2024/10/16 15:46:14 by kahmada          ###   ########.fr       */
+/*   Updated: 2024/10/17 16:31:35 by kahmada          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,8 +57,14 @@ char	**handle_builtin(t_command *cmd, char **envp)
 		bult_exit(cmd);
 	else if (ft_strcmp(cmd->args[0], "pwd") == 0)
 		bult_pwd(cmd);
-	envp = env_to_envp(env);
-	free_env(env);
+	if (env && env->key)
+	{
+		envp = env_to_envp(env);
+		free_env(env);
+		env = NULL;
+	}
+	else
+		envp = NULL;
 	return (envp);
 }
 

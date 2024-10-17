@@ -6,7 +6,7 @@
 /*   By: kahmada <kahmada@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/29 17:47:43 by kahmada           #+#    #+#             */
-/*   Updated: 2024/10/16 15:49:56 by kahmada          ###   ########.fr       */
+/*   Updated: 2024/10/17 17:25:48 by kahmada          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,11 +36,15 @@ char	**handle_builtin_cmd_out(t_command *cmd, char **envp)
 	return (envp);
 }
 
-void	handle_inside_minishel(t_command *cmd)
+void handle_inside_minishel(t_command *cmd)
 {
-	if (cmd->args[0][0] == '.')
-	{
-		close(0);
+    if (cmd == NULL || cmd->args == NULL || cmd->args[0] == NULL)
+        return;
+    if (cmd->args[0][0] == '.')
+    {
+        close(0);
 		close(1);
-	}
+    }
 }
+
+//        ;

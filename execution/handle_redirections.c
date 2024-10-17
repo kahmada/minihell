@@ -6,7 +6,7 @@
 /*   By: kahmada <kahmada@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/13 19:03:35 by kahmada           #+#    #+#             */
-/*   Updated: 2024/10/15 16:59:15 by kahmada          ###   ########.fr       */
+/*   Updated: 2024/10/17 17:11:51 by kahmada          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,19 +26,22 @@ void	process_redirect(t_command *cmd, int i)
 {
 	int	j;
 
-	j = i;
+	// j = i;
 	if (ft_strcmp(cmd->args[i], ">") == 0)
 		handle_redirect_out(cmd->args[i + 1]);
 	else if (ft_strcmp(cmd->args[i], "<") == 0)
 		handle_redirect_in(cmd->args[i + 1]);
 	else if (ft_strcmp(cmd->args[i], ">>") == 0)
 		handle_redirect_append(cmd->args[i + 1]);
+	free(cmd->args[i]);
+	j = i;
 	while (j < count_args(cmd->args) - 2)
 	{
 		cmd->args[j] = cmd->args[j + 2];
 		j++;
 	}
-	cmd->args[count_args(cmd->args) - 2] = NULL;
+	// cmd->args[count_args(cmd->args) - 2] = NULL;
+	cmd->args[j] = NULL;
 }
 
 void	handle_redirects(t_command *cmd)
@@ -56,7 +59,6 @@ void	handle_redirects(t_command *cmd)
 			|| ft_strcmp(cmd->args[i], "<") == 0
 			|| ft_strcmp(cmd->args[i], ">>") == 0)
 		{
-			free(cmd->args[i]);
 			process_redirect(cmd, i);
 			num_args = count_args(cmd->args);
 			i--;

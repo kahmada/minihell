@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   herdoc_ex_second.c                                 :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: chourri <chourri@student.42.fr>            +#+  +:+       +#+        */
+/*   By: kahmada <kahmada@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/29 17:42:36 by kahmada           #+#    #+#             */
-/*   Updated: 2024/10/17 14:11:21 by chourri          ###   ########.fr       */
+/*   Updated: 2024/10/17 16:16:49 by kahmada          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,7 +16,7 @@ void	signal_handler_heredoc(int signal)
 {
 	if (signal == SIGINT)
 	{
-		rl_catch_signals = 0;
+		// rl_catch_signals = 0;
 		g_sig_received = 1;
 		close(0);
 		return ;

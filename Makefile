@@ -3,10 +3,10 @@
 #                                                         :::      ::::::::    #
 #    Makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: chourri <chourri@student.42.fr>            +#+  +:+       +#+         #
+#    By: kahmada <kahmada@student.42.fr>            +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/06/12 15:51:05 by chourri           #+#    #+#              #
-#    Updated: 2024/10/17 14:07:48 by chourri          ###   ########.fr        #
+#    Updated: 2024/10/17 17:13:30 by kahmada          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -14,7 +14,7 @@ NAME   = minishell
 HEADER = minishell.h
 CC     = cc
 
-CFLAGS = -Wall -Wextra -Werror -fsanitize=address -g \
+CFLAGS = -Wall -Wextra -Werror -fsanitize=address -g\
  -I $(shell brew --prefix readline)/include
 
 LDFLAGS = -lreadline \

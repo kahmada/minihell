@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: chourri <chourri@student.42.fr>            +#+  +:+       +#+        */
+/*   By: kahmada <kahmada@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/12 16:02:24 by chourri           #+#    #+#             */
-/*   Updated: 2024/10/17 14:19:59 by chourri          ###   ########.fr       */
+/*   Updated: 2024/10/17 17:18:56 by kahmada          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -63,7 +63,7 @@ int	main(int ac, char **av, char **envp)
 	// 	exit(1);
 	(void)ac;
 	(void)av;
-	rl_catch_signals = 0;
+	// rl_catch_signals = 0;
 	(1) && (g_sig_received = 0, signal(SIGQUIT, SIG_IGN));
 	signal(SIGINT, sigint_handler);
 	envp_copy = ft_envp_copy(envp);
@@ -77,7 +77,7 @@ int	main(int ac, char **av, char **envp)
 		tcsetattr(0, 0, &termios_p);
 		free(input);
 		input = readline("minihell$ ");
-		// printf("line = %s",input);
+		printf("\nline = [%s]\n",input);
 	}
 	return (free(envp_copy), write(2, "exit\n", 5), 0);
 }
