@@ -6,7 +6,7 @@
 #    By: kahmada <kahmada@student.42.fr>            +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/06/12 15:51:05 by chourri           #+#    #+#              #
-#    Updated: 2024/10/17 17:13:30 by kahmada          ###   ########.fr        #
+#    Updated: 2024/10/17 19:12:43 by kahmada          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -14,9 +14,9 @@ NAME   = minishell
 HEADER = minishell.h
 CC     = cc
 
-CFLAGS = -Wall -Wextra -Werror -fsanitize=address -g\
+CFLAGS = -Wall -Wextra -Werror\
  -I $(shell brew --prefix readline)/include
-
+#-fsanitize=address -g
 LDFLAGS = -lreadline \
 -L $(shell brew --prefix readline)/lib
 RM     = rm -f

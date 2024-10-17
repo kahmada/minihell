@@ -6,7 +6,7 @@
 /*   By: kahmada <kahmada@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/28 16:33:51 by kahmada           #+#    #+#             */
-/*   Updated: 2024/10/12 18:29:05 by kahmada          ###   ########.fr       */
+/*   Updated: 2024/10/17 19:12:27 by kahmada          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,13 +16,13 @@ static void	handle_process(t_here_doc *heredoc)
 {
 	handle_child(heredoc->limiter, heredoc->fd, heredoc->envp);
 	heredoc->fd = open(heredoc->file_name, O_RDONLY, 0644);
+	unlink(heredoc->file_name);
 	if (heredoc->fd == -1)
 	{
 		perror("open");
 		return ;
 	}
 	heredoc->cmd->fd_in = heredoc->fd;
-	unlink(heredoc->file_name);
 }
 
 static void	heredoc(const char *lim, t_command *cmd, int filecount, char **envp)

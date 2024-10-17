@@ -6,7 +6,7 @@
 /*   By: kahmada <kahmada@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/29 17:36:56 by kahmada           #+#    #+#             */
-/*   Updated: 2024/10/17 17:01:15 by kahmada          ###   ########.fr       */
+/*   Updated: 2024/10/17 18:22:24 by kahmada          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -80,6 +80,8 @@ void	valid_and_prs_exprt(const char *arg, char **ky, char **val, int *ap_md)
 {
 	*ap_md = 0;
 	extract_key_value(arg, ky, val);
+	printf("ky: %s\n", *ky);
+	printf("val: %s\n", *val);
 	if ((*ky)[0] == '=' || (*ky)[0] == '$' || (*ky)[0] == '\0'
 		|| ft_strchr(*ky, '=') == *ky || key_notvalid(*ky)
 		|| ((*ky)[ft_strlen(*ky) - 1] == '+' && !val[0]) ||
@@ -101,5 +103,5 @@ void	valid_and_prs_exprt(const char *arg, char **ky, char **val, int *ap_md)
 		return ;
 	}
 	if (*val && **val == '\0')
-		*val = "";
+		*val = "\x7F";
 }

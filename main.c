@@ -6,7 +6,7 @@
 /*   By: kahmada <kahmada@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/12 16:02:24 by chourri           #+#    #+#             */
-/*   Updated: 2024/10/17 17:18:56 by kahmada          ###   ########.fr       */
+/*   Updated: 2024/10/17 17:37:57 by kahmada          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -77,7 +77,6 @@ int	main(int ac, char **av, char **envp)
 		tcsetattr(0, 0, &termios_p);
 		free(input);
 		input = readline("minihell$ ");
-		printf("\nline = [%s]\n",input);
 	}
 	return (free(envp_copy), write(2, "exit\n", 5), 0);
 }

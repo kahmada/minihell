@@ -6,7 +6,7 @@
 /*   By: kahmada <kahmada@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/29 17:45:10 by kahmada           #+#    #+#             */
-/*   Updated: 2024/10/17 16:16:40 by kahmada          ###   ########.fr       */
+/*   Updated: 2024/10/17 19:12:12 by kahmada          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -60,24 +60,23 @@ void	handle_child(const char *limiter, int tmp_fd, char **envp)
 	close(tmp_fd);
 }
 
-int	create_tempfile(char *temp_filename, int file_counter)
+int create_tempfile(char *temp_filename, int file_counter)
 {
-	const char	*base_filename;
-	char		*counter_str;
-	int			tmp_fd;
+    const char *base_filename = "/tmp/tempfile_";
+    char *counter_str;
+    int tmp_fd;
+    counter_str = ft_itoa(file_counter);
+    if (!counter_str)
+        return (-1);
 
-	base_filename = "tempfile_";
-	counter_str = ft_itoa(file_counter);
-	if (!counter_str)
-		return (-1);
-	ft_strcpy(temp_filename, base_filename);
-	ft_strcat(temp_filename, counter_str);
-	ft_strcat(temp_filename, ".txt");
-	free(counter_str);
-	tmp_fd = open(temp_filename, O_CREAT | O_RDWR | O_APPEND, 0644);
-	if (tmp_fd == -1)
-		perror("open");
-	return (tmp_fd);
+    ft_strcpy(temp_filename, base_filename);
+    ft_strcat(temp_filename, counter_str);
+    ft_strcat(temp_filename, ".txt");
+    free(counter_str);
+    tmp_fd = open(temp_filename, O_CREAT | O_RDWR | O_APPEND, 0644);
+    if (tmp_fd == -1)
+        perror("open");
+    return tmp_fd;
 }
 
 int	not_last(t_command *first, int i)
