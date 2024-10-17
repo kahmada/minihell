@@ -6,7 +6,7 @@
 /*   By: chourri <chourri@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/14 10:52:34 by chourri           #+#    #+#             */
-/*   Updated: 2024/09/19 14:11:26 by chourri          ###   ########.fr       */
+/*   Updated: 2024/10/17 13:56:20 by chourri          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,6 +41,8 @@ static size_t	expand_var(char **data, char **envp)
 {
 	t_data	mydata;
 
+	if (!envp || !*envp)
+		return (0);
 	mydata.start = *data;
 	while (**data && **data != ' ' && **data != '$' && is_alnum(**data))
 		(*data)++;

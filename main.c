@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: kahmada <kahmada@student.42.fr>            +#+  +:+       +#+        */
+/*   By: chourri <chourri@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/12 16:02:24 by chourri           #+#    #+#             */
-/*   Updated: 2024/10/16 14:05:26 by kahmada          ###   ########.fr       */
+/*   Updated: 2024/10/17 14:19:59 by chourri          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,11 +59,11 @@ int	main(int ac, char **av, char **envp)
 	char			**envp_copy;
 	struct termios	termios_p;
 
-	if (!isatty(0) || ac != 1)
-		exit(1);
+	// if (!isatty(0) || ac != 1)
+	// 	exit(1);
 	(void)ac;
 	(void)av;
-	// rl_catch_signals = 0;
+	rl_catch_signals = 0;
 	(1) && (g_sig_received = 0, signal(SIGQUIT, SIG_IGN));
 	signal(SIGINT, sigint_handler);
 	envp_copy = ft_envp_copy(envp);
@@ -77,6 +77,7 @@ int	main(int ac, char **av, char **envp)
 		tcsetattr(0, 0, &termios_p);
 		free(input);
 		input = readline("minihell$ ");
+		// printf("line = %s",input);
 	}
 	return (free(envp_copy), write(2, "exit\n", 5), 0);
 }

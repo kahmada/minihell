@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   paths.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: kahmada <kahmada@student.42.fr>            +#+  +:+       +#+        */
+/*   By: chourri <chourri@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/27 11:55:39 by kahmada           #+#    #+#             */
-/*   Updated: 2024/10/15 16:07:58 by kahmada          ###   ########.fr       */
+/*   Updated: 2024/10/17 13:53:56 by chourri          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,6 +16,8 @@ static char	**extract_paths_from_envp(char **envp)
 {
 	int		i;
 
+	if (!envp || !*envp)
+		return (NULL);
 	i = 0;
 	while (envp[i] && ft_strnstr(envp[i], "PATH", 4) == NULL)
 		i++;
