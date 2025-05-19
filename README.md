@@ -26,7 +26,7 @@
   <h2>Installation</h2>
   <ol>
     <li>Cloner le dépôt :
-      <pre><code>git clone https://github.com/ton-utilisateur/minishell42.git</code></pre>
+      <pre><code>git clone https://github.com/kahmada/minihell.git</code></pre>
     </li>
     <li>Compiler avec <code>make</code> :
       <pre><code>cd minishell42
