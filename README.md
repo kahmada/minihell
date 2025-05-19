@@ -11,7 +11,7 @@
   <h1>minishell42</h1>
 
   <p><strong>minishell42</strong> est un mini interpréteur de commandes Unix développé dans le cadre du projet 42. Il reproduit les fonctionnalités de base d’un shell.</p>
-
+<img src="bash.png" alt="Cub3D Screenshot 1" style="max-width:100%; border-radius:8px; margin-bottom: 1rem;" />
   <h2>Fonctionnalités principales</h2>
   <ul>
     <li>Exécution de commandes internes (<code>cd</code>, <code>echo</code>, <code>pwd</code>, <code>export</code>, <code>unset</code>, <code>env</code>, <code>exit</code>)</li>
@@ -62,8 +62,8 @@ $ exit</code></pre>
     <li>Manipuler les fichiers et les flux (stdin, stdout, stderr)</li>
     <li>Gestion des erreurs et robustesse</li>
   </ul>
-
-  <h2>Auteur</h2>
+<img src="sc1.png" alt="Cub3D Screenshot 1" style="max-width:100%; border-radius:8px; margin-bottom: 1rem;" />
+  <h2>kahmada &chouri</h2>
   <p>Projet réalisé par <strong>Ton Nom</strong> dans le cadre de la formation 42.</p>
 
   <h2>Licence</h2>
